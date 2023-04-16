@@ -1,16 +1,16 @@
 name: NSWCore
-version: 0.1
+version: '${project.version}'
 author: NuggetReckt
 prefix: NSWCore
-website: play.noskillworld.fr
+website: https://play.noskillworld.fr
 main: fr.nuggetreckt.nswcore.NSWCore
 api-version: 1.19
 commands:
   top:
-    description: desc
+    description: Commande /top
     usage: /top
     permission: nswcore.commands.top
   down:
-    description: desc
+    description: Commande /down
     usage: /down
     permission: nswcore.commands.down
