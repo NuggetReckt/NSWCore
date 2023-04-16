@@ -1,6 +1,6 @@
 package fr.nuggetreckt.nswcore.utils;
 
-public enum MessagesManager {
+public enum MessageManager {
     //Error messages
     NO_PERMISSION_MESSAGE("§cVous n'avez pas la permission d'exécuter cette commande !"),
     WAIT_BEFORE_USING_MESSAGE("§cVeuillez patienter §3%s§c minute(s) avant de réutiliser cette commande !"),
@@ -11,7 +11,7 @@ public enum MessagesManager {
 
     private final String message;
 
-    MessagesManager(String message) {
+    MessageManager(String message) {
         this.message = message;
     }
 
