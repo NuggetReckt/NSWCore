@@ -8,9 +8,21 @@ api-version: 1.19
 commands:
   top:
     description: Commande /top
-    usage: /top
-    permission: nswcore.commands.top
+    usage: "Usage: /top"
   down:
     description: Commande /down
-    usage: /down
-    permission: nswcore.commands.down
+    usage: "Usage: /down"
+permissions:
+  nsw.*:
+    description: Permission globale
+  nsw.bypass:
+    description: Permet de bypass les cooldowns et les autres permissions
+  nsw.commands.*:
+    description: Permission pour toutes les commandes du plugin
+  nsw.commands.top:
+    description: Permission pour la commande /top
+    default: true
+  nsw.commands.down:
+    description: Permission pour la commande /down
+  nsw.commands.admin:
+    description: Permission pour les commandes admin

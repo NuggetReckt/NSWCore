@@ -2,15 +2,17 @@ package fr.nuggetreckt.nswcore;
 
 import fr.nuggetreckt.nswcore.commands.DownCommand;
 import fr.nuggetreckt.nswcore.commands.TopCommand;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
+import java.util.logging.Logger;
 
 public class NSWCore extends JavaPlugin {
 
     public static String prefix = "§8[§3NSW§8] §r";
     private static NSWCore instance;
+
+    private static final Logger logger = Logger.getLogger("Minecraft");
 
     @Override
     public void onEnable() {
@@ -19,18 +21,18 @@ public class NSWCore extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("top")).setExecutor(new TopCommand());
         Objects.requireNonNull(this.getCommand("down")).setExecutor(new DownCommand());
 
-        Bukkit.getLogger().info("Plugin chargé avec succès");
-        Bukkit.getLogger().info("  _   _  _______          _______               ");
-        Bukkit.getLogger().info(" | \\ | |/ ____\\ \\        / / ____|              ");
-        Bukkit.getLogger().info(" |  \\| | (___  \\ \\  /\\  / / |     ___  _ __ ___ ");
-        Bukkit.getLogger().info(" | . ` |\\___ \\  \\ \\/  \\/ /| |    / _ \\| '__/ _ \\");
-        Bukkit.getLogger().info(" | |\\  |____) |  \\  /\\  / | |___| (_) | | |  __/");
-        Bukkit.getLogger().info(" |_| \\_|_____/    \\/  \\/   \\_____\\___/|_|  \\___|");
+        logger.info(String.format("[%s] Plugin chargé avec succès", getDescription().getName()));
+        logger.info("  _   _  _______          _______               ");
+        logger.info(" | \\ | |/ ____\\ \\        / / ____|              ");
+        logger.info(" |  \\| | (___  \\ \\  /\\  / / |     ___  _ __ ___ ");
+        logger.info(" | . ` |\\___ \\  \\ \\/  \\/ /| |    / _ \\| '__/ _ \\");
+        logger.info(" | |\\  |____) |  \\  /\\  / | |___| (_) | | |  __/");
+        logger.info(" |_| \\_|_____/    \\/  \\/   \\_____\\___/|_|  \\___|");
     }
 
     @Override
     public void onDisable() {
-        Bukkit.getLogger().info("Plugin éteint avec succès");
+        logger.info(String.format("[%s] Plugin éteint avec succès", getDescription().getName()));
     }
 
     public static String getPrefix() {

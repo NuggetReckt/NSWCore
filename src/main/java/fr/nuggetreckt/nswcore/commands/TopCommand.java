@@ -26,10 +26,15 @@ public class TopCommand implements CommandExecutor {
 
             if (player.hasPermission("nsw.commands.top")) {
                 if (timeLeft.isZero() || timeLeft.isNegative()) {
-                    cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.DEFAULT_COOLDOWN.getValue()));
+                    if (player.isOp() || player.hasPermission("nsw.bypass")) {
+                        cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.STAFF_COOLDOWN.getValue()));
+                    } else if (player.hasPermission("nsw.commands.top.1")) {
+                        cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.RANKED_COOLDOWN.getValue()));
+                    } else {
+                        cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.DEFAULT_COOLDOWN.getValue()));
+                    }
 
-                    player.teleport(player.getWorld().getHighestBlockAt(player.getLocation()).getLocation().add(0, 1, 0));
-                    player.sendMessage(NSWCore.getPrefix() + MessageManager.SUCCESS_TP_MESSAGE.getMessage());
+                    toTop(player);
                 } else {
                     player.sendMessage(NSWCore.getPrefix() + String.format(MessageManager.WAIT_BEFORE_USING_MESSAGE.getMessage(), timeLeft.toMinutes()));
                 }
@@ -38,5 +43,10 @@ public class TopCommand implements CommandExecutor {
             }
         }
         return true;
+    }
+
+    private void toTop(@Nonnull Player target) {
+        target.teleport(target.getWorld().getHighestBlockAt(target.getLocation()).getLocation().add(0.5, 1, 0.5));
+        target.sendMessage(NSWCore.getPrefix() + MessageManager.SUCCESS_TP_MESSAGE.getMessage());
     }
 }
