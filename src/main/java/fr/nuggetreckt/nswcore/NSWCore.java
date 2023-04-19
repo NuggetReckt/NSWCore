@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 public class NSWCore extends JavaPlugin {
 
-    public static String prefix = "§8[§3NSW§8] §r";
+    public static String prefix = "§8[§3%s§8] §r";
     private static NSWCore instance;
 
     private static final Logger logger = Logger.getLogger("Minecraft");

@@ -1,6 +1,5 @@
 package fr.nuggetreckt.nswcore.commands;
 
-import fr.nuggetreckt.nswcore.NSWCore;
 import fr.nuggetreckt.nswcore.utils.CooldownManager;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
 import org.bukkit.command.Command;
@@ -36,10 +35,10 @@ public class TopCommand implements CommandExecutor {
 
                     toTop(player);
                 } else {
-                    player.sendMessage(NSWCore.getPrefix() + String.format(MessageManager.WAIT_BEFORE_USING_MESSAGE.getMessage(), timeLeft.toMinutes()));
+                    player.sendMessage(String.format(MessageManager.WAIT_BEFORE_USING_MESSAGE.getMessage(), "TP", timeLeft.toMinutes()));
                 }
             } else {
-                player.sendMessage(NSWCore.getPrefix() + MessageManager.NO_PERMISSION_MESSAGE.getMessage());
+                player.sendMessage(String.format(MessageManager.NO_PERMISSION_MESSAGE.getMessage(), "TP"));
             }
         }
         return true;
@@ -47,6 +46,6 @@ public class TopCommand implements CommandExecutor {
 
     private void toTop(@Nonnull Player target) {
         target.teleport(target.getWorld().getHighestBlockAt(target.getLocation()).getLocation().add(0.5, 1, 0.5));
-        target.sendMessage(NSWCore.getPrefix() + MessageManager.SUCCESS_TP_MESSAGE.getMessage());
+        target.sendMessage(String.format(MessageManager.SUCCESS_TP_MESSAGE.getMessage(), "TP"));
     }
 }
