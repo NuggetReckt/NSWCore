@@ -33,6 +33,7 @@ public class NSWCore extends JavaPlugin {
     @Override
     public void onDisable() {
         logger.info(String.format("[%s] Plugin éteint avec succès", getDescription().getName()));
+        instance = null;
     }
 
     public static String getPrefix() {
