@@ -3,7 +3,6 @@ package fr.nuggetreckt.nswcore.commands;
 import fr.nuggetreckt.nswcore.utils.CooldownManager;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -27,12 +26,6 @@ public class DownCommand implements CommandExecutor {
 
             Duration timeLeft = cooldownManager.getRemainingCooldown(playerId);
 
-            Location location = player.getLocation();
-            World world = location.getWorld();
-            assert world != null;
-            Block block = world.getHighestBlockAt(location);
-            int y = world.getMinHeight() + 1;
-
             if (player.hasPermission("nsw.commands.down")) {
                 if (timeLeft.isZero() || timeLeft.isNegative()) {
                     if (player.isOp() || player.hasPermission("nsw.bypass")) {
@@ -42,26 +35,20 @@ public class DownCommand implements CommandExecutor {
                     } else {
                         cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.DEFAULT_COOLDOWN.getValue()));
                     }
-
-                    while (isValid(block) && y < world.getMaxHeight()) {
-                        y++;
-                    }
-                    toDown(player, block);
-
+                    toDown(player);
                 } else {
                     player.sendMessage(String.format(MessageManager.WAIT_BEFORE_USING_MESSAGE.getMessage(), "TP", timeLeft.toMinutes()));
-                    return false;
                 }
             } else {
                 player.sendMessage(String.format(MessageManager.NO_PERMISSION_MESSAGE.getMessage(), "TP"));
-                return false;
             }
         }
         return true;
     }
 
-    private void toDown(@Nonnull Player target, @NotNull Block block) {
-        target.teleport(block.getLocation().add(0.0D, 1.0D, 0.0D));
+    private void toDown(@Nonnull Player target) {
+        //code here
+
         target.sendMessage(String.format(MessageManager.SUCCESS_TP_MESSAGE.getMessage(), "TP"));
     }
 

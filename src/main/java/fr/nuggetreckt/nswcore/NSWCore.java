@@ -1,7 +1,8 @@
 package fr.nuggetreckt.nswcore;
 
-import fr.nuggetreckt.nswcore.commands.DownCommand;
-import fr.nuggetreckt.nswcore.commands.TopCommand;
+import fr.nuggetreckt.nswcore.commands.*;
+import fr.nuggetreckt.nswcore.listeners.OnJoinListener;
+import fr.nuggetreckt.nswcore.listeners.OnLeaveListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
@@ -18,8 +19,18 @@ public class NSWCore extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
+        //register commands
         Objects.requireNonNull(this.getCommand("top")).setExecutor(new TopCommand());
+        Objects.requireNonNull(this.getCommand("bottom")).setExecutor(new BottomCommand());
+        Objects.requireNonNull(this.getCommand("up")).setExecutor(new UpCommand());
         Objects.requireNonNull(this.getCommand("down")).setExecutor(new DownCommand());
+        Objects.requireNonNull(this.getCommand("enderchest")).setExecutor(new EnderchestCommand());
+        Objects.requireNonNull(this.getCommand("craft")).setExecutor(new CraftCommand());
+        Objects.requireNonNull(this.getCommand("anvil")).setExecutor(new AnvilCommand());
+
+        //register events
+        getServer().getPluginManager().registerEvents(new OnJoinListener(), this);
+        getServer().getPluginManager().registerEvents(new OnLeaveListener(), this);
 
         logger.info(String.format("[%s] Plugin chargé avec succès", getDescription().getName()));
         logger.info("  _   _  _______          _______               ");

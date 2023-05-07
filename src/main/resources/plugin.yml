@@ -7,22 +7,47 @@ main: fr.nuggetreckt.nswcore.NSWCore
 api-version: 1.19
 commands:
   top:
-    description: Commande /top
+    description: Téléporte au plus haut block
     usage: "Usage: /top"
+  bottom:
+    description: Téléporte au plus bas block
+    usage: "Usage: /bottom"
+  up:
+    description: Téléporte au premier palier au dessus
+    usage: "Usage: /up"
   down:
-    description: Commande /down
+    description: Téléporte au premier palier au dessous
     usage: "Usage: /down"
+  enderchest:
+    description: Ouvre votre enderchest
+    usage: "Usage: /enderchest or /ec"
+    aliases: [ ec ]
+  craft:
+    description: Ouvre l'interface de la table de craft
+    usage: "Usage: /craft"
+  anvil:
+    description: Ouvre l'interface de l'enclume
+    usage: "Usage: /anvil"
 permissions:
   nsw.*:
-    description: Permission globale
+    description: Permission globale*
   nsw.bypass:
     description: Permet de bypass les cooldowns et les autres permissions
   nsw.commands.*:
     description: Permission pour toutes les commandes du plugin
-  nsw.commands.top:
-    description: Permission pour la commande /top
-    default: true
-  nsw.commands.down:
-    description: Permission pour la commande /down
   nsw.commands.admin:
     description: Permission pour les commandes admin
+  nsw.commands.top:
+    description: Permission pour la commande /top
+  nsw.commands.bottom:
+    description: Permission pour la commande /bottom
+  nsw.commands.up:
+    description: Permission pour la commande /up
+  nsw.commands.down:
+    description: Permission pour la commande /down
+  nsw.commands.ec:
+    description: Permission pour la commande /ec
+  nsw.commands.craft:
+    description: Permission pour la commande /craft
+  nsw.commands.anvil:
+    description: Permission pour la commande /anvil
