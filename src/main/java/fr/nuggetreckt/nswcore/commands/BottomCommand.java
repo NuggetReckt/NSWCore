@@ -25,11 +25,11 @@ public class BottomCommand implements CommandExecutor {
 
             Duration timeLeft = cooldownManager.getRemainingCooldown(playerId);
 
-            if (player.hasPermission("nsw.commands.top")) {
+            if (player.hasPermission("nsw.commands.bottom")) {
                 if (timeLeft.isZero() || timeLeft.isNegative()) {
                     if (player.isOp() || player.hasPermission("nsw.bypass")) {
                         cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.STAFF_COOLDOWN.getValue()));
-                    } else if (player.hasPermission("nsw.commands.top.1")) {
+                    } else if (player.hasPermission("nsw.commands.bottom.1")) {
                         cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.RANKED_COOLDOWN.getValue()));
                     } else {
                         cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.DEFAULT_COOLDOWN.getValue()));

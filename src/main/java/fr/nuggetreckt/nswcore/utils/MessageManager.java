@@ -8,7 +8,10 @@ public enum MessageManager {
     WAIT_BEFORE_USING_MESSAGE("§cVeuillez patienter §3%s minute(s) §cavant de réutiliser cette commande !"),
 
     //Success messages
-    SUCCESS_TP_MESSAGE("Téléporté avec succès !")
+    SUCCESS_TP_MESSAGE("Téléporté avec succès !"),
+
+    //Others
+    PLAYER_SLEEPING_MESSAGE("§3%s §fdort profondément"),
     ;
 
     private final String message;

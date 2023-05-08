@@ -3,6 +3,7 @@ package fr.nuggetreckt.nswcore;
 import fr.nuggetreckt.nswcore.commands.*;
 import fr.nuggetreckt.nswcore.listeners.OnJoinListener;
 import fr.nuggetreckt.nswcore.listeners.OnLeaveListener;
+import fr.nuggetreckt.nswcore.listeners.OnSleepListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
@@ -31,6 +32,7 @@ public class NSWCore extends JavaPlugin {
         //register events
         getServer().getPluginManager().registerEvents(new OnJoinListener(), this);
         getServer().getPluginManager().registerEvents(new OnLeaveListener(), this);
+        getServer().getPluginManager().registerEvents(new OnSleepListener(), this);
 
         logger.info(String.format("[%s] Plugin chargé avec succès", getDescription().getName()));
         logger.info("  _   _  _______          _______               ");
