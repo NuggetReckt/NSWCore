@@ -71,7 +71,7 @@ public class HonorRanks {
         }
     }
 
-    public String getDisplayName(@NotNull Ranks rank, Player player) {
+    public String getDisplayName(Player player) {
         if (isRanked(player)) {
             return "§fRang d'honneur §3" + getPlayerRank(player).getRankId();
         } else {
@@ -79,7 +79,7 @@ public class HonorRanks {
         }
     }
 
-    public String getPrefix(@NotNull Ranks rank, Player player) {
+    public String getPrefix(Player player) {
         if (isRanked(player)) {
             return "§8[§3" + getPlayerRank(player).getRankId() + "§8]";
         } else {
