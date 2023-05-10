@@ -4,6 +4,7 @@ import fr.nuggetreckt.nswcore.commands.*;
 import fr.nuggetreckt.nswcore.listeners.OnJoinListener;
 import fr.nuggetreckt.nswcore.listeners.OnLeaveListener;
 import fr.nuggetreckt.nswcore.listeners.OnSleepListener;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
@@ -13,12 +14,15 @@ public class NSWCore extends JavaPlugin {
 
     public static String prefix = "§8[§3%s§8] §r";
     private static NSWCore instance;
+    private static int serverPort;
+    private static final int farmzonePort = 25568;
 
     private static final Logger logger = Logger.getLogger("Minecraft");
 
     @Override
     public void onEnable() {
         instance = this;
+        setServerPort();
 
         //register commands
         Objects.requireNonNull(this.getCommand("top")).setExecutor(new TopCommand());
@@ -55,5 +59,17 @@ public class NSWCore extends JavaPlugin {
 
     public static NSWCore getInstance() {
         return instance;
+    }
+
+    private void setServerPort() {
+        serverPort = Bukkit.getServer().getPort();
+    }
+
+    public int getServerPort() {
+        return serverPort;
+    }
+
+    public static boolean isFarmzone() {
+        return serverPort == farmzonePort;
     }
 }

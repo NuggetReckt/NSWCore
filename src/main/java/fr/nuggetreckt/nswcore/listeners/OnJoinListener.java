@@ -1,6 +1,7 @@
 package fr.nuggetreckt.nswcore.listeners;
 
 import com.iridium.iridiumcolorapi.IridiumColorAPI;
+import fr.nuggetreckt.nswcore.NSWCore;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,12 +14,11 @@ public class OnJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(@NotNull PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        int serverPort = Bukkit.getServer().getPort();
 
         String nsw = IridiumColorAPI.process("<GRADIENT:2C70BA>§lNoSkillWorld</GRADIENT:42cfcf>");
 
         if (!player.hasPlayedBefore()) {
-            if (serverPort == 25568) {
+            if (NSWCore.isFarmzone()) {
                 player.sendMessage("§8[§3NSW§8] §fBienvenue en §3§lFarmZone §f!");
                 player.sendMessage(" §8| §fUtilise §3/rtp §fpour te téléporter aléatoirement");
                 player.sendMessage(" §8| §fUtilise §3/kit §fpour réclamer ton kit");

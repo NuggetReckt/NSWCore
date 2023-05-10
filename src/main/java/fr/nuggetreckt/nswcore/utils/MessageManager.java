@@ -11,7 +11,6 @@ public enum MessageManager {
     SUCCESS_TP_MESSAGE("Téléporté avec succès !"),
 
     //Others
-    PLAYER_SLEEPING_MESSAGE("§3%s §fdort profondément"),
     ;
 
     private final String message;
