@@ -4,6 +4,7 @@ import fr.nuggetreckt.nswcore.commands.*;
 import fr.nuggetreckt.nswcore.listeners.OnJoinListener;
 import fr.nuggetreckt.nswcore.listeners.OnLeaveListener;
 import fr.nuggetreckt.nswcore.listeners.OnSleepListener;
+import fr.nuggetreckt.nswcore.listeners.OnDragonDeathListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -37,6 +38,9 @@ public class NSWCore extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new OnJoinListener(), this);
         getServer().getPluginManager().registerEvents(new OnLeaveListener(), this);
         getServer().getPluginManager().registerEvents(new OnSleepListener(), this);
+        if (isFarmzone()) {
+            getServer().getPluginManager().registerEvents(new OnDragonDeathListener(), this);
+        }
 
         logger.info(String.format("[%s] Plugin chargé avec succès", getDescription().getName()));
         logger.info("  _   _  _______          _______               ");
