@@ -1,6 +1,7 @@
 package fr.nuggetreckt.nswcore;
 
 import fr.nuggetreckt.nswcore.commands.*;
+import fr.nuggetreckt.nswcore.expansions.PAPIExpansion;
 import fr.nuggetreckt.nswcore.listeners.OnJoinListener;
 import fr.nuggetreckt.nswcore.listeners.OnLeaveListener;
 import fr.nuggetreckt.nswcore.listeners.OnSleepListener;
@@ -33,16 +34,22 @@ public class NSWCore extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("enderchest")).setExecutor(new EnderchestCommand());
         Objects.requireNonNull(this.getCommand("craft")).setExecutor(new CraftCommand());
         Objects.requireNonNull(this.getCommand("anvil")).setExecutor(new AnvilCommand());
+        Objects.requireNonNull(this.getCommand("honorrank")).setExecutor(new HonorRankCommand());
 
         //register events
         getServer().getPluginManager().registerEvents(new OnJoinListener(), this);
         getServer().getPluginManager().registerEvents(new OnLeaveListener(), this);
         getServer().getPluginManager().registerEvents(new OnSleepListener(), this);
+
         if (isFarmzone()) {
             getServer().getPluginManager().registerEvents(new OnDragonDeathListener(), this);
         }
 
-        logger.info(String.format("[%s] Plugin chargé avec succès", getDescription().getName()));
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            new PAPIExpansion().register();
+        }
+
+        logger.info(String.format("[%s] Plugin loaded successfully", getDescription().getName()));
         logger.info("  _   _  _______          _______               ");
         logger.info(" | \\ | |/ ____\\ \\        / / ____|              ");
         logger.info(" |  \\| | (___  \\ \\  /\\  / / |     ___  _ __ ___ ");
@@ -53,7 +60,7 @@ public class NSWCore extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        logger.info(String.format("[%s] Plugin éteint avec succès", getDescription().getName()));
+        logger.info(String.format("[%s] Plugin shut down successfully", getDescription().getName()));
         instance = null;
     }
 

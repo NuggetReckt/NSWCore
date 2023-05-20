@@ -1,13 +1,15 @@
 package fr.nuggetreckt.nswcore;
 
+import fr.nuggetreckt.nswcore.utils.MessageManager;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class HonorRanks {
-    public enum Ranks {
+    public enum Rank {
         Rank_1(1, 10),
         Rank_2(2, 36),
         Rank_3(3, 60),
@@ -16,10 +18,18 @@ public class HonorRanks {
         Rank_6(6, 250),
         ;
 
+        private static final Map<Integer, Rank> BY_ID = new HashMap<>();
+
+        static {
+            for (Rank i : values()) {
+                BY_ID.put(i.rankId, i);
+            }
+        }
+
         private final int rankId;
         private final long honorPoints;
 
-        Ranks(int lvl, long pts) {
+        Rank(int lvl, long pts) {
             this.rankId = lvl;
             this.honorPoints = pts;
         }
@@ -28,75 +38,100 @@ public class HonorRanks {
             return this.rankId;
         }
 
-        public double getHonorPoints() {
+        public long getHonorPoints() {
             return this.honorPoints;
         }
     }
 
-    public HashMap<Player, @Nullable Ranks> playerRank = new HashMap<>();
-    public HashMap<Player, Integer> playerPoints = new HashMap<>();
+    public HashMap<Player, @Nullable Rank> playerRank = new HashMap<>();
+    public HashMap<Player, Long> playerPoints = new HashMap<>();
 
     public void init(Player player) {
-        setPlayerRank(player, null);
-        setPlayerPoints(player, 0);
+        if (!isRanked(player)) {
+            playerRank.put(player, null);
+            playerPoints.put(player, 0L);
+        }
     }
 
-    public void setPlayerRank(Player player, Ranks rank) {
-        playerRank.putIfAbsent(player, rank);
-    }
-
-    public void setPlayerPoints(Player player, int honorPoints) {
-        playerPoints.putIfAbsent(player, honorPoints);
-    }
-
-    public void updatePlayerPoints(Player player, int honorPoints) {
-        int oldPoints = playerPoints.get(player);
+    public void gainPlayerPoints(Player player, long honorPoints) {
+        long oldPoints = getPlayerPoints(player);
 
         playerPoints.replace(player, oldPoints + honorPoints);
     }
 
-    public void updatePlayerRank(Player player, Ranks rank) {
-        playerRank.replace(player, rank);
+    public void upRankPlayer(Player player) {
+        if (getNextPlayerRank(player) != null) {
+            long oldPoints = getPlayerPoints(player);
+            long currentPoints = getPlayerPoints(player);
+            long pointsNeeded = getPointsNeeded(player);
+
+            if (currentPoints > pointsNeeded) {
+                Bukkit.broadcastMessage(String.format(MessageManager.HONORRANKS_UPRANK_BROADCASTMESSAGE.getMessage(),
+                        player.getName(), getNextPlayerRank(player).getRankId()));
+
+                long points = oldPoints - currentPoints;
+                playerPoints.replace(player, points);
+                playerRank.replace(player, getNextPlayerRank(player));
+            } else {
+                player.sendMessage(String.format(MessageManager.NO_ENOUGH_HONORPOINTS.getMessage(), "HR", currentPoints, pointsNeeded));
+            }
+        } else {
+            player.sendMessage(String.format(MessageManager.MAX_HONORRANK_MESSAGE.getMessage(), "HR"));
+        }
     }
 
-    public int getPlayerPoints(Player player) {
+    public long getPlayerPoints(Player player) {
         return playerPoints.get(player);
     }
 
-    public Ranks getPlayerRank(Player player) {
+    public long getPointsNeeded(Player player) {
+        return getNextPlayerRank(player).getHonorPoints();
+    }
+
+    public Rank getPlayerRank(Player player) {
+        return playerRank.get(player);
+    }
+
+    public int getPlayerRankId(Player player) {
         if (isRanked(player)) {
-            return playerRank.get(player);
+            return getPlayerRank(player).getRankId();
         } else {
+            return 0;
+        }
+    }
+
+    public Rank getNextPlayerRank(Player player) {
+        int currentRankId = getPlayerRankId(player);
+        int nextRankId = currentRankId + 1;
+
+        if (currentRankId == 6) {
             return null;
         }
+        return getRankById(nextRankId);
     }
 
     public String getDisplayName(Player player) {
-        if (isRanked(player)) {
-            return "§fRang d'honneur §3" + getPlayerRank(player).getRankId();
-        } else {
-            return "§fRang d'honneur §30";
-        }
+        return "§fRang d'Honneur §3" + getPlayerRankId(player);
     }
 
     public String getPrefix(Player player) {
-        if (isRanked(player)) {
-            return "§8[§3" + getPlayerRank(player).getRankId() + "§8]";
-        } else {
-            return "§8[§30§8]";
-        }
+        return "§8[§3" + getPlayerRankId(player) + "§8]";
+    }
+
+    private Rank getRankById(int id) {
+        return Rank.BY_ID.get(id);
     }
 
     public String getRanks() {
         StringBuilder sb = new StringBuilder();
 
-        for (Ranks i : Ranks.values()) {
-            sb.append("Rang §3").append(i.getRankId()).append(" §8(§3").append(i.getHonorPoints()).append("points d'honneur§8)\n");
+        for (Rank i : Rank.values()) {
+            sb.append(" §8|§f Rang §3").append(i.getRankId()).append(" §8(§3").append(i.getHonorPoints()).append(" §7points d'honneur§8)\n");
         }
         return sb.toString();
     }
 
     public boolean isRanked(Player player) {
-        return playerRank.get(player) == null;
+        return playerRank.get(player) != null;
     }
 }

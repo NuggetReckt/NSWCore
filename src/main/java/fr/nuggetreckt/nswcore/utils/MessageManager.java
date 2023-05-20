@@ -6,15 +6,19 @@ public enum MessageManager {
     //Error messages
     NO_PERMISSION_MESSAGE("§cVous n'avez pas la permission d'exécuter cette commande !"),
     WAIT_BEFORE_USING_MESSAGE("§cVeuillez patienter §3%s minute(s) §cavant de réutiliser cette commande !"),
-    NO_ENOUGH_HONORPOINTS("§cVous n'avez pas assez de points d'honneur ! §8(§3%s§8)"),
+    NO_ENOUGH_HONORPOINTS("§cVous n'avez pas assez de Points d'Honneur ! §8(§3%s§8/§3%s§8)"),
+    MAX_HONORRANK_MESSAGE("§cVous êtes déjà au Rang d'Honneur maximum ! §8(§36§8)"),
 
     //Success messages
     SUCCESS_TP_MESSAGE("Téléporté avec succès !"),
 
     //Others
-    HONORRANKS_RANKS("Rangs d'honneur : %s"),
-    HONORRANKS_CURRENTRANK("Vous êtes actuellement %s"),
-    HONORRANKS_CURRENTHONORPOINTS("Vous avez actuellement §3%s §fpoints d'honneur"),
+    HONORRANKS_RANKLIST_MESSAGE("Liste des Rangs d'Honneur : \n%s"),
+    HONORRANKS_RANK_MESSAGE("Vous êtes %s"),
+    HONORRANKS_RANKINFO_MESSAGE("Information sur votre Rang d'Honneur :\n" +
+            " §8| §fRang d'Honneur actuel : §3%s\n" +
+            " §8| §fprochain Rang d'Honneur : §3%s §8(§3%s§8/§3%s§8)"),
+    HONORRANKS_UPRANK_BROADCASTMESSAGE(" §8§l≫ §3%s §fest passé Rang d'Honneur §3%s §f!"),
     ;
 
     private final String message;

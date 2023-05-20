@@ -1,6 +1,7 @@
 package fr.nuggetreckt.nswcore.listeners;
 
 import com.iridium.iridiumcolorapi.IridiumColorAPI;
+import fr.nuggetreckt.nswcore.HonorRanks;
 import fr.nuggetreckt.nswcore.NSWCore;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -18,6 +19,15 @@ public class OnJoinListener implements Listener {
         String nsw = IridiumColorAPI.process("<GRADIENT:2C70BA>§lNoSkillWorld</GRADIENT:42cfcf>");
 
         if (!player.hasPlayedBefore()) {
+            new HonorRanks().init(player);
+
+            //DEBUGS START
+            System.out.println("DEBUG (isRanked): " + new HonorRanks().isRanked(player));
+            System.out.println("DEBUG (playerRank): " + new HonorRanks().getPlayerRank(player));
+            System.out.println("DEBUG (playerPoints): " + new HonorRanks().getPlayerPoints(player));
+            System.out.println("DEBUG (nextRank): " + new HonorRanks().getNextPlayerRank(player));
+            //DEBUGS END
+
             if (NSWCore.isFarmzone()) {
                 player.sendMessage("§8[§3NSW§8] §fBienvenue en §3§lFarmZone §f!");
                 player.sendMessage(" §8| §fUtilise §3/rtp §fpour te téléporter aléatoirement");

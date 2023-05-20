@@ -28,6 +28,10 @@ commands:
   anvil:
     description: Ouvre l'interface de l'enclume
     usage: "Usage: /anvil"
+  honorrank:
+    description: Permet d'interagir avec les Rangs d'Honneur
+    usage: "Usage: /honorrank or /hr"
+    aliases: [ hr ]
 permissions:
   nsw.*:
     description: Permission globale*
