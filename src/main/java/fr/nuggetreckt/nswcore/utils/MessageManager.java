@@ -6,11 +6,15 @@ public enum MessageManager {
     //Error messages
     NO_PERMISSION_MESSAGE("§cVous n'avez pas la permission d'exécuter cette commande !"),
     WAIT_BEFORE_USING_MESSAGE("§cVeuillez patienter §3%s minute(s) §cavant de réutiliser cette commande !"),
+    COMMAND_NOT_AVAILABLE_FARMZONE_MESSAGE("§cCette commande n'est disponible qu'en FarmZone !"),
     NO_ENOUGH_HONORPOINTS("§cVous n'avez pas assez de Points d'Honneur ! §8(§3%s§8/§3%s§8)"),
     MAX_HONORRANK_MESSAGE("§cVous êtes déjà au Rang d'Honneur maximum ! §8(§36§8)"),
 
     //Success messages
     SUCCESS_TP_MESSAGE("Téléporté avec succès !"),
+    KIT_RECEIVED("Vous avez reçu votre kit"),
+    STAFF_MODE_ENTER_MESSAGE("Entrée dans le mode staff"),
+    STAFF_MODE_LEAVE_MESSAGE("Sortie du mode staff"),
 
     //Others
     HONORRANKS_RANKLIST_MESSAGE("Liste des Rangs d'Honneur : \n%s"),

@@ -32,6 +32,12 @@ commands:
     description: Permet d'interagir avec les Rangs d'Honneur
     usage: "Usage: /honorrank or /hr"
     aliases: [ hr ]
+  kit:
+    description: Permet aux nouveaux joueurs de commencer avec un kit de départ
+    usage: "Usage: /kit"
+  staff:
+    description: Commande pour entrer en mode staff
+    usage: "Usage: /staff"
 permissions:
   nsw.*:
     description: Permission globale*

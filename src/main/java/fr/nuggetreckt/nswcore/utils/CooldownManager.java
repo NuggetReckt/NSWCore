@@ -9,6 +9,7 @@ import java.util.UUID;
 public class CooldownManager {
 
     public enum CooldownValues {
+        KIT_COOLDOWN(14400),
         DEFAULT_COOLDOWN(600),
         RANKED_COOLDOWN(300),
         ANTISPAM_COOLDOWN(5),

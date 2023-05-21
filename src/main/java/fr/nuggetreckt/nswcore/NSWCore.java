@@ -2,6 +2,7 @@ package fr.nuggetreckt.nswcore;
 
 import fr.nuggetreckt.nswcore.commands.*;
 import fr.nuggetreckt.nswcore.expansions.PAPIExpansion;
+import fr.nuggetreckt.nswcore.guis.GuiManager;
 import fr.nuggetreckt.nswcore.listeners.OnJoinListener;
 import fr.nuggetreckt.nswcore.listeners.OnLeaveListener;
 import fr.nuggetreckt.nswcore.listeners.OnSleepListener;
@@ -35,6 +36,8 @@ public class NSWCore extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("craft")).setExecutor(new CraftCommand());
         Objects.requireNonNull(this.getCommand("anvil")).setExecutor(new AnvilCommand());
         Objects.requireNonNull(this.getCommand("honorrank")).setExecutor(new HonorRankCommand());
+        Objects.requireNonNull(this.getCommand("staff")).setExecutor(new StaffCommand());
+        Objects.requireNonNull(this.getCommand("kit")).setExecutor(new KitCommand());
 
         //register events
         getServer().getPluginManager().registerEvents(new OnJoinListener(), this);
@@ -48,6 +51,9 @@ public class NSWCore extends JavaPlugin {
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new PAPIExpansion().register();
         }
+
+        //Register GUIs
+        new GuiManager().registersGUI();
 
         logger.info(String.format("[%s] Plugin loaded successfully", getDescription().getName()));
         logger.info("  _   _  _______          _______               ");
@@ -70,6 +76,10 @@ public class NSWCore extends JavaPlugin {
 
     public static NSWCore getInstance() {
         return instance;
+    }
+
+    public static GuiManager getGuiManager() {
+        return new GuiManager();
     }
 
     private void setServerPort() {
