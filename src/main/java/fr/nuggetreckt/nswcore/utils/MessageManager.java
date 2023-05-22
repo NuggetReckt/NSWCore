@@ -21,7 +21,7 @@ public enum MessageManager {
     HONORRANKS_RANK_MESSAGE("Vous êtes %s"),
     HONORRANKS_RANKINFO_MESSAGE("Information sur votre Rang d'Honneur :\n" +
             " §8| §fRang d'Honneur actuel : §3%s\n" +
-            " §8| §fprochain Rang d'Honneur : §3%s §8(§3%s§8/§3%s§8)"),
+            " §8| §fProchain Rang d'Honneur : §3%s §8(§3%s§8/§3%s§8)"),
     HONORRANKS_UPRANK_BROADCASTMESSAGE(" §8§l≫ §3%s §fest passé Rang d'Honneur §3%s §f!"),
     ;
 

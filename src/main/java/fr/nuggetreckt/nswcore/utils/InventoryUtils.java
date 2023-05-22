@@ -15,7 +15,7 @@ public interface InventoryUtils {
         return getRows() * 9;
     }
 
-    Supplier<ItemStack[]> getContent(Player player);
+    Supplier<ItemStack[]> getContents(Player player);
 
     void onClick(Player player, Inventory inventory, ItemStack clickedItem, int slot);
 }

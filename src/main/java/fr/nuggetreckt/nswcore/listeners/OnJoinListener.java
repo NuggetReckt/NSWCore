@@ -25,6 +25,7 @@ public class OnJoinListener implements Listener {
             System.out.println("DEBUG (isRanked): " + new HonorRanks().isRanked(player));
             System.out.println("DEBUG (playerRank): " + new HonorRanks().getPlayerRank(player));
             System.out.println("DEBUG (playerPoints): " + new HonorRanks().getPlayerPoints(player));
+            System.out.println("DEBUG (HashMap playerPoints): " + new HonorRanks().playerPoints.toString());
             System.out.println("DEBUG (nextRank): " + new HonorRanks().getNextPlayerRank(player));
             //DEBUGS END
 

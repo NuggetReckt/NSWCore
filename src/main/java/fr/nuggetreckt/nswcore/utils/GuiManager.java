@@ -1,6 +1,6 @@
-package fr.nuggetreckt.nswcore.guis;
+package fr.nuggetreckt.nswcore.utils;
 
-import fr.nuggetreckt.nswcore.utils.InventoryUtils;
+import fr.nuggetreckt.nswcore.guis.KitGui;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -20,12 +20,11 @@ public class GuiManager {
     }
 
     public void open(Player player, Class<? extends InventoryUtils> gClass) {
-        if (!this.registeredMenus.containsKey(gClass))
-            return;
+        if (!this.registeredMenus.containsKey(gClass)) return;
 
         InventoryUtils menu = this.registeredMenus.get(gClass);
         Inventory inv = Bukkit.createInventory(null, menu.getSlots(), menu.getName());
-        inv.setContents(menu.getContent(player).get());
+        inv.setContents(menu.getContents(player).get());
         player.openInventory(inv);
     }
 

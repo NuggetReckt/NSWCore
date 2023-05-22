@@ -22,11 +22,11 @@ public class KitGui implements InventoryUtils {
 
     @Override
     public int getRows() {
-        return 5;
+        return 1;
     }
 
     @Override
-    public Supplier<ItemStack[]> getContent(Player player) {
+    public Supplier<ItemStack[]> getContents(Player player) {
         ItemStack[] slots = new ItemStack[getSlots()];
 
         //test

@@ -1,5 +1,7 @@
 package fr.nuggetreckt.nswcore.commands;
 
+import fr.nuggetreckt.nswcore.NSWCore;
+import fr.nuggetreckt.nswcore.guis.KitGui;
 import fr.nuggetreckt.nswcore.utils.CooldownManager;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
 import org.bukkit.command.Command;
@@ -23,16 +25,17 @@ public class KitCommand implements CommandExecutor {
 
             Duration timeLeft = cooldownManager.getRemainingCooldown(playerId);
 
-            //Si le joueur à déjà rejoint le serveur EN GENERAL
-            if (player.hasPlayedBefore()) {
+            //if (NSWCore.isFarmzone()) {
                 if (timeLeft.isZero() || timeLeft.isNegative()) {
                     cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.KIT_COOLDOWN.getValue()));
-
-                    //OUVRE UN GUI
+                    NSWCore.getGuiManager().open(player, KitGui.class);
+                    System.out.println("DEBUG: GUI");
                 } else {
                     player.sendMessage(String.format(MessageManager.WAIT_BEFORE_USING_MESSAGE.getMessage(), "Kit", timeLeft.toHours()));
                 }
-            }
+            /*} else {
+                player.sendMessage(String.format(MessageManager.COMMAND_NOT_AVAILABLE_FARMZONE_MESSAGE.getMessage(), "Kit"));
+            }*/
         }
         return true;
     }
