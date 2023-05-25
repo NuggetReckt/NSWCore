@@ -33,19 +33,19 @@ public class PAPIExpansion extends PlaceholderExpansion {
 
         if (params.equalsIgnoreCase("displayname")) {
             //return ranks.getDisplayName(player);
-            return "tmp";
+            return "displayname";
         }
         if (params.equalsIgnoreCase("prefix")) {
             //return ranks.getPrefix(player);
-            return "tmp";
+            return "prefix";
         }
         if (params.equalsIgnoreCase("honorpoints")) {
             //return String.valueOf(ranks.getPlayerPoints(player));
-            return "tmp";
+            return "honorpoints";
         }
         if (params.equalsIgnoreCase("honorpoints_needed")) {
             //return String.valueOf(ranks.getPointsNeeded(player));
-            return "tmp";
+            return "honorpoints_needed";
         }
         return null; // Placeholder is unknown by the Expansion
     }

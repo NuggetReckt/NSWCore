@@ -43,8 +43,8 @@ public class HonorRanks {
         }
     }
 
-    public HashMap<Player, @Nullable Rank> playerRank = new HashMap<>();
-    public HashMap<Player, Object> playerPoints = new HashMap<>();
+    private final HashMap<Player, @Nullable Rank> playerRank = new HashMap<>();
+    private final HashMap<Player, Long> playerPoints = new HashMap<>();
 
     public void init(Player player) {
         if (!isRanked(player)) {
@@ -82,7 +82,7 @@ public class HonorRanks {
     }
 
     public long getPlayerPoints(Player player) {
-        return (long) playerPoints.get(player);
+        return playerPoints.get(player);
     }
 
     public long getPointsNeeded(Player player) {

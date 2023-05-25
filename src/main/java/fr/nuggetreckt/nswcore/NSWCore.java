@@ -2,7 +2,7 @@ package fr.nuggetreckt.nswcore;
 
 import fr.nuggetreckt.nswcore.commands.*;
 import fr.nuggetreckt.nswcore.expansions.PAPIExpansion;
-import fr.nuggetreckt.nswcore.utils.GuiManager;
+import fr.nuggetreckt.nswcore.guis.GuiManager;
 import fr.nuggetreckt.nswcore.listeners.OnJoinListener;
 import fr.nuggetreckt.nswcore.listeners.OnLeaveListener;
 import fr.nuggetreckt.nswcore.listeners.OnSleepListener;

@@ -1,6 +1,7 @@
-package fr.nuggetreckt.nswcore.utils;
+package fr.nuggetreckt.nswcore.guis;
 
-import fr.nuggetreckt.nswcore.guis.KitGui;
+import fr.nuggetreckt.nswcore.guis.impl.KitGui;
+import fr.nuggetreckt.nswcore.utils.InventoryUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;

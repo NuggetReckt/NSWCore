@@ -1,4 +1,4 @@
-package fr.nuggetreckt.nswcore.guis;
+package fr.nuggetreckt.nswcore.guis.impl;
 
 import fr.nuggetreckt.nswcore.listeners.OnInvClickListener;
 import fr.nuggetreckt.nswcore.utils.InventoryUtils;

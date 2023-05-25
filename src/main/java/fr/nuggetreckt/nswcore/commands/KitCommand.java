@@ -1,7 +1,7 @@
 package fr.nuggetreckt.nswcore.commands;
 
 import fr.nuggetreckt.nswcore.NSWCore;
-import fr.nuggetreckt.nswcore.guis.KitGui;
+import fr.nuggetreckt.nswcore.guis.impl.KitGui;
 import fr.nuggetreckt.nswcore.utils.CooldownManager;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
 import org.bukkit.command.Command;
