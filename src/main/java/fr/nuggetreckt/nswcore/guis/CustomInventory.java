@@ -1,4 +1,4 @@
-package fr.nuggetreckt.nswcore.utils;
+package fr.nuggetreckt.nswcore.guis;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.function.Supplier;
 
-public interface InventoryUtils {
+public interface CustomInventory {
     String getName();
 
     int getRows();

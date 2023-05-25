@@ -1,7 +1,7 @@
 package fr.nuggetreckt.nswcore.guis.impl;
 
 import fr.nuggetreckt.nswcore.listeners.OnInvClickListener;
-import fr.nuggetreckt.nswcore.utils.InventoryUtils;
+import fr.nuggetreckt.nswcore.guis.CustomInventory;
 import fr.nuggetreckt.nswcore.utils.ItemUtils;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
 import org.bukkit.Material;
@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public class KitGui implements InventoryUtils {
+public class KitGui implements CustomInventory {
 
     @Override
     public String getName() {
