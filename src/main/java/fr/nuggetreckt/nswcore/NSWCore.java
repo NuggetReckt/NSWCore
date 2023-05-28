@@ -2,11 +2,8 @@ package fr.nuggetreckt.nswcore;
 
 import fr.nuggetreckt.nswcore.commands.*;
 import fr.nuggetreckt.nswcore.expansions.PAPIExpansion;
+import fr.nuggetreckt.nswcore.listeners.*;
 import fr.nuggetreckt.nswcore.utils.GuiManager;
-import fr.nuggetreckt.nswcore.listeners.OnJoinListener;
-import fr.nuggetreckt.nswcore.listeners.OnLeaveListener;
-import fr.nuggetreckt.nswcore.listeners.OnSleepListener;
-import fr.nuggetreckt.nswcore.listeners.OnDragonDeathListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -17,6 +14,7 @@ public class NSWCore extends JavaPlugin {
 
     public static String prefix = "§8[§3%s§8] §r";
     private static NSWCore instance;
+    private static GuiManager guiManager;
     private static int serverPort;
     private static final int farmzonePort = 25568;
 
@@ -25,11 +23,10 @@ public class NSWCore extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        guiManager = new GuiManager();
 
         //Set server port
         setServerPort();
-        //Register guis
-        new GuiManager().registersGUI();
 
         //register commands
         Objects.requireNonNull(this.getCommand("top")).setExecutor(new TopCommand());
@@ -47,6 +44,7 @@ public class NSWCore extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new OnJoinListener(), this);
         getServer().getPluginManager().registerEvents(new OnLeaveListener(), this);
         getServer().getPluginManager().registerEvents(new OnSleepListener(), this);
+        getServer().getPluginManager().registerEvents(new OnInvClickListener(), this);
 
         if (isFarmzone()) {
             getServer().getPluginManager().registerEvents(new OnDragonDeathListener(), this);
@@ -81,7 +79,7 @@ public class NSWCore extends JavaPlugin {
     }
 
     public static GuiManager getGuiManager() {
-        return new GuiManager();
+        return guiManager;
     }
 
     private void setServerPort() {

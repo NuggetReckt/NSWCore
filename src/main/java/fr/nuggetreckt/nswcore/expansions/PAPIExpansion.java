@@ -32,12 +32,10 @@ public class PAPIExpansion extends PlaceholderExpansion {
         HonorRanks ranks = new HonorRanks();
 
         if (params.equalsIgnoreCase("displayname")) {
-            //return ranks.getDisplayName(player);
-            return "displayname";
+            return ranks.getDisplayName(player);
         }
         if (params.equalsIgnoreCase("prefix")) {
-            //return ranks.getPrefix(player);
-            return "prefix";
+            return ranks.getPrefix(player);
         }
         if (params.equalsIgnoreCase("honorpoints")) {
             //return String.valueOf(ranks.getPlayerPoints(player));

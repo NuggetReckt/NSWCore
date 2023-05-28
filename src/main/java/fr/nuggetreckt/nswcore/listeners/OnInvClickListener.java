@@ -1,6 +1,6 @@
 package fr.nuggetreckt.nswcore.listeners;
 
-import fr.nuggetreckt.nswcore.guis.impl.KitGui;
+import fr.nuggetreckt.nswcore.NSWCore;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 public class OnInvClickListener implements Listener {
 
     public String currentInv;
-    Inventory inventory;
+    private Inventory inventory;
 
     @EventHandler
     public void onClick(@NotNull InventoryClickEvent event) {
@@ -24,13 +24,11 @@ public class OnInvClickListener implements Listener {
 
         if (currentItem == null) return;
 
-        switch (currentInv) {
-            case "kit":
-                new KitGui().onClick(player, inventory, currentItem, slot);
-                break;
-            case "test":
-                break;
-        }
+        NSWCore.getGuiManager().registeredMenus.values().stream().filter(menu -> currentInv.equalsIgnoreCase(menu.getName()))
+                .forEach(menu -> {
+                    menu.onClick(player, inventory, currentItem, slot);
+                    event.setCancelled(true);
+                });
     }
 
     @EventHandler
@@ -40,7 +38,7 @@ public class OnInvClickListener implements Listener {
         }
     }
 
-    public void setCurrentInv(String currentInv) {
-        this.currentInv = currentInv;
+    public void setCurrentInv(String inv) {
+        currentInv = inv;
     }
 }

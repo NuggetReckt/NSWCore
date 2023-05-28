@@ -15,19 +15,10 @@ public class OnJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(@NotNull PlayerJoinEvent event) {
         Player player = event.getPlayer();
-
         String nsw = IridiumColorAPI.process("<GRADIENT:2C70BA>§lNoSkillWorld</GRADIENT:42cfcf>");
 
         if (!player.hasPlayedBefore()) {
             new HonorRanks().init(player);
-
-            //DEBUGS START
-            System.out.println("DEBUG (isRanked): " + new HonorRanks().isRanked(player));
-            System.out.println("DEBUG (playerRank): " + new HonorRanks().getPlayerRank(player));
-            System.out.println("DEBUG (playerPoints): " + new HonorRanks().getPlayerPoints(player));
-            System.out.println("DEBUG (HashMap playerPoints): " + new HonorRanks().playerPoints.toString());
-            System.out.println("DEBUG (nextRank): " + new HonorRanks().getNextPlayerRank(player));
-            //DEBUGS END
 
             if (NSWCore.isFarmzone()) {
                 player.sendMessage("§8[§3NSW§8] §fBienvenue en §3§lFarmZone §f!");
@@ -37,6 +28,16 @@ public class OnJoinListener implements Listener {
                 Bukkit.broadcastMessage("§8§l» §fBienvenue à §3" + player.getName() + " §fsur " + nsw + " §f!");
             }
         }
+
+        //TO DELETE AFTER TESTS
+        new HonorRanks().init(player);
+
+        //DEBUGS START
+        System.out.println("DEBUG (isRanked): " + new HonorRanks().isRanked(player));
+        System.out.println("DEBUG (playerRank): " + new HonorRanks().getPlayerRank(player));
+        System.out.println("DEBUG (nextRank): " + new HonorRanks().getNextPlayerRank(player));
+        System.out.println("DEBUG (playerPoints): " + new HonorRanks().getPlayerPoints(player));
+        //DEBUGS END
 
         if (player.isOp() || player.hasPermission("group.admin")) {
             event.setJoinMessage("§8[§2+§8] §8[§4§lAdministrateur§8] §4" + player.getName() + " §fa rejoint le serveur");

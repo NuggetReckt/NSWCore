@@ -3,10 +3,12 @@ package fr.nuggetreckt.nswcore;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class HonorRanks {
     public enum Rank {
@@ -43,20 +45,20 @@ public class HonorRanks {
         }
     }
 
-    private final HashMap<Player, @Nullable Rank> playerRank = new HashMap<>();
-    private final HashMap<Player, Long> playerPoints = new HashMap<>();
+    private final Map<UUID, @Nullable Rank> playerRank = new HashMap<>();
+    private final Map<UUID, Long> playerPoints = new HashMap<>();
 
     public void init(Player player) {
         if (!isRanked(player)) {
-            playerRank.put(player, null);
-            playerPoints.put(player, 0L);
+            playerRank.put(player.getUniqueId(), null);
+            playerPoints.put(player.getUniqueId(), 0L);
         }
     }
 
     public void gainPlayerPoints(Player player, long honorPoints) {
         long oldPoints = getPlayerPoints(player);
 
-        playerPoints.replace(player, oldPoints + honorPoints);
+        playerPoints.replace(player.getUniqueId(), oldPoints + honorPoints);
     }
 
     public void upRankPlayer(Player player) {
@@ -71,8 +73,8 @@ public class HonorRanks {
 
                 long points = oldPoints - currentPoints;
 
-                playerPoints.replace(player, points);
-                playerRank.replace(player, getNextPlayerRank(player));
+                playerPoints.replace(player.getUniqueId(), points);
+                playerRank.replace(player.getUniqueId(), getNextPlayerRank(player));
             } else {
                 player.sendMessage(String.format(MessageManager.NO_ENOUGH_HONORPOINTS.getMessage(), "HR", currentPoints, pointsNeeded));
             }
@@ -81,16 +83,17 @@ public class HonorRanks {
         }
     }
 
-    public long getPlayerPoints(Player player) {
-        return playerPoints.get(player);
+    //replace with long after tests
+    public Long getPlayerPoints(@NotNull Player player) {
+        return playerPoints.get(player.getUniqueId());
     }
 
     public long getPointsNeeded(Player player) {
         return getNextPlayerRank(player).getHonorPoints();
     }
 
-    public Rank getPlayerRank(Player player) {
-        return playerRank.get(player);
+    public Rank getPlayerRank(@NotNull Player player) {
+        return playerRank.get(player.getUniqueId());
     }
 
     public int getPlayerRankId(Player player) {
@@ -132,7 +135,7 @@ public class HonorRanks {
         return sb.toString();
     }
 
-    public boolean isRanked(Player player) {
-        return playerRank.get(player) != null;
+    public boolean isRanked(@NotNull Player player) {
+        return playerRank.get(player.getUniqueId()) != null;
     }
 }
