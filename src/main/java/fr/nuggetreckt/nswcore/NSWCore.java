@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 public class NSWCore extends JavaPlugin {
 
     public static String prefix = "§8[§3%s§8] §r";
+    private static HonorRanks honorRanks;
     private static NSWCore instance;
     private static GuiManager guiManager;
     private static int serverPort;
@@ -24,6 +25,7 @@ public class NSWCore extends JavaPlugin {
     public void onEnable() {
         instance = this;
         guiManager = new GuiManager();
+        honorRanks = new HonorRanks();
 
         //Set server port
         setServerPort();
@@ -44,7 +46,7 @@ public class NSWCore extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new OnJoinListener(), this);
         getServer().getPluginManager().registerEvents(new OnLeaveListener(), this);
         getServer().getPluginManager().registerEvents(new OnSleepListener(), this);
-        getServer().getPluginManager().registerEvents(new OnInvClickListener(), this);
+        //getServer().getPluginManager().registerEvents(new OnInvClickListener(), this);
 
         if (isFarmzone()) {
             getServer().getPluginManager().registerEvents(new OnDragonDeathListener(), this);
@@ -80,6 +82,10 @@ public class NSWCore extends JavaPlugin {
 
     public static GuiManager getGuiManager() {
         return guiManager;
+    }
+
+    public static HonorRanks getHonorRanks() {
+        return honorRanks;
     }
 
     private void setServerPort() {

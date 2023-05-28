@@ -1,6 +1,7 @@
 package fr.nuggetreckt.nswcore.expansions;
 
 import fr.nuggetreckt.nswcore.HonorRanks;
+import fr.nuggetreckt.nswcore.NSWCore;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -29,21 +30,19 @@ public class PAPIExpansion extends PlaceholderExpansion {
 
     @Override
     public String onPlaceholderRequest(Player player, @NotNull String params) {
-        HonorRanks ranks = new HonorRanks();
+        HonorRanks hr = NSWCore.getHonorRanks();
 
         if (params.equalsIgnoreCase("displayname")) {
-            return ranks.getDisplayName(player);
+            return hr.getDisplayName(player);
         }
         if (params.equalsIgnoreCase("prefix")) {
-            return ranks.getPrefix(player);
+            return hr.getPrefix(player);
         }
         if (params.equalsIgnoreCase("honorpoints")) {
-            //return String.valueOf(ranks.getPlayerPoints(player));
-            return "honorpoints";
+            return String.valueOf(hr.getPlayerPoints(player));
         }
         if (params.equalsIgnoreCase("honorpoints_needed")) {
-            //return String.valueOf(ranks.getPointsNeeded(player));
-            return "honorpoints_needed";
+            return String.valueOf(hr.getPointsNeeded(player));
         }
         return null; // Placeholder is unknown by the Expansion
     }

@@ -48,20 +48,18 @@ public class HonorRanks {
     private final Map<UUID, @Nullable Rank> playerRank = new HashMap<>();
     private final Map<UUID, Long> playerPoints = new HashMap<>();
 
-    public void init(Player player) {
-        if (!isRanked(player)) {
-            playerRank.put(player.getUniqueId(), null);
-            playerPoints.put(player.getUniqueId(), 0L);
-        }
+    public void init(@NotNull Player player) {
+        playerRank.putIfAbsent(player.getUniqueId(), null);
+        playerPoints.putIfAbsent(player.getUniqueId(), 0L);
     }
 
-    public void gainPlayerPoints(Player player, long honorPoints) {
+    public void gainPlayerPoints(@NotNull Player player, long honorPoints) {
         long oldPoints = getPlayerPoints(player);
 
         playerPoints.replace(player.getUniqueId(), oldPoints + honorPoints);
     }
 
-    public void upRankPlayer(Player player) {
+    public void upRankPlayer(@NotNull Player player) {
         if (getNextPlayerRank(player) != null) {
             long oldPoints = getPlayerPoints(player);
             long currentPoints = getPlayerPoints(player);
@@ -83,12 +81,11 @@ public class HonorRanks {
         }
     }
 
-    //replace with long after tests
-    public Long getPlayerPoints(@NotNull Player player) {
+    public long getPlayerPoints(@NotNull Player player) {
         return playerPoints.get(player.getUniqueId());
     }
 
-    public long getPointsNeeded(Player player) {
+    public long getPointsNeeded(@NotNull Player player) {
         return getNextPlayerRank(player).getHonorPoints();
     }
 
@@ -96,7 +93,7 @@ public class HonorRanks {
         return playerRank.get(player.getUniqueId());
     }
 
-    public int getPlayerRankId(Player player) {
+    public int getPlayerRankId(@NotNull Player player) {
         if (isRanked(player)) {
             return getPlayerRank(player).getRankId();
         } else {
@@ -104,7 +101,7 @@ public class HonorRanks {
         }
     }
 
-    public Rank getNextPlayerRank(Player player) {
+    public Rank getNextPlayerRank(@NotNull Player player) {
         int currentRankId = getPlayerRankId(player);
         int nextRankId = currentRankId + 1;
 
@@ -114,11 +111,11 @@ public class HonorRanks {
         return getRankById(nextRankId);
     }
 
-    public String getDisplayName(Player player) {
+    public String getDisplayName(@NotNull Player player) {
         return "§fRang d'Honneur §3" + getPlayerRankId(player);
     }
 
-    public String getPrefix(Player player) {
+    public String getPrefix(@NotNull Player player) {
         return "§8[§3" + getPlayerRankId(player) + "§8]";
     }
 
