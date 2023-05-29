@@ -1,5 +1,6 @@
 package fr.nuggetreckt.nswcore.commands;
 
+import fr.nuggetreckt.nswcore.NSWCore;
 import fr.nuggetreckt.nswcore.utils.CooldownManager;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
 import org.bukkit.Location;
@@ -15,14 +16,13 @@ import java.util.UUID;
 
 public class UpCommand implements CommandExecutor {
 
-    private final CooldownManager cooldownManager = new CooldownManager();
-
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
             UUID playerId = player.getUniqueId();
 
+            CooldownManager cooldownManager = NSWCore.getCooldownManager();
             Duration timeLeft = cooldownManager.getRemainingCooldown(playerId);
 
             if (player.hasPermission("nsw.commands.up")) {

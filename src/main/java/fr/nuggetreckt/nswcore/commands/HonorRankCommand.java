@@ -19,7 +19,7 @@ public class HonorRankCommand implements CommandExecutor {
             HonorRanks hr = NSWCore.getHonorRanks();
 
             if (args.length == 0) {
-                player.sendMessage(String.format(MessageManager.HONORRANKS_RANKLIST_MESSAGE.getMessage(), "HR", hr.getRanks()));
+                player.sendMessage(String.format(MessageManager.HONORRANKS_RANKLIST_MESSAGE.getMessage(), "HR", hr.getRanks(player)));
             } else {
                 if (args[0].equalsIgnoreCase("rank")) {
                     player.sendMessage(String.format(MessageManager.HONORRANKS_RANK_MESSAGE.getMessage(), "HR", hr.getDisplayName(player)));

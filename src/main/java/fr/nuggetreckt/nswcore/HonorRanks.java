@@ -2,6 +2,8 @@ package fr.nuggetreckt.nswcore;
 
 import fr.nuggetreckt.nswcore.utils.MessageManager;
 import org.bukkit.Bukkit;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -49,8 +51,10 @@ public class HonorRanks {
     private final Map<UUID, Long> playerPoints = new HashMap<>();
 
     public void init(@NotNull Player player) {
-        playerRank.putIfAbsent(player.getUniqueId(), null);
-        playerPoints.putIfAbsent(player.getUniqueId(), 0L);
+        if (!isRanked(player)) {
+            playerRank.putIfAbsent(player.getUniqueId(), null);
+            playerPoints.putIfAbsent(player.getUniqueId(), 0L);
+        }
     }
 
     public void gainPlayerPoints(@NotNull Player player, long honorPoints) {
@@ -61,18 +65,21 @@ public class HonorRanks {
 
     public void upRankPlayer(@NotNull Player player) {
         if (getNextPlayerRank(player) != null) {
-            long oldPoints = getPlayerPoints(player);
             long currentPoints = getPlayerPoints(player);
             long pointsNeeded = getPointsNeeded(player);
 
             if (currentPoints > pointsNeeded) {
-                Bukkit.broadcastMessage(String.format(MessageManager.HONORRANKS_UPRANK_BROADCASTMESSAGE.getMessage(),
-                        player.getName(), getNextPlayerRank(player).getRankId()));
-
-                long points = oldPoints - currentPoints;
+                long points = currentPoints - pointsNeeded;
 
                 playerPoints.replace(player.getUniqueId(), points);
                 playerRank.replace(player.getUniqueId(), getNextPlayerRank(player));
+
+                Bukkit.broadcastMessage(String.format(MessageManager.HONORRANKS_UPRANK_BROADCASTMESSAGE.getBroadcastMessage(),
+                        player.getName(), getNextPlayerRank(player).getRankId()));
+
+                //To continue
+                player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 15, 1);
+                player.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, player.getLocation(), 1, 1);
             } else {
                 player.sendMessage(String.format(MessageManager.NO_ENOUGH_HONORPOINTS.getMessage(), "HR", currentPoints, pointsNeeded));
             }
@@ -86,7 +93,10 @@ public class HonorRanks {
     }
 
     public long getPointsNeeded(@NotNull Player player) {
-        return getNextPlayerRank(player).getHonorPoints();
+        if (getNextPlayerRank(player) != null) {
+            return getNextPlayerRank(player).getHonorPoints();
+        }
+        return 0;
     }
 
     public Rank getPlayerRank(@NotNull Player player) {
@@ -123,11 +133,16 @@ public class HonorRanks {
         return Rank.BY_ID.get(id);
     }
 
-    public String getRanks() {
+    public String getRanks(Player player) {
         StringBuilder sb = new StringBuilder();
 
         for (Rank i : Rank.values()) {
-            sb.append(" §8|§f Rang §3").append(i.getRankId()).append(" §8(§3").append(i.getHonorPoints()).append(" §7Points d'Honneur§8)\n");
+            sb.append(" §8|§f Rang §3").append(i.getRankId()).append(" §8(§3").append(i.getHonorPoints()).append(" §7Points d'Honneur§8)");
+
+            if (i == getNextPlayerRank(player)) {
+                sb.append(" §3§l« PROCHAIN");
+            }
+            sb.append("\n");
         }
         return sb.toString();
     }

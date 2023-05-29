@@ -3,6 +3,7 @@ package fr.nuggetreckt.nswcore;
 import fr.nuggetreckt.nswcore.commands.*;
 import fr.nuggetreckt.nswcore.expansions.PAPIExpansion;
 import fr.nuggetreckt.nswcore.listeners.*;
+import fr.nuggetreckt.nswcore.utils.CooldownManager;
 import fr.nuggetreckt.nswcore.utils.GuiManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -16,6 +17,7 @@ public class NSWCore extends JavaPlugin {
     private static HonorRanks honorRanks;
     private static NSWCore instance;
     private static GuiManager guiManager;
+    private static CooldownManager cooldownManager;
     private static int serverPort;
     private static final int farmzonePort = 25568;
 
@@ -24,8 +26,10 @@ public class NSWCore extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+
         guiManager = new GuiManager();
         honorRanks = new HonorRanks();
+        cooldownManager = new CooldownManager();
 
         //Set server port
         setServerPort();
@@ -46,7 +50,7 @@ public class NSWCore extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new OnJoinListener(), this);
         getServer().getPluginManager().registerEvents(new OnLeaveListener(), this);
         getServer().getPluginManager().registerEvents(new OnSleepListener(), this);
-        //getServer().getPluginManager().registerEvents(new OnInvClickListener(), this);
+        getServer().getPluginManager().registerEvents(new OnInvClickListener(), this);
 
         if (isFarmzone()) {
             getServer().getPluginManager().registerEvents(new OnDragonDeathListener(), this);
@@ -86,6 +90,10 @@ public class NSWCore extends JavaPlugin {
 
     public static HonorRanks getHonorRanks() {
         return honorRanks;
+    }
+
+    public static CooldownManager getCooldownManager() {
+        return cooldownManager;
     }
 
     private void setServerPort() {

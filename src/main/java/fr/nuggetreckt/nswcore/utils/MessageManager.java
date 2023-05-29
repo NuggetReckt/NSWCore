@@ -22,7 +22,7 @@ public enum MessageManager {
     HONORRANKS_RANKINFO_MESSAGE("Information sur votre Rang d'Honneur :\n" +
             " §8| §fRang d'Honneur actuel : §3%s\n" +
             " §8| §fProchain Rang d'Honneur : §3%s §8(§3%s§8/§3%s §fPoints d'Honneur requis§8)"),
-    HONORRANKS_UPRANK_BROADCASTMESSAGE(" §8§l≫ §3%s §fest passé Rang d'Honneur §3%s §f!"),
+    HONORRANKS_UPRANK_BROADCASTMESSAGE("§3%s §fest passé Rang d'Honneur §3%s §f!"),
     ;
 
     private final String message;
@@ -33,5 +33,9 @@ public enum MessageManager {
 
     public String getMessage() {
         return NSWCore.getPrefix() + this.message;
+    }
+
+    public String getBroadcastMessage() {
+        return " §8§l» §r" + this.message;
     }
 }

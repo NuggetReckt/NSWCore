@@ -1,6 +1,5 @@
 package fr.nuggetreckt.nswcore.guis.impl;
 
-import fr.nuggetreckt.nswcore.listeners.OnInvClickListener;
 import fr.nuggetreckt.nswcore.guis.CustomInventory;
 import fr.nuggetreckt.nswcore.utils.ItemUtils;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
@@ -39,8 +38,6 @@ public class KitGui implements CustomInventory {
     public void onClick(Player player, Inventory inventory, @NotNull ItemStack clickedItem, int slot) {
         if (!clickedItem.hasItemMeta()) return;
         if (!Objects.requireNonNull(clickedItem.getItemMeta()).hasDisplayName()) return;
-
-        new OnInvClickListener().setCurrentInv(getName());
 
         switch (clickedItem.getItemMeta().getDisplayName()) {
             case "dirt":

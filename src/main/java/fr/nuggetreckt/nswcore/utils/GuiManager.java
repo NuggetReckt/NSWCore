@@ -20,10 +20,6 @@ public class GuiManager {
     public HashMap<UUID, Class<? extends CustomInventory>> map = new HashMap<>();
     public Map<Class<? extends CustomInventory>, CustomInventory> registeredMenus = new HashMap<>();
 
-    public Map<Class<? extends CustomInventory>, CustomInventory> getMenus() {
-        return registeredMenus;
-    }
-
     public void open(Player player, Class<? extends CustomInventory> gClass) {
         if (!registeredMenus.containsKey(gClass)) return;
 

@@ -31,6 +31,9 @@ public class OnJoinListener implements Listener {
             }
         }
 
+        //TO DELETE AFTER TESTS
+        hr.init(player);
+
         if (player.isOp() || player.hasPermission("group.admin")) {
             event.setJoinMessage("§8[§2+§8] §8[§4§lAdministrateur§8] §4" + player.getName() + " §fa rejoint le serveur");
         } else if (player.hasPermission("group.responsable")) {

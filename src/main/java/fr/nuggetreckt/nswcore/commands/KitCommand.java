@@ -15,27 +15,30 @@ import java.util.UUID;
 
 public class KitCommand implements CommandExecutor {
 
-    private final CooldownManager cooldownManager = new CooldownManager();
-
     @Override
     public boolean onCommand(@Nonnull CommandSender commandSender, @Nonnull Command command, @Nonnull String s, @Nonnull String[] strings) {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
             UUID playerId = player.getUniqueId();
 
+            //UNCOMMENT AFTER TESTING
+            /*
+            CooldownManager cooldownManager = NSWCore.getCooldownManager();
+
             Duration timeLeft = cooldownManager.getRemainingCooldown(playerId);
 
-            //if (NSWCore.isFarmzone()) {
+            if (NSWCore.isFarmzone()) {
                 if (timeLeft.isZero() || timeLeft.isNegative()) {
                     cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.KIT_COOLDOWN.getValue()));
-                    //NSWCore.getGuiManager().open(player, KitGui.class);
-                    NSWCore.getGuiManager().open(player, TestGui.class);
+                    NSWCore.getGuiManager().open(player, KitGui.class);
                 } else {
                     player.sendMessage(String.format(MessageManager.WAIT_BEFORE_USING_MESSAGE.getMessage(), "Kit", timeLeft.toHours()));
                 }
-            /*} else {
+            } else {
                 player.sendMessage(String.format(MessageManager.COMMAND_NOT_AVAILABLE_FARMZONE_MESSAGE.getMessage(), "Kit"));
-            }*/
+            }
+            */
+            NSWCore.getGuiManager().open(player, TestGui.class);
         }
         return true;
     }

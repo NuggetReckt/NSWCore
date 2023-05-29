@@ -1,7 +1,6 @@
 package fr.nuggetreckt.nswcore.guis.impl;
 
 import fr.nuggetreckt.nswcore.guis.CustomInventory;
-import fr.nuggetreckt.nswcore.listeners.OnInvClickListener;
 import fr.nuggetreckt.nswcore.utils.ItemUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -15,7 +14,7 @@ public class TestGui implements CustomInventory {
 
     @Override
     public String getName() {
-        return "test";
+        return "§3» §ftest";
     }
 
     @Override
@@ -37,8 +36,6 @@ public class TestGui implements CustomInventory {
     public void onClick(Player player, Inventory inventory, ItemStack clickedItem, int slot) {
         if (!clickedItem.hasItemMeta()) return;
         if (!Objects.requireNonNull(clickedItem.getItemMeta()).hasDisplayName()) return;
-
-        new OnInvClickListener().setCurrentInv(getName());
 
         switch (clickedItem.getItemMeta().getDisplayName()) {
             case "test":
