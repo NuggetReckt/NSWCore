@@ -2,7 +2,6 @@ package fr.nuggetreckt.nswcore;
 
 import fr.nuggetreckt.nswcore.utils.MessageManager;
 import org.bukkit.Bukkit;
-import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -70,16 +69,16 @@ public class HonorRanks {
 
             if (currentPoints > pointsNeeded) {
                 long points = currentPoints - pointsNeeded;
+                Rank nextRank = getNextPlayerRank(player);
 
                 playerPoints.replace(player.getUniqueId(), points);
-                playerRank.replace(player.getUniqueId(), getNextPlayerRank(player));
+                playerRank.replace(player.getUniqueId(), nextRank);
 
                 Bukkit.broadcastMessage(String.format(MessageManager.HONORRANKS_UPRANK_BROADCASTMESSAGE.getBroadcastMessage(),
-                        player.getName(), getNextPlayerRank(player).getRankId()));
+                        player.getName(), nextRank.getRankId()));
 
-                //To continue
                 player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 15, 1);
-                player.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, player.getLocation(), 1, 1);
+                //TODO: spawn particles all around the player
             } else {
                 player.sendMessage(String.format(MessageManager.NO_ENOUGH_HONORPOINTS.getMessage(), "HR", currentPoints, pointsNeeded));
             }

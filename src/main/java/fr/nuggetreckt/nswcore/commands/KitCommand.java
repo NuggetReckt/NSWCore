@@ -1,17 +1,13 @@
 package fr.nuggetreckt.nswcore.commands;
 
 import fr.nuggetreckt.nswcore.NSWCore;
-import fr.nuggetreckt.nswcore.guis.impl.TestGui;
-import fr.nuggetreckt.nswcore.utils.CooldownManager;
-import fr.nuggetreckt.nswcore.utils.MessageManager;
+import fr.nuggetreckt.nswcore.guis.impl.KitGui;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import javax.annotation.Nonnull;
-import java.time.Duration;
-import java.util.UUID;
 
 public class KitCommand implements CommandExecutor {
 
@@ -19,26 +15,16 @@ public class KitCommand implements CommandExecutor {
     public boolean onCommand(@Nonnull CommandSender commandSender, @Nonnull Command command, @Nonnull String s, @Nonnull String[] strings) {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
-            UUID playerId = player.getUniqueId();
 
-            //UNCOMMENT AFTER TESTING
+            //TO UNCOMMENT AFTER TESTS
             /*
-            CooldownManager cooldownManager = NSWCore.getCooldownManager();
-
-            Duration timeLeft = cooldownManager.getRemainingCooldown(playerId);
-
             if (NSWCore.isFarmzone()) {
-                if (timeLeft.isZero() || timeLeft.isNegative()) {
-                    cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.KIT_COOLDOWN.getValue()));
-                    NSWCore.getGuiManager().open(player, KitGui.class);
-                } else {
-                    player.sendMessage(String.format(MessageManager.WAIT_BEFORE_USING_MESSAGE.getMessage(), "Kit", timeLeft.toHours()));
-                }
+                NSWCore.getGuiManager().open(player, KitGui.class);
             } else {
                 player.sendMessage(String.format(MessageManager.COMMAND_NOT_AVAILABLE_FARMZONE_MESSAGE.getMessage(), "Kit"));
             }
-            */
-            NSWCore.getGuiManager().open(player, TestGui.class);
+             */
+            NSWCore.getGuiManager().open(player, KitGui.class);
         }
         return true;
     }
