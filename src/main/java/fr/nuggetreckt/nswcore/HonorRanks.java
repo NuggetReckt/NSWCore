@@ -1,8 +1,8 @@
 package fr.nuggetreckt.nswcore;
 
+import fr.nuggetreckt.nswcore.utils.EffectUtils;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -77,8 +77,7 @@ public class HonorRanks {
                 Bukkit.broadcastMessage(String.format(MessageManager.HONORRANKS_UPRANK_BROADCASTMESSAGE.getBroadcastMessage(),
                         player.getName(), nextRank.getRankId()));
 
-                player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 15, 1);
-                //TODO: spawn particles all around the player
+                new EffectUtils().uprankEffect(player);
             } else {
                 player.sendMessage(String.format(MessageManager.NO_ENOUGH_HONORPOINTS.getMessage(), "HR", currentPoints, pointsNeeded));
             }

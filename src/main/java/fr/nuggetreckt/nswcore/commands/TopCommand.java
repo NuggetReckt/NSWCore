@@ -2,6 +2,7 @@ package fr.nuggetreckt.nswcore.commands;
 
 import fr.nuggetreckt.nswcore.NSWCore;
 import fr.nuggetreckt.nswcore.utils.CooldownManager;
+import fr.nuggetreckt.nswcore.utils.EffectUtils;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -57,6 +58,7 @@ public class TopCommand implements CommandExecutor {
         while (isValid(block)) {
             target.teleport(block.getLocation().add(0.0D, 1.0D, 0.0D));
         }
+        new EffectUtils().teleportEffect(target);
         target.sendMessage(String.format(MessageManager.SUCCESS_TP_MESSAGE.getMessage(), "TP"));
     }
 

@@ -2,6 +2,7 @@ package fr.nuggetreckt.nswcore.commands;
 
 import fr.nuggetreckt.nswcore.NSWCore;
 import fr.nuggetreckt.nswcore.utils.CooldownManager;
+import fr.nuggetreckt.nswcore.utils.EffectUtils;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -48,6 +49,7 @@ public class BottomCommand implements CommandExecutor {
     private void toBottom(@NotNull Player target) {
         //code here
 
+        new EffectUtils().teleportEffect(target);
         target.sendMessage(String.format(MessageManager.SUCCESS_TP_MESSAGE.getMessage(), "TP"));
     }
 
