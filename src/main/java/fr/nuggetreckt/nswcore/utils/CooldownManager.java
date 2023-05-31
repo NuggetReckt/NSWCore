@@ -11,9 +11,10 @@ public class CooldownManager {
     public enum CooldownValues {
         KIT_COOLDOWN(14400),
         DEFAULT_COOLDOWN(600),
-        RANKED_COOLDOWN(300),
-        ANTISPAM_COOLDOWN(5),
-        STAFF_COOLDOWN(0)
+        DEFAULT_RANKED_COOLDOWN(300),
+        SPAWN_COOLDOWN(120),
+        ANTISPAM_COOLDOWN(1),
+        NO_COOLDOWN(0)
         ;
 
         private final long time;

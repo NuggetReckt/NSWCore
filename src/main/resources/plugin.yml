@@ -38,6 +38,9 @@ commands:
   staff:
     description: Commande pour entrer en mode staff
     usage: "Usage: /staff"
+  spawn:
+    description: Commande pour se téléporter au spawn
+    usage: "Usage: /spawn"
 permissions:
   nsw.*:
     description: Permission globale*

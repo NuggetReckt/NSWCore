@@ -2,10 +2,8 @@ package fr.nuggetreckt.nswcore.commands;
 
 import fr.nuggetreckt.nswcore.NSWCore;
 import fr.nuggetreckt.nswcore.utils.CooldownManager;
-import fr.nuggetreckt.nswcore.utils.EffectUtils;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
-import org.bukkit.Location;
-import org.bukkit.block.Block;
+import fr.nuggetreckt.nswcore.utils.TeleportUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -24,14 +22,15 @@ public class BottomCommand implements CommandExecutor {
             UUID playerId = player.getUniqueId();
 
             CooldownManager cooldownManager = NSWCore.getCooldownManager();
+            TeleportUtils teleportUtils = NSWCore.getTeleportUtils();
             Duration timeLeft = cooldownManager.getRemainingCooldown(playerId);
 
             if (player.hasPermission("nsw.commands.bottom")) {
                 if (timeLeft.isZero() || timeLeft.isNegative()) {
                     if (player.isOp() || player.hasPermission("nsw.bypass")) {
-                        cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.STAFF_COOLDOWN.getValue()));
+                        cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.NO_COOLDOWN.getValue()));
                     } else if (player.hasPermission("nsw.commands.bottom.1")) {
-                        cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.RANKED_COOLDOWN.getValue()));
+                        cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.DEFAULT_RANKED_COOLDOWN.getValue()));
                     } else {
                         cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.DEFAULT_COOLDOWN.getValue()));
                     }
@@ -49,13 +48,7 @@ public class BottomCommand implements CommandExecutor {
     private void toBottom(@NotNull Player target) {
         //code here
 
-        new EffectUtils().teleportEffect(target);
+        NSWCore.getEffectUtils().teleportEffect(target);
         target.sendMessage(String.format(MessageManager.SUCCESS_TP_MESSAGE.getMessage(), "TP"));
-    }
-
-    private boolean isValid(@NotNull Block block) {
-        Location location = block.getLocation().add(0.0D, 1.0D, 0.0D);
-        Location location2 = location.add(0.0D, 1.0D, 0.0D);
-        return (location.getBlock().getType().isAir() && location2.getBlock().getType().isAir());
     }
 }

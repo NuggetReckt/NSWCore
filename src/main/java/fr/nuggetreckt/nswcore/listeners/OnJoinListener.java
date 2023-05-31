@@ -18,6 +18,7 @@ public class OnJoinListener implements Listener {
         String nsw = IridiumColorAPI.process("<GRADIENT:2C70BA>§lNoSkillWorld</GRADIENT:42cfcf>");
 
         HonorRanks hr = NSWCore.getHonorRanks();
+        NSWCore.getTeleportUtils().initTeleports(player);
 
         if (!player.hasPlayedBefore()) {
             hr.init(player);

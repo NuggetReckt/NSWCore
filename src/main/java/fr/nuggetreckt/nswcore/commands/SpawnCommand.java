@@ -4,16 +4,19 @@ import fr.nuggetreckt.nswcore.NSWCore;
 import fr.nuggetreckt.nswcore.utils.CooldownManager;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
 import fr.nuggetreckt.nswcore.utils.TeleportUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
 
 import javax.annotation.Nonnull;
 import java.time.Duration;
 import java.util.UUID;
 
-public class DownCommand implements CommandExecutor {
+public class SpawnCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@Nonnull CommandSender commandSender, @Nonnull Command command, @Nonnull String s, @Nonnull String[] strings) {
@@ -25,30 +28,33 @@ public class DownCommand implements CommandExecutor {
             TeleportUtils teleportUtils = NSWCore.getTeleportUtils();
             Duration timeLeft = cooldownManager.getRemainingCooldown(playerId);
 
-            if (player.hasPermission("nsw.commands.down")) {
+            Location spawnLoc = new Location(NSWCore.getOverworld(), 0.5, 84, 0.5, 180, 0);
+
+            if (!NSWCore.isFarmzone()) {
                 if (timeLeft.isZero() || timeLeft.isNegative()) {
-                    if (player.isOp() || player.hasPermission("nsw.bypass")) {
+                    if (player.isOp() || player.hasPermission("")) {
                         cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.NO_COOLDOWN.getValue()));
-                    } else if (player.hasPermission("nsw.commands.down.1")) {
-                        cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.DEFAULT_RANKED_COOLDOWN.getValue()));
                     } else {
-                        cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.DEFAULT_COOLDOWN.getValue()));
+                        cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.SPAWN_COOLDOWN.getValue()));
                     }
-                    toDown(player);
+                    player.sendMessage(String.format(MessageManager.PRE_SPAWN_TP_MESSAGE.getMessage(), "TP"));
+
+                    teleportUtils.setTeleports(player, true);
+
+                    BukkitTask task = Bukkit.getScheduler().runTaskLater(NSWCore.getInstance(), () -> {
+                        teleportUtils.setTeleports(player, false);
+                        player.teleport(spawnLoc);
+                        player.sendMessage(String.format(MessageManager.SUCCESS_SPAWN_TP_MESSAGE.getMessage(), "TP"));
+                        NSWCore.getEffectUtils().teleportEffect(player);
+                    }, 100L);
+                    NSWCore.setBukkitTask(task);
                 } else {
                     player.sendMessage(String.format(MessageManager.WAIT_BEFORE_USE_MESSAGE.getMessage(), "TP", timeLeft.toMinutes()));
                 }
             } else {
-                player.sendMessage(String.format(MessageManager.NO_PERMISSION_MESSAGE.getMessage(), "TP"));
+                player.sendMessage(String.format(MessageManager.COMMAND_ONLY_AVAILABLE_SURVIVAL_MESSAGE.getMessage(), "TP"));
             }
         }
         return true;
-    }
-
-    private void toDown(@Nonnull Player target) {
-        //code here
-
-        NSWCore.getEffectUtils().teleportEffect(target);
-        target.sendMessage(String.format(MessageManager.SUCCESS_TP_MESSAGE.getMessage(), "TP"));
     }
 }
