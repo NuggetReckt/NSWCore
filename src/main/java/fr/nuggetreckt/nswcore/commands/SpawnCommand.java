@@ -26,16 +26,16 @@ public class SpawnCommand implements CommandExecutor {
 
             CooldownManager cooldownManager = NSWCore.getCooldownManager();
             TeleportUtils teleportUtils = NSWCore.getTeleportUtils();
-            Duration timeLeft = cooldownManager.getRemainingCooldown(playerId);
+            Duration timeLeft = cooldownManager.getRemainingCooldown(playerId, "spawn");
 
             Location spawnLoc = new Location(NSWCore.getOverworld(), 0.5, 84, 0.5, 180, 0);
 
             if (!NSWCore.isFarmzone()) {
                 if (timeLeft.isZero() || timeLeft.isNegative()) {
-                    if (player.isOp() || player.hasPermission("")) {
-                        cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.NO_COOLDOWN.getValue()));
+                    if (player.isOp() || player.hasPermission("nsw.bypass")) {
+                        cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.NO_COOLDOWN.getValue()), "spawn");
                     } else {
-                        cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.SPAWN_COOLDOWN.getValue()));
+                        cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.SPAWN_COOLDOWN.getValue()), "spawn");
                     }
                     player.sendMessage(String.format(MessageManager.PRE_SPAWN_TP_MESSAGE.getMessage(), "TP"));
 
@@ -49,7 +49,7 @@ public class SpawnCommand implements CommandExecutor {
                     }, 100L);
                     NSWCore.setBukkitTask(task);
                 } else {
-                    player.sendMessage(String.format(MessageManager.WAIT_BEFORE_USE_MESSAGE.getMessage(), "TP", timeLeft.toMinutes()));
+                    player.sendMessage(String.format(MessageManager.WAIT_BEFORE_USE_MESSAGE.getMessage(), "TP", timeLeft.toSeconds()));
                 }
             } else {
                 player.sendMessage(String.format(MessageManager.COMMAND_ONLY_AVAILABLE_SURVIVAL_MESSAGE.getMessage(), "TP"));

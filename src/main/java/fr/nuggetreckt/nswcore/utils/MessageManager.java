@@ -23,12 +23,16 @@ public enum MessageManager {
     //Others
     PRE_TP_MESSAGE("Téléportation dans §32 §fsecondes..."),
     PLAYER_DEATH_MESSAGE("§3%s §fest mort."),
+    PLAYER_DEATH2_MESSAGE("§3%s §fa mis fin à ses jours."),
+    PLAYER_DEATH_MOB_MESSAGE("§3%s §fs'est fait tuer par un(e) §3%s§f."),
+    PLAYER_DEATH_CREEPER_MESSAGE("§3%s §fs'est fait exploser par un §3Creeper§f."),
     PLAYER_DEATH_DROWNED_MESSAGE("§3%s §fs'est noyé."),
     PLAYER_DEATH_BURNED_MESSAGE("§3%s §fest mort brûlé vif."),
     PLAYER_DEATH_FALL_MESSAGE("§3%s §fa découvert la gravité."),
-    PLAYER_DEATH_SUICIDE_MESSAGE("§3%s §fa mis fin à ses jours."),
-    PLAYER_KILL_MESSAGE("§3%s §fs'est fait tuer par %s"),
+    PLAYER_DEATH_VOID_MESSAGE("§3%s §fest tombé dans le vide."),
+    PLAYER_KILL_MESSAGE("§3%s §fs'est fait tuer par §3%s§f."),
     PRE_SPAWN_TP_MESSAGE("Téléportation dans §35 §fsecondes... §cNe bougez pas !"),
+    WELCOME_PLAYER_JOIN_MESSAGE("Bienvenue à §3%s §fsur %s §f!"),
     HONORRANKS_RANKLIST_MESSAGE("Liste des Rangs d'Honneur : \n%s"),
     HONORRANKS_RANK_MESSAGE("Vous êtes %s"),
     HONORRANKS_RANKINFO_MESSAGE("""
@@ -50,5 +54,9 @@ public enum MessageManager {
 
     public String getBroadcastMessage() {
         return "\n §8§l» §r" + this.message + "\n";
+    }
+
+    public String getDeathMessage() {
+        return " §8§l» §7☠ §r" + this.message;
     }
 }

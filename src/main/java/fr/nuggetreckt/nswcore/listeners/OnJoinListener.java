@@ -3,6 +3,7 @@ package fr.nuggetreckt.nswcore.listeners;
 import com.iridium.iridiumcolorapi.IridiumColorAPI;
 import fr.nuggetreckt.nswcore.HonorRanks;
 import fr.nuggetreckt.nswcore.NSWCore;
+import fr.nuggetreckt.nswcore.utils.MessageManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,7 +29,7 @@ public class OnJoinListener implements Listener {
                 player.sendMessage(" §8| §fUtilise §3/rtp §fpour te téléporter aléatoirement");
                 player.sendMessage(" §8| §fUtilise §3/kit §fpour réclamer ton kit");
             } else {
-                Bukkit.broadcastMessage("§8§l» §fBienvenue à §3" + player.getName() + " §fsur " + nsw + " §f!");
+                Bukkit.broadcastMessage(String.format(MessageManager.WELCOME_PLAYER_JOIN_MESSAGE.getBroadcastMessage(), player.getName(), nsw));
             }
         }
 

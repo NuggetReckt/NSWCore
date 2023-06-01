@@ -23,16 +23,16 @@ public class TopCommand implements CommandExecutor {
 
             CooldownManager cooldownManager = NSWCore.getCooldownManager();
             TeleportUtils teleportUtils = NSWCore.getTeleportUtils();
-            Duration timeLeft = cooldownManager.getRemainingCooldown(playerId);
+            Duration timeLeft = cooldownManager.getRemainingCooldown(playerId, "top");
 
             if (player.hasPermission("nsw.commands.top")) {
                 if (timeLeft.isZero() || timeLeft.isNegative()) {
                     if (player.isOp() || player.hasPermission("nsw.bypass")) {
-                        cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.NO_COOLDOWN.getValue()));
+                        cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.NO_COOLDOWN.getValue()), "top");
                     } else if (player.hasPermission("nsw.commands.top.1")) {
-                        cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.DEFAULT_RANKED_COOLDOWN.getValue()));
+                        cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.DEFAULT_RANKED_COOLDOWN.getValue()), "top");
                     } else {
-                        cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.DEFAULT_COOLDOWN.getValue()));
+                        cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.DEFAULT_COOLDOWN.getValue()), "top");
                     }
                     toTop(player);
                 } else {

@@ -23,16 +23,16 @@ public class BottomCommand implements CommandExecutor {
 
             CooldownManager cooldownManager = NSWCore.getCooldownManager();
             TeleportUtils teleportUtils = NSWCore.getTeleportUtils();
-            Duration timeLeft = cooldownManager.getRemainingCooldown(playerId);
+            Duration timeLeft = cooldownManager.getRemainingCooldown(playerId, "bottom");
 
             if (player.hasPermission("nsw.commands.bottom")) {
                 if (timeLeft.isZero() || timeLeft.isNegative()) {
                     if (player.isOp() || player.hasPermission("nsw.bypass")) {
-                        cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.NO_COOLDOWN.getValue()));
+                        cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.NO_COOLDOWN.getValue()), "bottom");
                     } else if (player.hasPermission("nsw.commands.bottom.1")) {
-                        cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.DEFAULT_RANKED_COOLDOWN.getValue()));
+                        cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.DEFAULT_RANKED_COOLDOWN.getValue()), "bottom");
                     } else {
-                        cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.DEFAULT_COOLDOWN.getValue()));
+                        cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.DEFAULT_COOLDOWN.getValue()), "bottom");
                     }
                     toBottom(player);
                 } else {

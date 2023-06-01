@@ -37,16 +37,16 @@ public class KitGui implements CustomInventory {
         slots[13] = new ItemUtils(Material.STONE_PICKAXE).setName("§8§l»§r §3Kit du débutant §8§l«").hideFlags().setLore(" ", "§8| §fRécupérer son kit").toItemStack();
 
         //Placeholders
-        slots[0] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName("").setLore("").toItemStack();
-        slots[1] = new ItemUtils(Material.BLUE_STAINED_GLASS_PANE).setName("").setLore("").toItemStack();
-        slots[7] = new ItemUtils(Material.BLUE_STAINED_GLASS_PANE).setName("").setLore("").toItemStack();
-        slots[8] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName("").setLore("").toItemStack();
+        slots[0] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").setLore("").toItemStack();
+        slots[1] = new ItemUtils(Material.BLUE_STAINED_GLASS_PANE).setName(" ").setLore("").toItemStack();
+        slots[7] = new ItemUtils(Material.BLUE_STAINED_GLASS_PANE).setName(" ").setLore("").toItemStack();
+        slots[8] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").setLore("").toItemStack();
         slots[9] = new ItemUtils(Material.BLUE_STAINED_GLASS_PANE).setName("").setLore("").toItemStack();
-        slots[17] = new ItemUtils(Material.BLUE_STAINED_GLASS_PANE).setName("").setLore("").toItemStack();
-        slots[18] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName("").setLore("").toItemStack();
-        slots[19] = new ItemUtils(Material.BLUE_STAINED_GLASS_PANE).setName("").setLore("").toItemStack();
-        slots[25] = new ItemUtils(Material.BLUE_STAINED_GLASS_PANE).setName("").setLore("").toItemStack();
-        slots[26] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName("").setLore("").toItemStack();
+        slots[17] = new ItemUtils(Material.BLUE_STAINED_GLASS_PANE).setName(" ").setLore("").toItemStack();
+        slots[18] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").setLore("").toItemStack();
+        slots[19] = new ItemUtils(Material.BLUE_STAINED_GLASS_PANE).setName(" ").setLore("").toItemStack();
+        slots[25] = new ItemUtils(Material.BLUE_STAINED_GLASS_PANE).setName(" ").setLore(" ").toItemStack();
+        slots[26] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").setLore("").toItemStack();
 
         return () -> slots;
     }
@@ -59,7 +59,7 @@ public class KitGui implements CustomInventory {
         if (clickedItem.getItemMeta().getDisplayName().equals("§8§l»§r §3Kit du débutant §8§l«")) {
             UUID playerId = player.getUniqueId();
             CooldownManager cooldownManager = NSWCore.getCooldownManager();
-            Duration timeLeft = cooldownManager.getRemainingCooldown(playerId);
+            Duration timeLeft = cooldownManager.getRemainingCooldown(playerId, "kit");
 
             if (timeLeft.isZero() || timeLeft.isNegative()) {
                 //TODO: Vérifier si l'inventaire du joueur est plein
@@ -71,7 +71,7 @@ public class KitGui implements CustomInventory {
                 player.getInventory().addItem(new ItemUtils(Material.LEATHER_LEGGINGS).setName("§fJambières du débutant").toItemStack());
                 player.getInventory().addItem(new ItemUtils(Material.LEATHER_BOOTS).setName("§fBottes du débutant").toItemStack());
 
-                cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.KIT_COOLDOWN.getValue()));
+                cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.KIT_COOLDOWN.getValue()), "kit");
                 player.sendMessage(String.format(MessageManager.KIT_RECEIVED.getMessage(), "Kit"));
                 player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 15, 1);
             } else {

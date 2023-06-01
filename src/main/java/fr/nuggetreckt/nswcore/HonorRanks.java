@@ -14,7 +14,7 @@ import java.util.UUID;
 public class HonorRanks {
     public enum Rank {
         Rank_1(1, 10),
-        Rank_2(2, 36),
+        Rank_2(2, 30),
         Rank_3(3, 60),
         Rank_4(4, 100),
         Rank_5(5, 150),
