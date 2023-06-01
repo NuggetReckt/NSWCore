@@ -8,6 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.time.Duration;
@@ -16,7 +17,7 @@ import java.util.UUID;
 public class TopCommand implements CommandExecutor {
 
     @Override
-    public boolean onCommand(@Nonnull CommandSender commandSender, @Nonnull Command command, @Nonnull String s, @Nonnull String[] strings) {
+    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
             UUID playerId = player.getUniqueId();
@@ -39,7 +40,7 @@ public class TopCommand implements CommandExecutor {
                     player.sendMessage(String.format(MessageManager.WAIT_BEFORE_USE_MESSAGE.getMessage(), "TP", timeLeft.toMinutes()));
                 }
             } else {
-                player.sendMessage(String.format(MessageManager.NO_PERMISSION_MESSAGE.getMessage(), "TP"));
+                player.sendMessage(String.format(MessageManager.NO_HR_PERMISSION_MESSAGE.getMessage(), "TP"));
             }
         }
         return true;

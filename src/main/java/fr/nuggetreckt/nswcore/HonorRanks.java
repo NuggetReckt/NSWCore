@@ -124,7 +124,18 @@ public class HonorRanks {
     }
 
     public String getPrefix(@NotNull Player player) {
-        return "§8[§3" + getPlayerRankId(player) + "§8]";
+        int rankId = getPlayerRankId(player);
+        String format = switch (rankId) {
+            case 0 -> "§7" + rankId;
+            case 1 -> "§a" + rankId;
+            case 2 -> "§2" + rankId;
+            case 3 -> "§b" + rankId;
+            case 4 -> "§3" + rankId;
+            case 5 -> "§9" + rankId;
+            case 6 -> "§1§l" + rankId;
+            default -> null;
+        };
+        return "§8[" + format + "§8]";
     }
 
     private Rank getRankById(int id) {

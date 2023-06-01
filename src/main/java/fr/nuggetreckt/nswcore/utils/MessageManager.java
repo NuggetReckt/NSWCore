@@ -5,6 +5,7 @@ import fr.nuggetreckt.nswcore.NSWCore;
 public enum MessageManager {
     //Error messages
     NO_PERMISSION_MESSAGE("§cVous n'avez pas la permission d'exécuter cette commande !"),
+    NO_HR_PERMISSION_MESSAGE("§cVous n'avez pas le Rang d'Honneur requis pour exécuter cette commande ! §8(§3/hr §fpour plus d'infos§8)"),
     PLAYER_MOVED_TP("§cVous avez bougé, la téléportation a été annulée !"),
     WAIT_BEFORE_USE_MESSAGE("§cVeuillez patienter §3%s minute(s) §cavant de réutiliser cette commande !"),
     WAIT_BEFORE_KIT_MESSAGE("§cVeuillez patienter §3%s heures(s) §cavant de récupérer votre kit !"),
@@ -33,7 +34,7 @@ public enum MessageManager {
     PLAYER_KILL_MESSAGE("§3%s §fs'est fait tuer par §3%s§f."),
     PRE_SPAWN_TP_MESSAGE("Téléportation dans §35 §fsecondes... §cNe bougez pas !"),
     WELCOME_PLAYER_JOIN_MESSAGE("Bienvenue à §3%s §fsur %s §f!"),
-    HONORRANKS_RANKLIST_MESSAGE("Liste des Rangs d'Honneur : \n%s"),
+    HONORRANKS_RANKLIST_MESSAGE("Liste des Rangs d'Honneur :\n%s"),
     HONORRANKS_RANK_MESSAGE("Vous êtes %s"),
     HONORRANKS_RANKINFO_MESSAGE("""
             Information sur votre Rang d'Honneur :
