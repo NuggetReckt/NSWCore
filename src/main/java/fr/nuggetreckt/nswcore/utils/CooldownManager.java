@@ -13,6 +13,7 @@ public class CooldownManager {
         DEFAULT_COOLDOWN(600),
         DEFAULT_RANKED_COOLDOWN(300),
         SPAWN_COOLDOWN(60),
+        FURNACE_COOLDOWN(5),
         ANTISPAM_COOLDOWN(1),
         NO_COOLDOWN(0);
 

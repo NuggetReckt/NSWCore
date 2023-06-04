@@ -86,6 +86,18 @@ public class HonorRanks {
         }
     }
 
+    public void forceUpRankPlayer(@NotNull Player player) {
+        if (getNextPlayerRank(player) != null) {
+            Rank nextRank = getNextPlayerRank(player);
+            playerRank.replace(player.getUniqueId(), nextRank);
+
+            Bukkit.broadcastMessage(String.format(MessageManager.HONORRANKS_UPRANK_BROADCASTMESSAGE.getBroadcastMessage(),
+                    player.getName(), nextRank.getRankId()));
+
+            new EffectUtils().uprankEffect(player);
+        }
+    }
+
     public long getPlayerPoints(@NotNull Player player) {
         return playerPoints.get(player.getUniqueId());
     }

@@ -30,7 +30,13 @@ public class OnDeathListener implements Listener {
                 if (entityDamageEvent instanceof EntityDamageByEntityEvent) {
                     Entity damager = ((EntityDamageByEntityEvent) player.getLastDamageCause()).getDamager();
                     if (damager instanceof Player) {
-                        event.setDeathMessage(String.format(MessageManager.PLAYER_KILL_MESSAGE.getDeathMessage(), player.getName(), damager.getName()));
+                        int a = r.nextInt(0, 1);
+
+                        if (a == 0) {
+                            event.setDeathMessage(String.format(MessageManager.PLAYER_KILL_MESSAGE.getDeathMessage(), player.getName(), damager.getName()));
+                        } else {
+                            event.setDeathMessage(String.format(MessageManager.PLAYER_KILL2_MESSAGE.getDeathMessage(), player.getName(), damager.getName()));
+                        }
                     } else if (damager instanceof Creeper) {
                         event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH_CREEPER_MESSAGE.getDeathMessage(), player.getName()));
                     } else if (damager instanceof Projectile) {

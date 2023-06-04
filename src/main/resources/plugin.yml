@@ -28,6 +28,9 @@ commands:
   anvil:
     description: Ouvre l'interface de l'enclume
     usage: "Usage: /anvil"
+  furnace:
+    description: Permet de cuire les minerais dans la main du joueur
+    usage: "furnace: /anvil"
   honorrank:
     description: Permet d'interagir avec les Rangs d'Honneur
     usage: "Usage: /honorrank or /hr"
@@ -64,3 +67,5 @@ permissions:
     description: Permission pour la commande /craft
   nsw.commands.anvil:
     description: Permission pour la commande /anvil
+  nsw.commands.furnace:
+    description: Permission pour la commande /furnace
