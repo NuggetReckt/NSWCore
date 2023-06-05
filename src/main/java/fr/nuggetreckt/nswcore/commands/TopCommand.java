@@ -54,7 +54,7 @@ public class TopCommand implements CommandExecutor {
         Block block;
         TeleportUtils teleportUtils = NSWCore.getTeleportUtils();
 
-        for (int i = blockY; i < 256; i++) {
+        for (int i = 457; i > blockY; i--) {
             block = target.getWorld().getBlockAt(blockX, i, blockZ);
 
             if (teleportUtils.isValid(block)) {

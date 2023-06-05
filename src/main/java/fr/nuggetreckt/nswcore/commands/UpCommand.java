@@ -53,11 +53,12 @@ public class UpCommand implements CommandExecutor {
         Block block;
         TeleportUtils teleportUtils = NSWCore.getTeleportUtils();
 
-        for (int i = blockY; i < 256; i++) {
+        // /up : vas du player au top, tp dès qu'il trouve une localisation OK
+        for (int i = blockY; i < 457; i++) {
             block = target.getWorld().getBlockAt(blockX, i, blockZ);
 
             if (teleportUtils.isValid(block)) {
-                target.teleport(block.getLocation().add(0.0D, 1.0D, 0.0D));
+                target.teleport(block.getLocation().add(0.0D, 2.0D, 0.0D));
                 target.sendMessage(String.format(MessageManager.SUCCESS_TP_MESSAGE.getMessage(), "TP"));
                 NSWCore.getEffectUtils().teleportEffect(target);
                 return;

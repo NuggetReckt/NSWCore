@@ -54,7 +54,7 @@ public class DownCommand implements CommandExecutor {
         Block block;
         TeleportUtils teleportUtils = NSWCore.getTeleportUtils();
 
-        for (int i = blockY; i < 256; i++) {
+        for (int i = blockY-3; i > -64; i--) {
             block = target.getWorld().getBlockAt(blockX, i, blockZ);
 
             if (teleportUtils.isValid(block)) {

@@ -1,6 +1,7 @@
 package fr.nuggetreckt.nswcore.utils;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -31,6 +32,13 @@ public class TeleportUtils {
     public boolean isValid(@NotNull Block block) {
         Location location = block.getLocation().add(0.0D, 1.0D, 0.0D);
         Location location2 = location.add(0.0D, 1.0D, 0.0D);
-        return (location.getBlock().getType().isAir() && location2.getBlock().getType().isAir());
+        if(block.getType().isSolid() || (block.getType() == Material.WATER)){
+            if(location.getBlock().getType().isAir() && !(block.getType() == Material.WATER) && !(block.getType() == Material.LAVA)){
+                if(location2.getBlock().getType().isAir() && !(block.getType() == Material.WATER) && !(block.getType() == Material.LAVA)){
+                    return true;
+                }
+            }
+        }
+    return false;
     }
 }
