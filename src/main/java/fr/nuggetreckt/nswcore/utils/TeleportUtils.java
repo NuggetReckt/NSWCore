@@ -30,15 +30,11 @@ public class TeleportUtils {
     }
 
     public boolean isValid(@NotNull Block block) {
-        Location location = block.getLocation().add(0.0D, 1.0D, 0.0D);
-        Location location2 = location.add(0.0D, 1.0D, 0.0D);
-        if(block.getType().isSolid() || (block.getType() == Material.WATER)){
-            if(location.getBlock().getType().isAir() && !(block.getType() == Material.WATER) && !(block.getType() == Material.LAVA)){
-                if(location2.getBlock().getType().isAir() && !(block.getType() == Material.WATER) && !(block.getType() == Material.LAVA)){
-                    return true;
-                }
-            }
-        }
-    return false;
+        Location location1 = block.getLocation().add(0.0D, 1.0D, 0.0D);
+        Location location2 = location1.add(0.0D, 1.0D, 0.0D);
+        Material type1 = location1.getBlock().getType();
+        Material type2 = location2.getBlock().getType();
+
+        return block.getType() != Material.LAVA && type1.isAir() && type2.isAir() && (block.getType().isSolid() || block.getType() == Material.WATER);
     }
 }

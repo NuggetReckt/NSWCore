@@ -57,11 +57,12 @@ public class BottomCommand implements CommandExecutor {
             block = target.getWorld().getBlockAt(blockX, i, blockZ);
 
             if (teleportUtils.isValid(block)) {
-                target.teleport(block.getLocation().add(0.0D, 2.0D, 0.0D));
+                target.teleport(block.getLocation().add(0.5D, 2.0D, 0.5D));
                 target.sendMessage(String.format(MessageManager.SUCCESS_TP_MESSAGE.getMessage(), "TP"));
                 NSWCore.getEffectUtils().teleportEffect(target);
                 return;
             }
         }
+        target.sendMessage(String.format(MessageManager.PLAYER_NOT_TP.getMessage(), "TP"));
     }
 }

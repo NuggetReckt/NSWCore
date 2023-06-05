@@ -11,7 +11,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.time.Duration;
 import java.util.UUID;
 
@@ -46,7 +45,7 @@ public class DownCommand implements CommandExecutor {
         return true;
     }
 
-    private void toDown(@Nonnull Player target) {
+    private void toDown(@NotNull Player target) {
         int blockX = target.getLocation().getBlockX();
         int blockY = target.getLocation().getBlockY();
         int blockZ = target.getLocation().getBlockZ();
@@ -54,15 +53,16 @@ public class DownCommand implements CommandExecutor {
         Block block;
         TeleportUtils teleportUtils = NSWCore.getTeleportUtils();
 
-        for (int i = blockY-3; i > -64; i--) {
+        for (int i = blockY - 3; i > -64; i--) {
             block = target.getWorld().getBlockAt(blockX, i, blockZ);
 
             if (teleportUtils.isValid(block)) {
-                target.teleport(block.getLocation().add(0.0D, 1.0D, 0.0D));
+                target.teleport(block.getLocation().add(0.5D, 1.0D, 0.05D));
                 target.sendMessage(String.format(MessageManager.SUCCESS_TP_MESSAGE.getMessage(), "TP"));
                 NSWCore.getEffectUtils().teleportEffect(target);
                 return;
             }
         }
+        target.sendMessage(String.format(MessageManager.PLAYER_NOT_TP.getMessage(), "TP"));
     }
 }
