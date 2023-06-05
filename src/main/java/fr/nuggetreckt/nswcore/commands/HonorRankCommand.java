@@ -27,9 +27,13 @@ public class HonorRankCommand implements CommandExecutor {
                 } else if (args[0].equalsIgnoreCase("points")) {
                     player.sendMessage(String.format(MessageManager.HONORRANKS_POINTS_MESSAGE.getMessage(), "HR", hr.getPlayerPoints(player)));
                 } else if (args[0].equalsIgnoreCase("info")) {
-                    player.sendMessage(String.format(MessageManager.HONORRANKS_RANKINFO_MESSAGE.getMessage(), "HR",
-                            hr.getPlayerRankId(player), hr.getNextPlayerRank(player).getRankId(),
-                            hr.getPlayerPoints(player), hr.getPointsNeeded(player)));
+                    if (hr.getNextPlayerRank(player) != null) {
+                        player.sendMessage(String.format(MessageManager.HONORRANKS_RANKINFO_MESSAGE.getMessage(), "HR",
+                                hr.getPlayerRankId(player), hr.getNextPlayerRank(player).getRankId(),
+                                hr.getPlayerPoints(player), hr.getPointsNeeded(player)));
+                    } else {
+                        player.sendMessage(String.format(MessageManager.HONORRANKS_RANKINFO_MAX_MESSAGE.getMessage(), "HR", hr.getPlayerRankId(player)));
+                    }
                 } else if (args[0].equalsIgnoreCase("upgrade")) {
                     hr.upRankPlayer(player);
                 } else if (args[0].equalsIgnoreCase("admin")) {
@@ -42,7 +46,7 @@ public class HonorRankCommand implements CommandExecutor {
 
                                 hr.gainPlayerPoints(target, value);
                                 player.sendMessage(String.format(MessageManager.SUCCESS_GIVEHP_MESSAGE.getMessage(), "HR", value, target.getName()));
-                                target.sendMessage(String.format(MessageManager.SUCCESS_GIVEHP_OTHER_MESSAGE.getMessage(), "HR", target.getName(), value));
+                                target.sendMessage(String.format(MessageManager.SUCCESS_GIVEHP_OTHER_MESSAGE.getMessage(), "HR", player.getName(), value));
                             } else {
                                 player.sendMessage(String.format(MessageManager.NOT_ENOUGH_ARGS_MESSAGE.getMessage(), "HR"));
                             }

@@ -48,9 +48,13 @@ public enum MessageManager {
     HONORRANKS_RANK_MESSAGE("Vous êtes %s"),
     HONORRANKS_POINTS_MESSAGE("Vous avez actuellement §3%s §fPoints d'Honneur"),
     HONORRANKS_RANKINFO_MESSAGE("""
-            Information sur votre Rang d'Honneur :
+            Informations sur votre Rang d'Honneur :
              §8| §fRang d'Honneur actuel : §3%s
              §8| §fProchain Rang d'Honneur : §3%s §8(§3%s§8/§3%s §7Points d'Honneur requis§8)"""),
+    HONORRANKS_RANKINFO_MAX_MESSAGE("""
+            Informations sur votre Rang d'Honneur :
+             §8| §fRang d'Honneur actuel : §3%s
+             §8| §fProchain Rang d'Honneur : §fVous êtes déjà au Rang d'Honneur Maximum !"""),
     HONORRANKS_UPRANK_BROADCASTMESSAGE("§3%s §fest passé Rang d'Honneur §3%s §f!"),
     ;
 
