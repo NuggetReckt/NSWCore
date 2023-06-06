@@ -4,6 +4,7 @@ import fr.nuggetreckt.nswcore.NSWCore;
 import fr.nuggetreckt.nswcore.utils.CooldownManager;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
 import fr.nuggetreckt.nswcore.utils.TeleportUtils;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -57,6 +58,11 @@ public class TopCommand implements CommandExecutor {
             block = target.getWorld().getBlockAt(blockX, i, blockZ);
 
             if (teleportUtils.isValid(block)) {
+                if (block.getType() == Material.LAVA) {
+                    System.out.println("DEBUG: isLava");
+                } else {
+                    System.out.println("DEBUG: blockType = " + block.getType());
+                }
                 target.teleport(block.getLocation().add(0.5D, 1.0D, 0.5D));
                 target.sendMessage(String.format(MessageManager.SUCCESS_TP_MESSAGE.getMessage(), "TP"));
                 NSWCore.getEffectUtils().teleportEffect(target);

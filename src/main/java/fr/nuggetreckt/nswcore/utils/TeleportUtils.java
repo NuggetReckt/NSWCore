@@ -35,6 +35,6 @@ public class TeleportUtils {
         Material type1 = location1.getBlock().getType();
         Material type2 = location2.getBlock().getType();
 
-        return block.getType() != Material.LAVA && type1.isAir() && type2.isAir() && (block.getType().isSolid() || block.getType() == Material.WATER);
+        return type1.isAir() && type2.isAir() && (block.getType().isSolid() || block.getType() == Material.WATER);
     }
 }
