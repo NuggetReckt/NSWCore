@@ -2,6 +2,8 @@ package fr.nuggetreckt.nswcore;
 
 import fr.nuggetreckt.nswcore.commands.*;
 import fr.nuggetreckt.nswcore.commands.tabcompletion.TabCompletion;
+import fr.nuggetreckt.nswcore.database.Connector;
+import fr.nuggetreckt.nswcore.database.Requests;
 import fr.nuggetreckt.nswcore.expansions.PAPIExpansion;
 import fr.nuggetreckt.nswcore.listeners.*;
 import fr.nuggetreckt.nswcore.utils.CooldownManager;
@@ -48,6 +50,9 @@ public class NSWCore extends JavaPlugin {
 
         //Set server port
         setServerPort();
+
+        //Create table if absent
+        new Requests().createTable();
 
         //register commands
         Objects.requireNonNull(this.getCommand("top")).setExecutor(new TopCommand());
@@ -96,6 +101,7 @@ public class NSWCore extends JavaPlugin {
     @Override
     public void onDisable() {
         logger.info(String.format("[%s] Plugin shut down successfully", getDescription().getName()));
+        new Connector().close();
         instance = null;
     }
 
