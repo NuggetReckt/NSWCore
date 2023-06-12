@@ -62,18 +62,34 @@ public class KitGui implements CustomInventory {
             Duration timeLeft = cooldownManager.getRemainingCooldown(playerId, "kit");
 
             if (timeLeft.isZero() || timeLeft.isNegative()) {
-                //TODO: Vérifier si l'inventaire du joueur est plein
-                player.getInventory().addItem(new ItemUtils(Material.STONE_AXE).setName("§fHache du débutant").toItemStack());
-                player.getInventory().addItem(new ItemUtils(Material.STONE_PICKAXE).setName("§fPioche du débutant").toItemStack());
-                player.getInventory().addItem(new ItemUtils(Material.COOKED_BEEF, 16).toItemStack());
-                player.getInventory().addItem(new ItemUtils(Material.LEATHER_HELMET).setName("§fCasque du débutant").toItemStack());
-                player.getInventory().addItem(new ItemUtils(Material.LEATHER_CHESTPLATE).setName("§fPlastron du débutant").toItemStack());
-                player.getInventory().addItem(new ItemUtils(Material.LEATHER_LEGGINGS).setName("§fJambières du débutant").toItemStack());
-                player.getInventory().addItem(new ItemUtils(Material.LEATHER_BOOTS).setName("§fBottes du débutant").toItemStack());
+                //Vérifie si l'inventaire du joueur est plein
+                int itemCount = 0;
+                for (ItemStack i : player.getInventory().getContents()) {
+                    if (i != null && !i.getType().isAir()) {
+                        itemCount++;
+                    }
+                }
 
-                cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.KIT_COOLDOWN.getValue()), "kit");
-                player.sendMessage(String.format(MessageManager.KIT_RECEIVED.getMessage(), "Kit"));
-                player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 15, 1);
+                if (itemCount <= 29) {
+                    player.getInventory().addItem(new ItemUtils(Material.STONE_AXE).setName("§fHache du débutant").toItemStack());
+                    player.getInventory().addItem(new ItemUtils(Material.STONE_PICKAXE).setName("§fPioche du débutant").toItemStack());
+                    player.getInventory().addItem(new ItemUtils(Material.COOKED_BEEF, 16).toItemStack());
+                    player.getInventory().addItem(new ItemUtils(Material.LEATHER_HELMET).setName("§fCasque du débutant").toItemStack());
+                    player.getInventory().addItem(new ItemUtils(Material.LEATHER_CHESTPLATE).setName("§fPlastron du débutant").toItemStack());
+                    player.getInventory().addItem(new ItemUtils(Material.LEATHER_LEGGINGS).setName("§fJambières du débutant").toItemStack());
+                    player.getInventory().addItem(new ItemUtils(Material.LEATHER_BOOTS).setName("§fBottes du débutant").toItemStack());
+
+                    if (player.hasPermission("nsw.bypass") || player.isOp()) {
+                        cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.NO_COOLDOWN.getValue()), "kit");
+                    } else {
+                        cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.KIT_COOLDOWN.getValue()), "kit");
+                    }
+
+                    player.sendMessage(String.format(MessageManager.KIT_RECEIVED.getMessage(), "Kit"));
+                    player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 15, 1);
+                } else {
+                    player.sendMessage(String.format(MessageManager.NOT_ENOUGH_ROOM_INV_MESSAGE.getMessage(), "Kit"));
+                }
             } else {
                 player.sendMessage(String.format(MessageManager.WAIT_BEFORE_KIT_MESSAGE.getMessage(), "Kit", timeLeft.toHours()));
             }

@@ -10,6 +10,7 @@ public enum MessageManager {
     PLAYER_MOVED_TP("§cVous avez bougé, la téléportation a été annulée !"),
     PLAYER_NOT_TP("§cVous n'avez pas été téléporté, car la localisation n'est pas sûre !"),
     NO_ITEMS_TO_FURNACE_MESSAGE("§cVous n'avez aucun item à cuire dans votre main !"),
+    NOT_ENOUGH_ROOM_INV_MESSAGE("§cVous n'avez pas assez de place dans votre inventaire !"),
     WAIT_BEFORE_USE_MESSAGE("§cVeuillez patienter §3%s minute(s) §cavant de réutiliser cette commande !"),
     WAIT_BEFORE_USE_SECONDS_MESSAGE("§cVeuillez patienter §3%s secondes(s) §cavant de réutiliser cette commande !"),
     WAIT_BEFORE_KIT_MESSAGE("§cVeuillez patienter §3%s heures(s) §cavant de récupérer votre kit !"),
