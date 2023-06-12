@@ -4,6 +4,7 @@ import fr.nuggetreckt.nswcore.commands.*;
 import fr.nuggetreckt.nswcore.commands.tabcompletion.TabCompletion;
 import fr.nuggetreckt.nswcore.database.Connector;
 import fr.nuggetreckt.nswcore.database.Requests;
+import fr.nuggetreckt.nswcore.database.SaveTask;
 import fr.nuggetreckt.nswcore.expansions.PAPIExpansion;
 import fr.nuggetreckt.nswcore.listeners.*;
 import fr.nuggetreckt.nswcore.utils.CooldownManager;
@@ -23,20 +24,24 @@ public class NSWCore extends JavaPlugin {
     public static String prefix;
     private static HonorRanks honorRanks;
     private static NSWCore instance;
+    private static Logger logger;
     private static GuiManager guiManager;
     private static CooldownManager cooldownManager;
     private static TeleportUtils teleportUtils;
     private static EffectUtils effectUtils;
     private static BukkitTask bukkitTask;
+    private final SaveTask saveTask;
+    private static Connector connector = null;
     private static int serverPort;
     private static int farmzonePort;
-
-    private static final Logger logger = Logger.getLogger("Minecraft");
 
     public NSWCore() {
         farmzonePort = 25568;
         prefix = "§8[§3%s§8] §r";
+        logger = Logger.getLogger("Minecraft");
 
+        connector = new Connector();
+        saveTask = new SaveTask();
         guiManager = new GuiManager();
         honorRanks = new HonorRanks();
         cooldownManager = new CooldownManager();
@@ -53,6 +58,9 @@ public class NSWCore extends JavaPlugin {
 
         //Create table if absent
         new Requests().createTable();
+
+        //Launch BukkitTask
+        saveTask.launch();
 
         //register commands
         Objects.requireNonNull(this.getCommand("top")).setExecutor(new TopCommand());
@@ -101,7 +109,8 @@ public class NSWCore extends JavaPlugin {
     @Override
     public void onDisable() {
         logger.info(String.format("[%s] Plugin shut down successfully", getDescription().getName()));
-        new Connector().close();
+        connector.close();
+        saveTask.stop();
         instance = null;
     }
 
@@ -115,6 +124,10 @@ public class NSWCore extends JavaPlugin {
 
     public static NSWCore getInstance() {
         return instance;
+    }
+
+    public static Connector getConnector() {
+        return connector;
     }
 
     public static GuiManager getGuiManager() {

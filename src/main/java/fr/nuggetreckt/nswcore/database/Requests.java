@@ -1,9 +1,12 @@
 package fr.nuggetreckt.nswcore.database;
 
+import fr.nuggetreckt.nswcore.NSWCore;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.UUID;
 
 public class Requests {
 
@@ -14,32 +17,23 @@ public class Requests {
     private String query;
 
     public Requests() {
-        this.isConnected = new Connector().isConnected();
+        this.isConnected = NSWCore.getConnector().isConnected();
     }
 
-
-    public void initPlayerRank() {
-        query = "INSERT INTO";
+    public void initPlayerData(@NotNull Player player) {
+        query = "INSERT INTO core_playerdata (uuid, playerName, rankId, honorPoints) VALUES ('" + player.getUniqueId() + "', '" + player.getName() + "', 0, 0);";
         updateData(query);
+        close();
     }
 
-    public void updatePlayerRank() {
-        query = "UPDATE";
+    public void updatePlayerData(@NotNull Player player, int rankId, long honorPoints) {
+        query = "UPDATE core_playerdata SET rankId = " + rankId + ", honorPoints = " + ((int) honorPoints) + " WHERE uuid = '" + player.getUniqueId() + "';";
         updateData(query);
+        close();
     }
 
-    public void initPlayerPoints() {
-        query = "INSERT INTO";
-        updateData(query);
-    }
-
-    public void updatePlayerPoints() {
-        query = "UPDATE";
-        updateData(query);
-    }
-
-    public int getPlayerRankId(UUID uuid) {
-        query = "SELECT rankId FROM core_honorranks WHERE uuid = '" + uuid + "';";
+    public int getPlayerRankId(@NotNull Player player) {
+        query = "SELECT rankId FROM core_playerdata WHERE uuid = '" + player.getUniqueId() + "';";
         int result = 0;
 
         retrieveData(query);
@@ -57,8 +51,8 @@ public class Requests {
         return result;
     }
 
-    public long getPlayerPoints(UUID uuid) {
-        query = "SELECT honorPoints FROM core_honorpoints WHERE uuid = '" + uuid + "';";
+    public long getPlayerPoints(@NotNull Player player) {
+        query = "SELECT honorPoints FROM core_playerdata WHERE uuid = '" + player.getUniqueId() + "';";
         long result = 0;
 
         retrieveData(query);
@@ -76,17 +70,44 @@ public class Requests {
         return result;
     }
 
-
     public void createTable() {
-        query = "CREATE TABLE IF NOT EXISTS core_honorranks";
+        query = """
+                CREATE TABLE IF NOT EXISTS core_playerdata
+                (
+                    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+                    uuid VARCHAR(36),
+                    playerName VARCHAR(50),
+                    rankId INT(1),
+                    honorPoints INT(5)
+                )
+                """;
         updateData(query);
         close();
+    }
+
+    public boolean hasJoinedOnce(@NotNull Player player) {
+        query = "SELECT playerName FROM core_playerdata WHERE playerName = '" + player.getName() + "';";
+        String result = null;
+
+        retrieveData(query);
+        try {
+            if (resultSet.next()) {
+                result = resultSet.getString("playerName");
+            }
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } finally {
+            close();
+        }
+        return result != null;
     }
 
     private void retrieveData(String query) {
         if (isConnected) {
             try {
-                statement = new Connector().getConn().createStatement();
+                statement = NSWCore.getConnector().getConn().createStatement();
                 resultSet = statement.executeQuery(query);
             } catch (SQLException e) {
                 System.out.println("SQLException: " + e.getMessage());
@@ -99,7 +120,7 @@ public class Requests {
     private void updateData(String query) {
         if (isConnected) {
             try {
-                statement = new Connector().getConn().createStatement();
+                statement = NSWCore.getConnector().getConn().createStatement();
                 statement.executeUpdate(query);
             } catch (SQLException e) {
                 System.out.println("SQLException: " + e.getMessage());

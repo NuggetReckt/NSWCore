@@ -1,5 +1,6 @@
 package fr.nuggetreckt.nswcore;
 
+import fr.nuggetreckt.nswcore.database.Requests;
 import fr.nuggetreckt.nswcore.utils.EffectUtils;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
 import org.bukkit.Bukkit;
@@ -50,9 +51,16 @@ public class HonorRanks {
     private final Map<UUID, Long> playerPoints = new HashMap<>();
 
     public void init(@NotNull Player player) {
-        if (!isRanked(player)) {
+        if (new Requests().hasJoinedOnce(player)) {
+            int rankId = new Requests().getPlayerRankId(player);
+            long points = new Requests().getPlayerPoints(player);
+
+            playerRank.putIfAbsent(player.getUniqueId(), getRankById(rankId));
+            playerPoints.putIfAbsent(player.getUniqueId(), points);
+        } else {
             playerRank.putIfAbsent(player.getUniqueId(), null);
             playerPoints.putIfAbsent(player.getUniqueId(), 0L);
+            new Requests().initPlayerData(player);
         }
     }
 

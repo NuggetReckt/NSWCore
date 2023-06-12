@@ -1,5 +1,8 @@
 package fr.nuggetreckt.nswcore.listeners;
 
+import fr.nuggetreckt.nswcore.HonorRanks;
+import fr.nuggetreckt.nswcore.NSWCore;
+import fr.nuggetreckt.nswcore.database.Requests;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,6 +14,9 @@ public class OnLeaveListener implements Listener {
     @EventHandler
     public void onPlayerLeave(@NotNull PlayerQuitEvent event) {
         Player player = event.getPlayer();
+
+        HonorRanks hr = NSWCore.getHonorRanks();
+        new Requests().updatePlayerData(player, hr.getPlayerRankId(player), hr.getPlayerPoints(player));
 
         if (player.isOp() || player.hasPermission("group.admin")) {
             event.setQuitMessage("§8[§4-§8] §8[§4§lAdministrateur§8] §4" + player.getName() + " §fa quitté le serveur");

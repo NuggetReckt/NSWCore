@@ -21,9 +21,9 @@ public class OnJoinListener implements Listener {
         HonorRanks hr = NSWCore.getHonorRanks();
         NSWCore.getTeleportUtils().initTeleports(player);
 
-        if (!player.hasPlayedBefore()) {
-            hr.init(player);
+        hr.init(player);
 
+        if (!player.hasPlayedBefore()) {
             if (NSWCore.isFarmzone()) {
                 player.sendMessage("§8[§3NSW§8] §fBienvenue en §3§lFarmZone §f!");
                 player.sendMessage(" §8| §fUtilise §3/rtp §fpour te téléporter aléatoirement");
@@ -32,10 +32,6 @@ public class OnJoinListener implements Listener {
                 Bukkit.broadcastMessage(String.format(MessageManager.WELCOME_PLAYER_JOIN_MESSAGE.getBroadcastMessage(), player.getName(), nsw));
             }
         }
-
-        //TO DELETE AFTER TESTS
-        hr.init(player);
-
         if (player.isOp() || player.hasPermission("group.admin")) {
             event.setJoinMessage("§8[§2+§8] §8[§4§lAdministrateur§8] §4" + player.getName() + " §fa rejoint le serveur");
         } else if (player.hasPermission("group.responsable")) {
