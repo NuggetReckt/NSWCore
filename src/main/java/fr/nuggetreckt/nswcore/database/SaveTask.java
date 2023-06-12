@@ -14,10 +14,12 @@ public class SaveTask {
         HonorRanks hr = NSWCore.getHonorRanks();
 
         task = Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(NSWCore.getInstance(), () -> {
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                new Requests().updatePlayerData(player, hr.getPlayerRankId(player), hr.getPlayerPoints(player));
+            if (Bukkit.getOnlinePlayers().size() >= 1) {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    new Requests().updatePlayerData(player, hr.getPlayerRankId(player), hr.getPlayerPoints(player));
+                }
+                NSWCore.getInstance().getLogger().info("Sauvegarde des données effectuée.");
             }
-            NSWCore.getInstance().getLogger().info(String.format("[%s] Sauvegarde des données effectuée.", NSWCore.getInstance().getDescription().getName()));
         }, 0L, 144000L);
     }
 
