@@ -13,10 +13,12 @@ import fr.nuggetreckt.nswcore.utils.GuiManager;
 import fr.nuggetreckt.nswcore.utils.TeleportUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.Objects;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 public class NSWCore extends JavaPlugin {
@@ -120,6 +122,14 @@ public class NSWCore extends JavaPlugin {
 
     public static World getOverworld() {
         return Bukkit.getWorld("world");
+    }
+
+    public static Player getPlayerByUuid(UUID uuid) {
+        return Bukkit.getPlayer(uuid);
+    }
+
+    public static Player getPlayerByName(String name) {
+        return Bukkit.getPlayer(name);
     }
 
     public static NSWCore getInstance() {

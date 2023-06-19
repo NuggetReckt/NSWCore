@@ -54,7 +54,7 @@ public class SpawnCommand implements CommandExecutor {
                     }
                 } else if (args.length == 1) {
                     if (player.hasPermission("nsw.commands.admin") || player.isOp()) {
-                        Player target = Bukkit.getPlayer(args[0]);
+                        Player target = NSWCore.getPlayerByName(args[0]);
                         assert target != null;
 
                         target.teleport(spawnLoc);
