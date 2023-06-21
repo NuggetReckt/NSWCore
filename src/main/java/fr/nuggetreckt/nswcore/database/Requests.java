@@ -70,6 +70,25 @@ public class Requests {
         return result;
     }
 
+    public Player getPlayer(@NotNull Player player) {
+        query = "SELECT playerName FROM core_playerdata WHERE uuid = '" + player.getUniqueId() + "';";
+        Player result = null;
+
+        retrieveData(query);
+        try {
+            if (resultSet.next()) {
+                result = NSWCore.getPlayerByName(resultSet.getString("playerName"));
+            }
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } finally {
+            close();
+        }
+        return result;
+    }
+
     public void createTable() {
         query = """
                 CREATE TABLE IF NOT EXISTS core_playerdata
@@ -86,22 +105,7 @@ public class Requests {
     }
 
     public boolean hasJoinedOnce(@NotNull Player player) {
-        query = "SELECT playerName FROM core_playerdata WHERE playerName = '" + player.getName() + "';";
-        String result = null;
-
-        retrieveData(query);
-        try {
-            if (resultSet.next()) {
-                result = resultSet.getString("playerName");
-            }
-        } catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
-        } finally {
-            close();
-        }
-        return result != null;
+        return getPlayer(player) != null;
     }
 
     private void retrieveData(String query) {

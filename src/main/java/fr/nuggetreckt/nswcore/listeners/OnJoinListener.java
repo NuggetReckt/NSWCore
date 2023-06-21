@@ -21,7 +21,7 @@ public class OnJoinListener implements Listener {
         HonorRanks hr = NSWCore.getHonorRanks();
         NSWCore.getTeleportUtils().initTeleports(player);
 
-        hr.init(player);
+        NSWCore.getServerHandler().getExecutor().execute(() -> hr.init(player));
 
         if (!player.hasPlayedBefore()) {
             if (NSWCore.isFarmzone()) {

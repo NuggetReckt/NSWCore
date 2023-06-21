@@ -7,10 +7,7 @@ import fr.nuggetreckt.nswcore.database.Requests;
 import fr.nuggetreckt.nswcore.database.SaveTask;
 import fr.nuggetreckt.nswcore.expansions.PAPIExpansion;
 import fr.nuggetreckt.nswcore.listeners.*;
-import fr.nuggetreckt.nswcore.utils.CooldownManager;
-import fr.nuggetreckt.nswcore.utils.EffectUtils;
-import fr.nuggetreckt.nswcore.utils.GuiManager;
-import fr.nuggetreckt.nswcore.utils.TeleportUtils;
+import fr.nuggetreckt.nswcore.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -31,6 +28,7 @@ public class NSWCore extends JavaPlugin {
     private static CooldownManager cooldownManager;
     private static TeleportUtils teleportUtils;
     private static EffectUtils effectUtils;
+    private static ServerHandler serverHandler;
     private static BukkitTask bukkitTask;
     private final SaveTask saveTask;
     private static Connector connector = null;
@@ -49,6 +47,7 @@ public class NSWCore extends JavaPlugin {
         cooldownManager = new CooldownManager();
         teleportUtils = new TeleportUtils();
         effectUtils = new EffectUtils();
+        serverHandler = new ServerHandler();
     }
 
     @Override
@@ -158,6 +157,10 @@ public class NSWCore extends JavaPlugin {
 
     public static EffectUtils getEffectUtils() {
         return effectUtils;
+    }
+
+    public static ServerHandler getServerHandler() {
+        return serverHandler;
     }
 
     public static boolean isFarmzone() {
