@@ -75,7 +75,7 @@ public class HonorRanks {
             long currentPoints = getPlayerPoints(player);
             long pointsNeeded = getPointsNeeded(player);
 
-            if (currentPoints > pointsNeeded) {
+            if (currentPoints >= pointsNeeded) {
                 long points = currentPoints - pointsNeeded;
                 Rank nextRank = getNextPlayerRank(player);
 
@@ -103,6 +103,14 @@ public class HonorRanks {
                     player.getName(), nextRank.getRankId()));
 
             new EffectUtils().uprankEffect(player);
+        }
+    }
+
+    public void saveAllPlayerData() {
+        if (Bukkit.getOnlinePlayers().size() > 0) {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                new Requests().updatePlayerData(player, getPlayerRankId(player), getPlayerPoints(player));
+            }
         }
     }
 
@@ -140,12 +148,16 @@ public class HonorRanks {
     }
 
     public String getDisplayName(@NotNull Player player) {
-        return "§fRang d'Honneur §3" + getPlayerRankId(player);
+        return "§fRang d'Honneur " + getFormat(player);
     }
 
     public String getPrefix(@NotNull Player player) {
+        return "§8[" + getFormat(player) + "§8]";
+    }
+
+    private String getFormat(Player player) {
         int rankId = getPlayerRankId(player);
-        String format = switch (rankId) {
+        return switch (rankId) {
             case 0 -> "§7" + rankId;
             case 1 -> "§a" + rankId;
             case 2 -> "§2" + rankId;
@@ -155,7 +167,6 @@ public class HonorRanks {
             case 6 -> "§1§l" + rankId;
             default -> null;
         };
-        return "§8[" + format + "§8]";
     }
 
     private Rank getRankById(int id) {

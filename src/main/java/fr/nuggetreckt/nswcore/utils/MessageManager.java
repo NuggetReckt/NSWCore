@@ -7,6 +7,7 @@ public enum MessageManager {
     NO_PERMISSION_MESSAGE("§cVous n'avez pas la permission d'exécuter cette commande !"),
     NO_HR_PERMISSION_MESSAGE("§cVous n'avez pas le Rang d'Honneur requis pour exécuter cette commande ! §8(§3/hr §7pour plus d'infos§8)"),
     NOT_ENOUGH_ARGS_MESSAGE("§cArguments insuffisants."),
+    UNKNOWN_SUBCOMMAND_MESSAGE("§cSous commande inconnue."),
     PLAYER_MOVED_TP("§cVous avez bougé, la téléportation a été annulée !"),
     PLAYER_NOT_TP("§cVous n'avez pas été téléporté, car la localisation n'est pas sûre !"),
     NO_ITEMS_TO_FURNACE_MESSAGE("§cVous n'avez aucun item à cuire dans votre main !"),

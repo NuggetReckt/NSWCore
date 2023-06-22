@@ -3,7 +3,6 @@ package fr.nuggetreckt.nswcore.commands;
 import fr.nuggetreckt.nswcore.HonorRanks;
 import fr.nuggetreckt.nswcore.NSWCore;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -67,6 +66,8 @@ public class HonorRankCommand implements CommandExecutor {
                     } else {
                         player.sendMessage(String.format(MessageManager.NO_PERMISSION_MESSAGE.getMessage(), "HR"));
                     }
+                } else {
+                    player.sendMessage(String.format(MessageManager.UNKNOWN_SUBCOMMAND_MESSAGE.getMessage(), "HR"));
                 }
             }
         }

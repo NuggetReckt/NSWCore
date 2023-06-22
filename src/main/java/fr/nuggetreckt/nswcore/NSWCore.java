@@ -109,10 +109,12 @@ public class NSWCore extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        logger.info(String.format("[%s] Plugin shut down successfully", getDescription().getName()));
-        connector.close();
+        getHonorRanks().saveAllPlayerData();
         saveTask.stop();
+        connector.close();
         instance = null;
+
+        logger.info(String.format("[%s] Plugin shut down successfully", getDescription().getName()));
     }
 
     public static String getPrefix() {
