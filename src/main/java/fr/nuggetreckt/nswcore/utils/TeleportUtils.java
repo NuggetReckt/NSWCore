@@ -3,6 +3,8 @@ package fr.nuggetreckt.nswcore.utils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,11 +32,13 @@ public class TeleportUtils {
     }
 
     public boolean isValid(@NotNull Block block) {
-        Location location1 = block.getLocation().add(0.0D, 1.0D, 0.0D);
-        Location location2 = location1.add(0.0D, 1.0D, 0.0D);
-        Material type1 = location1.getBlock().getType();
-        Material type2 = location2.getBlock().getType();
+        Block block1 = block.getRelative(BlockFace.UP);
+        Block block2 = block1.getRelative(BlockFace.UP);
+        Material material1 = block1.getBlockData().getMaterial();
+        Material material2 = block2.getBlockData().getMaterial();
 
-        return type1.isAir() && type2.isAir() && (block.getType().isSolid() || block.getType() == Material.WATER);
+        if(material1 == Material.LAVA || material2 == Material.LAVA) return false;
+
+        return material1.isAir() && material2.isAir() && (block.getType().isSolid() || block.getType() == Material.WATER);
     }
 }
