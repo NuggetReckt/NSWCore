@@ -28,6 +28,7 @@ public class NSWCore extends JavaPlugin {
     private static CooldownManager cooldownManager;
     private static TeleportUtils teleportUtils;
     private static EffectUtils effectUtils;
+    private static StaffUtils staffUtils;
     private static ServerHandler serverHandler;
     private static BukkitTask bukkitTask;
     private final SaveTask saveTask;
@@ -47,6 +48,7 @@ public class NSWCore extends JavaPlugin {
         cooldownManager = new CooldownManager();
         teleportUtils = new TeleportUtils();
         effectUtils = new EffectUtils();
+        staffUtils = new StaffUtils();
         serverHandler = new ServerHandler();
     }
 
@@ -88,6 +90,8 @@ public class NSWCore extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new OnInvClickListener(), this);
         getServer().getPluginManager().registerEvents(new OnMoveListener(), this);
         getServer().getPluginManager().registerEvents(new OnDeathListener(), this);
+        getServer().getPluginManager().registerEvents(new StaffEventsCanceller(), this);
+        getServer().getPluginManager().registerEvents(new StaffEventsListener(), this);
 
         if (isFarmzone()) {
             getServer().getPluginManager().registerEvents(new OnDragonDeathListener(), this);
@@ -159,6 +163,10 @@ public class NSWCore extends JavaPlugin {
 
     public static EffectUtils getEffectUtils() {
         return effectUtils;
+    }
+
+    public static StaffUtils getStaffUtils() {
+        return staffUtils;
     }
 
     public static ServerHandler getServerHandler() {
