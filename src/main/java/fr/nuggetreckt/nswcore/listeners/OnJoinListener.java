@@ -22,6 +22,7 @@ public class OnJoinListener implements Listener {
         NSWCore.getTeleportUtils().initTeleports(player);
 
         NSWCore.getServerHandler().getExecutor().execute(() -> hr.init(player));
+        NSWCore.getStaffUtils().init(player);
 
         if (!player.hasPlayedBefore()) {
             if (NSWCore.isFarmzone()) {

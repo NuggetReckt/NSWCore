@@ -2,6 +2,7 @@ package fr.nuggetreckt.nswcore.utils;
 
 import fr.nuggetreckt.nswcore.guis.impl.KitGui;
 import fr.nuggetreckt.nswcore.guis.CustomInventory;
+import fr.nuggetreckt.nswcore.guis.impl.ReportsGui;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -34,5 +35,6 @@ public class GuiManager {
 
     public void registersGUI() {
         addMenu(new KitGui());
+        addMenu(new ReportsGui());
     }
 }

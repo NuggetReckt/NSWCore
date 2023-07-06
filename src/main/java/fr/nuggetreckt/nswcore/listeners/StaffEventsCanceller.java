@@ -7,7 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,8 +23,9 @@ public class StaffEventsCanceller implements Listener {
     public void onPlayerLeave(@NotNull PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
+        if (!player.hasPermission("group.staff")) return;
+
         if (staffUtils.isStaffMode(player)) {
-            staffUtils.setStaffMode(player, false);
             staffUtils.toggleStaffMode(player);
         }
     }
@@ -33,7 +34,9 @@ public class StaffEventsCanceller implements Listener {
     public void onPlayerBreak(@NotNull BlockBreakEvent event) {
         Player player = event.getPlayer();
 
-        if (staffUtils.isStaffMode(player)) {
+        if (!player.hasPermission("group.staff")) return;
+
+        if (staffUtils.isStaffMode(player) && player.hasPermission("group.staff")) {
             event.setCancelled(true);
         }
     }
@@ -42,14 +45,29 @@ public class StaffEventsCanceller implements Listener {
     public void onPlayerPlace(@NotNull BlockPlaceEvent event) {
         Player player = event.getPlayer();
 
+        if (!player.hasPermission("group.staff")) return;
+
         if (staffUtils.isStaffMode(player)) {
             event.setCancelled(true);
         }
     }
 
-    @EventHandler
+/*    @EventHandler
     public void onInventoryDrag(@NotNull InventoryDragEvent event) {
         Player player = (Player) event.getWhoClicked();
+
+        if (!player.hasPermission("group.staff")) return;
+
+        if (staffUtils.isStaffMode(player)) {
+            event.setCancelled(true);
+        }
+    }*/
+
+    @EventHandler
+    public void onItemDrop(@NotNull PlayerDropItemEvent event) {
+        Player player = event.getPlayer();
+
+        if (!player.hasPermission("group.staff")) return;
 
         if (staffUtils.isStaffMode(player)) {
             event.setCancelled(true);

@@ -28,6 +28,13 @@ public class StaffUtils {
         isFrozen = new HashMap<>();
     }
 
+    public void init(@NotNull Player player) {
+        if (player.hasPermission("nsw.staff")) {
+            isStaffMode.putIfAbsent(player.getUniqueId(), false);
+        }
+        isFrozen.putIfAbsent(player.getUniqueId(), false);
+    }
+
     public void toggleStaffMode(Player player) {
         if (!isStaffMode(player)) {
             setLocation(player, player.getLocation());
@@ -77,6 +84,8 @@ public class StaffUtils {
 
             player.getInventory().setItem(0, new ItemUtils(Material.BLUE_ICE).setName("§8§l»§r §3Freeze le joueur §8§l«").setLore("").toItemStack());
             player.getInventory().setItem(1, new ItemUtils(Material.CHEST).setName("§8§l»§r §3Voir l'inventaire du joueur §8§l«").setLore("").toItemStack());
+            player.getInventory().setItem(2, new ItemUtils(Material.ENDER_CHEST).setName("§8§l»§r §3Voir l'EC du joueur §8§l«").setLore("").toItemStack());
+            player.getInventory().setItem(3, new ItemUtils(Material.PAPER).setName("§8§l»§r §3Reports §8§l«").setLore("").toItemStack());
         } else {
             player.getInventory().clear();
             player.getInventory().setContents(getOldInventory(player));
@@ -107,24 +116,20 @@ public class StaffUtils {
         }
     }
 
-    public void setStaffMode(Player player, boolean bool) {
-        if (bool) {
-            isStaffMode.putIfAbsent(player.getUniqueId(), true);
-        } else {
-            isStaffMode.replace(player.getUniqueId(), false);
-        }
+    public void setStaffMode(@NotNull Player player, boolean value) {
+        isStaffMode.replace(player.getUniqueId(), value);
     }
 
     public void setFrozen(@NotNull Player player, boolean value) {
-        isFrozen.putIfAbsent(player.getUniqueId(), value);
+        isFrozen.replace(player.getUniqueId(), value);
     }
 
     public boolean isStaffMode(@NotNull Player player) {
-        return isStaffMode.get(player.getUniqueId()) != null && isStaffMode.get(player.getUniqueId());
+        return isStaffMode.get(player.getUniqueId());
     }
 
     public boolean isFrozen(@NotNull Player player) {
-        return isFrozen.get(player.getUniqueId()) != null && isFrozen.get(player.getUniqueId());
+        return isFrozen.get(player.getUniqueId());
     }
 
     public void restoreStaffData() {

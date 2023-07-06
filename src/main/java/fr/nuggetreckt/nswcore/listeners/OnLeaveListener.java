@@ -4,6 +4,7 @@ import fr.nuggetreckt.nswcore.HonorRanks;
 import fr.nuggetreckt.nswcore.NSWCore;
 import fr.nuggetreckt.nswcore.database.Requests;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
+import fr.nuggetreckt.nswcore.utils.StaffUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,6 +19,8 @@ public class OnLeaveListener implements Listener {
         Player player = event.getPlayer();
 
         HonorRanks hr = NSWCore.getHonorRanks();
+        StaffUtils staffUtils = NSWCore.getStaffUtils();
+
         NSWCore.getServerHandler().getExecutor().execute(() -> new Requests().updatePlayerData(player, hr.getPlayerRankId(player), hr.getPlayerPoints(player)));
 
         if (player.isOp() || player.hasPermission("group.admin")) {
@@ -34,11 +37,16 @@ public class OnLeaveListener implements Listener {
             event.setQuitMessage("§8[§4-§8] §3" + player.getName());
         }
 
-        if (NSWCore.getStaffUtils().isFrozen(player)) {
+        if (staffUtils.isFrozen(player)) {
             for (Player staff : Bukkit.getOnlinePlayers()) {
-                if (staff.hasPermission("nsw.staff") || staff.isOp()) {
-                    staff.sendMessage(String.format(MessageManager.PLAYER_FREEZED_QUIT_MESSAGE.getWarnMessage(), "NSW", player));
+                if (staff.hasPermission("group.staff") || staff.isOp()) {
+                    staff.sendMessage(String.format(MessageManager.PLAYER_FREEZED_QUIT_MESSAGE.getWarnMessage(), player.getName()));
                 }
+            }
+        }
+        if (player.hasPermission("group.staff") || player.isOp()) {
+            if (staffUtils.isStaffMode(player)) {
+                staffUtils.toggleStaffMode(player);
             }
         }
     }

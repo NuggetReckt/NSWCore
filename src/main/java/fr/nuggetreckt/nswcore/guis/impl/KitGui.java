@@ -36,6 +36,9 @@ public class KitGui implements CustomInventory {
         //Items
         slots[13] = new ItemUtils(Material.STONE_PICKAXE).setName("§8§l»§r §3Kit du débutant §8§l«").hideFlags().setLore(" ", "§8| §fRécupérer son kit").toItemStack();
 
+        //Utils
+        slots[22] = new ItemUtils(Material.BARRIER).setName("§8§l»§r §3Fermer §8§l«").hideFlags().setLore(" ", "§8| §fFerme le menu").toItemStack();
+
         //Placeholders
         slots[0] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").setLore("").toItemStack();
         slots[1] = new ItemUtils(Material.BLUE_STAINED_GLASS_PANE).setName(" ").setLore("").toItemStack();
@@ -93,6 +96,9 @@ public class KitGui implements CustomInventory {
             } else {
                 player.sendMessage(String.format(MessageManager.WAIT_BEFORE_KIT_MESSAGE.getMessage(), "Kit", timeLeft.toHours()));
             }
+            player.closeInventory();
+        }
+        if (clickedItem.getItemMeta().getDisplayName().equals("§8§l»§r §3Fermer §8§l«")) {
             player.closeInventory();
         }
     }
