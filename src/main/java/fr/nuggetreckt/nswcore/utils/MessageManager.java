@@ -60,7 +60,8 @@ public enum MessageManager {
              §8| §fRang d'Honneur actuel : §3%s
              §8| §fProchain Rang d'Honneur : §fVous êtes déjà au Rang d'Honneur Maximum !"""),
     HONORRANKS_UPRANK_BROADCASTMESSAGE("§3%s §fest passé Rang d'Honneur §3%s §f!"),
-    PLAYER_FREEZE_MESSAGE_TARGET("Vous avez été freeze par §3%s§f. §cNe vous déconnectez pas ou vous serez banni définitivement."),
+    PLAYER_FREEZE_MESSAGE_TARGET("Vous avez été freeze par §3%s§f. Rendez vous sur le discord pour plus d'informations §8(§3/discord§8) \n§cNe vous déconnectez pas ou vous serez banni définitivement."),
+    PLAYER_FREEZED_QUIT_MESSAGE("§cLe joueur §3%s §cs'est déconnecté en étant freeze"),
     ;
 
     private final String message;
@@ -79,5 +80,9 @@ public enum MessageManager {
 
     public String getDeathMessage() {
         return " §8§l» §7☠ §r" + this.message;
+    }
+
+    public String getWarnMessage() {
+        return " §8§l» §6⚠️" + this.message;
     }
 }

@@ -34,5 +34,9 @@ public class OnMoveListener implements Listener {
                 task.cancel();
             }
         }
+
+        if (NSWCore.getStaffUtils().isFrozen(player)) {
+            event.setCancelled(true);
+        }
     }
 }

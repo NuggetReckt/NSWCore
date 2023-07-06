@@ -1,10 +1,8 @@
 package fr.nuggetreckt.nswcore.utils;
 
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,7 +35,7 @@ public class TeleportUtils {
         Material material1 = block1.getBlockData().getMaterial();
         Material material2 = block2.getBlockData().getMaterial();
 
-        if(material1 == Material.LAVA || material2 == Material.LAVA) return false;
+        if (material1 == Material.LAVA || material2 == Material.LAVA) return false;
 
         return material1.isAir() && material2.isAir() && (block.getType().isSolid() || block.getType() == Material.WATER);
     }

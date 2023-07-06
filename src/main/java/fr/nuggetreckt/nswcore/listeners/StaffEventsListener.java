@@ -32,13 +32,14 @@ public class StaffEventsListener implements Listener {
         if (event.getHand() == EquipmentSlot.OFF_HAND) return;
         if (item.getType() == Material.AIR) return;
 
-        String itemName = Objects.requireNonNull(item.getItemMeta()).getDisplayName();
-
         if (staffUtils.isStaffMode(player)) {
-            if (itemName.equals("freezer")) {
-                staffUtils.setFrozen(player, !staffUtils.isFrozen(player));
+            if (item.getType() == Material.BLUE_ICE) {
+                staffUtils.setFrozen(target, !staffUtils.isFrozen(target));
                 player.sendMessage(String.format(MessageManager.PLAYER_FREEZE_MESSAGE_STAFF.getMessage(), "NSW", target.getName()));
                 target.sendMessage(String.format(MessageManager.PLAYER_FREEZE_MESSAGE_TARGET.getMessage(), "NSW", player.getName()));
+            }
+            if (item.getType() == Material.CHEST) {
+                Objects.requireNonNull(player.openInventory(target.getInventory())).setTitle("§fInventaire de §3" + target.getName());
             }
         }
     }

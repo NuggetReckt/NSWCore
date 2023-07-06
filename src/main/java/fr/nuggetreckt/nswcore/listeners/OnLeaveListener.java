@@ -3,6 +3,8 @@ package fr.nuggetreckt.nswcore.listeners;
 import fr.nuggetreckt.nswcore.HonorRanks;
 import fr.nuggetreckt.nswcore.NSWCore;
 import fr.nuggetreckt.nswcore.database.Requests;
+import fr.nuggetreckt.nswcore.utils.MessageManager;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -30,6 +32,14 @@ public class OnLeaveListener implements Listener {
             event.setQuitMessage("§8[§4-§8]] §8[§5§lDéveloppeur§8] §5" + player.getName() + " §fa quitté le serveur");
         } else {
             event.setQuitMessage("§8[§4-§8] §3" + player.getName());
+        }
+
+        if (NSWCore.getStaffUtils().isFrozen(player)) {
+            for (Player staff : Bukkit.getOnlinePlayers()) {
+                if (staff.hasPermission("nsw.staff") || staff.isOp()) {
+                    staff.sendMessage(String.format(MessageManager.PLAYER_FREEZED_QUIT_MESSAGE.getWarnMessage(), "NSW", player));
+                }
+            }
         }
     }
 }

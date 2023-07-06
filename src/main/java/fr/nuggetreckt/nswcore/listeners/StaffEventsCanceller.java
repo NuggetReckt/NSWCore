@@ -23,8 +23,10 @@ public class StaffEventsCanceller implements Listener {
     public void onPlayerLeave(@NotNull PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
-        staffUtils.setStaffMode(player, false);
-        staffUtils.toggleStaffMode(player);
+        if (staffUtils.isStaffMode(player)) {
+            staffUtils.setStaffMode(player, false);
+            staffUtils.toggleStaffMode(player);
+        }
     }
 
     @EventHandler

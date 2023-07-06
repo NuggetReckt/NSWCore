@@ -114,6 +114,7 @@ public class NSWCore extends JavaPlugin {
     @Override
     public void onDisable() {
         getHonorRanks().saveAllPlayerData();
+        getStaffUtils().restoreStaffData();
         saveTask.stop();
         connector.close();
         instance = null;
