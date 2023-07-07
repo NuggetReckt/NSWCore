@@ -1,5 +1,6 @@
 package fr.nuggetreckt.nswcore.commands.tabcompletion;
 
+import fr.nuggetreckt.nswcore.utils.ReportUtils.Type;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -46,6 +47,14 @@ public class TabCompletion implements TabCompleter {
                 return getPlayers();
             }
         }
+        if (command.getName().equalsIgnoreCase("report")) {
+            if (args.length == 1) {
+                return getPlayers();
+            }
+            if (args.length == 2) {
+                return getReportTypes();
+            }
+        }
 
         return null;
     }
@@ -57,5 +66,14 @@ public class TabCompletion implements TabCompleter {
             playerList.add(i.getName());
         }
         return playerList;
+    }
+
+    private @NotNull List<String> getReportTypes() {
+        List<String> reportType = new ArrayList<>();
+
+        for (Type i : Type.values()) {
+            reportType.add(i.getDisplayName());
+        }
+        return reportType;
     }
 }

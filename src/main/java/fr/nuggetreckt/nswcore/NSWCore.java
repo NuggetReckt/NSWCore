@@ -29,6 +29,7 @@ public class NSWCore extends JavaPlugin {
     private static TeleportUtils teleportUtils;
     private static EffectUtils effectUtils;
     private static StaffUtils staffUtils;
+    private static ReportUtils reportUtils;
     private static ServerHandler serverHandler;
     private static BukkitTask bukkitTask;
     private final SaveTask saveTask;
@@ -49,6 +50,7 @@ public class NSWCore extends JavaPlugin {
         teleportUtils = new TeleportUtils();
         effectUtils = new EffectUtils();
         staffUtils = new StaffUtils();
+        reportUtils = new ReportUtils();
         serverHandler = new ServerHandler();
     }
 
@@ -60,7 +62,7 @@ public class NSWCore extends JavaPlugin {
         setServerPort();
 
         //Create table if absent
-        new Requests().createTable();
+        new Requests().createTables();
 
         //Launch BukkitTask
         saveTask.launch();
@@ -78,6 +80,7 @@ public class NSWCore extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("staff")).setExecutor(new StaffCommand());
         Objects.requireNonNull(this.getCommand("kit")).setExecutor(new KitCommand());
         Objects.requireNonNull(this.getCommand("spawn")).setExecutor(new SpawnCommand());
+        Objects.requireNonNull(this.getCommand("report")).setExecutor(new ReportCommand());
 
         //register TabCompleters
         Objects.requireNonNull(this.getCommand("honorrank")).setTabCompleter(new TabCompletion());
@@ -168,6 +171,10 @@ public class NSWCore extends JavaPlugin {
 
     public static StaffUtils getStaffUtils() {
         return staffUtils;
+    }
+
+    public static ReportUtils getReportUtils() {
+        return reportUtils;
     }
 
     public static ServerHandler getServerHandler() {

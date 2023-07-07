@@ -44,6 +44,9 @@ commands:
   spawn:
     description: Commande pour se téléporter au spawn
     usage: "Usage: /spawn"
+  report:
+    description: Commande pour reporter des joueurs
+    usage: "Usage: /report"
 permissions:
   nsw.*:
     description: Permission globale*

@@ -21,13 +21,15 @@ public class Requests {
     }
 
     public void initPlayerData(@NotNull Player player) {
-        query = "INSERT INTO core_playerdata (uuid, playerName, rankId, honorPoints) VALUES ('" + player.getUniqueId() + "', '" + player.getName() + "', 0, 0);";
+        query = "INSERT INTO core_playerdata (uuid, playerName, rankId, honorPoints) VALUES ('" + player.getUniqueId() +
+                "', '" + player.getName() + "', 0, 0);";
         updateData(query);
         close();
     }
 
     public void updatePlayerData(@NotNull Player player, int rankId, long honorPoints) {
-        query = "UPDATE core_playerdata SET rankId = " + rankId + ", honorPoints = " + ((int) honorPoints) + " WHERE uuid = '" + player.getUniqueId() + "';";
+        query = "UPDATE core_playerdata SET rankId = " + rankId + ", honorPoints = " + ((int) honorPoints) +
+                " WHERE uuid = '" + player.getUniqueId() + "';";
         updateData(query);
         close();
     }
@@ -89,7 +91,22 @@ public class Requests {
         return result;
     }
 
-    public void createTable() {
+    public void setReport(@NotNull Player creator, @NotNull Player reported, int typeId, String reason) {
+        query = "INSERT INTO core_reports (creatorUuid, creatorName, reportedUuid, reportedName, typeId, reason) " +
+                "VALUES ('" + creator.getUniqueId() + "', '" + creator.getName() + "', '" + reported.getUniqueId() +
+                "', '" + reported.getName() + "', '" + typeId + "', '" + reason + "');";
+        updateData(query);
+        close();
+    }
+
+    public void createTables() {
+        NSWCore.getServerHandler().getExecutor().execute(() -> {
+            createPlayerDataTable();
+            createReportsTable();
+        });
+    }
+
+    private void createPlayerDataTable() {
         query = """
                 CREATE TABLE IF NOT EXISTS core_playerdata
                 (
@@ -97,8 +114,26 @@ public class Requests {
                     uuid VARCHAR(36),
                     playerName VARCHAR(50),
                     rankId INT(1),
+                    reason TEXT,
                     honorPoints INT(5)
-                )
+                );
+                """;
+        updateData(query);
+        close();
+    }
+
+    private void createReportsTable() {
+        query = """
+                CREATE TABLE IF NOT EXISTS core_reports
+                (
+                    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+                    creatorUuid VARCHAR(36),
+                    creatorName VARCHAR(50),
+                    reportedUuid VARCHAR(36),
+                    reportedName VARCHAR(50),
+                    typeId INT(1),
+                    date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                );
                 """;
         updateData(query);
         close();
