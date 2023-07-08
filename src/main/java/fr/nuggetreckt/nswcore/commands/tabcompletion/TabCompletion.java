@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class TabCompletion implements TabCompleter {
@@ -50,9 +51,10 @@ public class TabCompletion implements TabCompleter {
         if (command.getName().equalsIgnoreCase("report")) {
             if (args.length == 1) {
                 return getPlayers();
-            }
-            if (args.length == 2) {
+            } else if (args.length == 2) {
                 return getReportTypes();
+            } else if (args.length >= 3) {
+                return Collections.singletonList("Raison");
             }
         }
 

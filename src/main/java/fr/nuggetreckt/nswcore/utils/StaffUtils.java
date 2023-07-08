@@ -29,7 +29,7 @@ public class StaffUtils {
     }
 
     public void init(@NotNull Player player) {
-        if (player.hasPermission("nsw.staff")) {
+        if (player.hasPermission("group.staff")) {
             isStaffMode.putIfAbsent(player.getUniqueId(), false);
         }
         isFrozen.putIfAbsent(player.getUniqueId(), false);
@@ -85,7 +85,7 @@ public class StaffUtils {
             player.getInventory().setItem(0, new ItemUtils(Material.BLUE_ICE).setName("§8§l»§r §3Freeze le joueur §8§l«").setLore("").toItemStack());
             player.getInventory().setItem(1, new ItemUtils(Material.CHEST).setName("§8§l»§r §3Voir l'inventaire du joueur §8§l«").setLore("").toItemStack());
             player.getInventory().setItem(2, new ItemUtils(Material.ENDER_CHEST).setName("§8§l»§r §3Voir l'EC du joueur §8§l«").setLore("").toItemStack());
-            player.getInventory().setItem(3, new ItemUtils(Material.PAPER).setName("§8§l»§r §3Reports §8§l«").setLore("").toItemStack());
+            player.getInventory().setItem(8, new ItemUtils(Material.PAPER).setName("§8§l»§r §3Reports §8§l«").setLore("").toItemStack());
         } else {
             player.getInventory().clear();
             player.getInventory().setContents(getOldInventory(player));
@@ -134,7 +134,11 @@ public class StaffUtils {
 
     public void restoreStaffData() {
         for (UUID uuid : isStaffMode.keySet()) {
-            toggleStaffMode(NSWCore.getPlayerByUuid(uuid));
+            Player player = NSWCore.getPlayerByUuid(uuid);
+
+            if (isStaffMode(player)) {
+                toggleStaffMode(player);
+            }
         }
     }
 }

@@ -85,6 +85,8 @@ public class NSWCore extends JavaPlugin {
         //register TabCompleters
         Objects.requireNonNull(this.getCommand("honorrank")).setTabCompleter(new TabCompletion());
         Objects.requireNonNull(this.getCommand("spawn")).setTabCompleter(new TabCompletion());
+        Objects.requireNonNull(this.getCommand("report")).setTabCompleter(new TabCompletion());
+        Objects.requireNonNull(this.getCommand("report")).setTabCompleter(new TabCompletion());
 
         //Register events
         getServer().getPluginManager().registerEvents(new OnJoinListener(), this);
@@ -139,6 +141,10 @@ public class NSWCore extends JavaPlugin {
 
     public static Player getPlayerByName(String name) {
         return Bukkit.getPlayer(name);
+    }
+
+    public static boolean hasJoinedOnce(Player player) {
+        return new Requests().hasJoinedOnce(player);
     }
 
     public static NSWCore getInstance() {

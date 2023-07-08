@@ -47,7 +47,7 @@ public class HonorRankCommand implements CommandExecutor {
                                 player.sendMessage(String.format(MessageManager.SUCCESS_GIVEHP_MESSAGE.getMessage(), "HR", value, target.getName()));
                                 target.sendMessage(String.format(MessageManager.SUCCESS_GIVEHP_OTHER_MESSAGE.getMessage(), "HR", player.getName(), value));
                             } else {
-                                player.sendMessage(String.format(MessageManager.NOT_ENOUGH_ARGS_MESSAGE.getMessage(), "HR"));
+                                player.sendMessage(String.format(MessageManager.NOT_ENOUGH_ARGS_MESSAGE.getMessage(), "HR", command.getUsage()));
                             }
                         } else if (args[1].equalsIgnoreCase("upgrade")) {
                             if (args.length == 3) {
@@ -58,10 +58,10 @@ public class HonorRankCommand implements CommandExecutor {
                                 player.sendMessage(String.format(MessageManager.SUCCESS_UPGRADE_MESSAGE.getMessage(), "HR", target.getName()));
                                 target.sendMessage(String.format(MessageManager.SUCCESS_UPGRADE_OTHER_MESSAGE.getMessage(), "HR", target.getName()));
                             } else {
-                                player.sendMessage(String.format(MessageManager.NOT_ENOUGH_ARGS_MESSAGE.getMessage(), "HR"));
+                                player.sendMessage(String.format(MessageManager.NOT_ENOUGH_ARGS_MESSAGE.getMessage(), "HR", command.getUsage()));
                             }
                         } else {
-                            player.sendMessage(String.format(MessageManager.NOT_ENOUGH_ARGS_MESSAGE.getMessage(), "HR"));
+                            player.sendMessage(String.format(MessageManager.NOT_ENOUGH_ARGS_MESSAGE.getMessage(), "HR", command.getUsage()));
                         }
                     } else {
                         player.sendMessage(String.format(MessageManager.NO_PERMISSION_MESSAGE.getMessage(), "HR"));

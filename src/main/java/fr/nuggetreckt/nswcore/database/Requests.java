@@ -103,6 +103,7 @@ public class Requests {
         NSWCore.getServerHandler().getExecutor().execute(() -> {
             createPlayerDataTable();
             createReportsTable();
+            createPlayerTable();
         });
     }
 
@@ -127,12 +128,26 @@ public class Requests {
                 CREATE TABLE IF NOT EXISTS core_reports
                 (
                     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-                    creatorUuid VARCHAR(36),
-                    creatorName VARCHAR(50),
-                    reportedUuid VARCHAR(36),
-                    reportedName VARCHAR(50),
-                    typeId INT(1),
-                    date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    creatorUuid VARCHAR(36) NOT NULL,
+                    creatorName VARCHAR(50) NOT NULL,
+                    reportedUuid VARCHAR(36) NOT NULL,
+                    reportedName VARCHAR(50) NOT NULL,
+                    typeId INT(1) NOT NULL,
+                    reason TEXT,
+                    date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+                );
+                """;
+        updateData(query);
+        close();
+    }
+
+    private void createPlayerTable() {
+        query = """
+                CREATE TABLE IF NOT EXISTS core_players
+                (
+                    uuid VARCHAR(36) PRIMARY KEY NOT NULL,
+                    playerName VARCHAR(36) KEY 'core_players_playerName' NOT NULL,
+                    lastLogin TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
                 );
                 """;
         updateData(query);

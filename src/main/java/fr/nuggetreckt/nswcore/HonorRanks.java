@@ -51,7 +51,7 @@ public class HonorRanks {
     private final Map<UUID, Long> playerPoints = new HashMap<>();
 
     public void init(@NotNull Player player) {
-        if (new Requests().hasJoinedOnce(player)) {
+        if (NSWCore.hasJoinedOnce(player)) {
             int rankId = new Requests().getPlayerRankId(player);
             long points = new Requests().getPlayerPoints(player);
 

@@ -20,27 +20,29 @@ public class ReportCommand implements CommandExecutor {
 
             if (args.length == 0) {
                 player.sendMessage(String.format(MessageManager.REPORT_TYPELIST_MESSAGE.getMessage(), "Reports", NSWCore.getReportUtils().getTypes()));
-            } else {
+            } else if (args.length >= 3) {
                 Player target = NSWCore.getPlayerByName(args[0]);
                 Type type = NSWCore.getReportUtils().getTypeByName(args[1]);
                 String reason = getNextArgs(args);
 
-                if (target != null && type != null && reason != null) {
+                if (!NSWCore.hasJoinedOnce(target)) {
+                    player.sendMessage(String.format(MessageManager.UNKNOWN_PLAYER_MESSAGE.getMessage()));
+                } else {
                     NSWCore.getReportUtils().createReport(player, target, type, reason);
                     player.sendMessage(String.format(MessageManager.SUCCESS_PLAYER_REPORTED.getMessage(), "Reports", target.getName()));
-                } else {
-                    //Arguments insuffisants
-                    player.sendMessage(String.format(MessageManager.NOT_ENOUGH_ARGS_MESSAGE.getMessage(), "Reports"));
                 }
+            } else {
+                //Arguments insuffisants
+                player.sendMessage(String.format(MessageManager.NOT_ENOUGH_ARGS_MESSAGE.getMessage(), "Reports", command.getUsage()));
             }
         }
         return true;
     }
 
-    private String getNextArgs(String @NotNull [] args) {
+    private @NotNull String getNextArgs(String @NotNull [] args) {
         StringJoiner joiner = new StringJoiner(" ");
-        for (int i = 3; i < args.length; i++)
+        for (int i = 2; i < args.length; i++)
             joiner.add(args[i]);
-        return joiner.toString();
+        return joiner.toString().replaceAll("'", "’");
     }
 }

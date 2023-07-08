@@ -8,45 +8,45 @@ api-version: 1.19
 commands:
   top:
     description: Téléporte au plus haut block
-    usage: "Usage: /top"
+    usage: "/top"
   bottom:
     description: Téléporte au plus bas block
-    usage: "Usage: /bottom"
+    usage: "/bottom"
   up:
     description: Téléporte au premier palier au dessus
-    usage: "Usage: /up"
+    usage: "/up"
   down:
     description: Téléporte au premier palier au dessous
-    usage: "Usage: /down"
+    usage: "/down"
   enderchest:
     description: Ouvre votre enderchest
-    usage: "Usage: /enderchest or /ec"
+    usage: "/ec"
     aliases: [ ec ]
   craft:
     description: Ouvre l'interface de la table de craft
-    usage: "Usage: /craft"
+    usage: "/craft"
   anvil:
     description: Ouvre l'interface de l'enclume
-    usage: "Usage: /anvil"
+    usage: "/anvil"
   furnace:
     description: Permet de cuire les minerais dans la main du joueur
-    usage: "furnace: /anvil"
+    usage: "/furnace"
   honorrank:
     description: Permet d'interagir avec les Rangs d'Honneur
-    usage: "Usage: /honorrank or /hr"
+    usage: "/hr admin give|upgrade <joueur> <montant>|<joueur>"
     aliases: [ hr ]
   kit:
     description: Permet aux nouveaux joueurs de commencer avec un kit de départ
-    usage: "Usage: /kit"
+    usage: "/kit"
   staff:
     description: Commande pour entrer en mode staff
-    usage: "Usage: /staff"
+    usage: "/staff"
   spawn:
     description: Commande pour se téléporter au spawn
-    usage: "Usage: /spawn"
+    usage: "/spawn"
   report:
     description: Commande pour reporter des joueurs
-    usage: "Usage: /report"
+    usage: "/report <joueur> <type> <raison>"
 permissions:
   nsw.*:
     description: Permission globale*

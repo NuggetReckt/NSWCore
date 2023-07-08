@@ -6,8 +6,9 @@ public enum MessageManager {
     //Error messages
     NO_PERMISSION_MESSAGE("§cVous n'avez pas la permission d'exécuter cette commande !"),
     NO_HR_PERMISSION_MESSAGE("§cVous n'avez pas le Rang d'Honneur requis pour exécuter cette commande ! §8(§3/hr §7pour plus d'infos§8)"),
-    NOT_ENOUGH_ARGS_MESSAGE("§cArguments insuffisants."),
+    NOT_ENOUGH_ARGS_MESSAGE("§cArguments insuffisants. §8(§cUtilisation : §3%s§8)"),
     UNKNOWN_SUBCOMMAND_MESSAGE("§cSous commande inconnue."),
+    UNKNOWN_PLAYER_MESSAGE("§cCe joueur n'existe pas."),
     PLAYER_MOVED_TP("§cVous avez bougé, la téléportation a été annulée !"),
     PLAYER_NOT_TP("§cVous n'avez pas été téléporté, car la localisation n'est pas sûre !"),
     NO_ITEMS_TO_FURNACE_MESSAGE("§cVous n'avez aucun item à cuire dans votre main !"),

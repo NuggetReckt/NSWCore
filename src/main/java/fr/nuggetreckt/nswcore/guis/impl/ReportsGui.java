@@ -6,7 +6,9 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
 import java.util.function.Supplier;
 
 public class ReportsGui implements CustomInventory {
@@ -45,7 +47,12 @@ public class ReportsGui implements CustomInventory {
     }
 
     @Override
-    public void onClick(Player player, Inventory inventory, ItemStack clickedItem, int slot) {
+    public void onClick(Player player, Inventory inventory, @NotNull ItemStack clickedItem, int slot) {
+        if (!clickedItem.hasItemMeta()) return;
+        if (!Objects.requireNonNull(clickedItem.getItemMeta()).hasDisplayName()) return;
 
+        if (clickedItem.getItemMeta().getDisplayName().equals("§8§l»§r §3Fermer §8§l«")) {
+            player.closeInventory();
+        }
     }
 }
