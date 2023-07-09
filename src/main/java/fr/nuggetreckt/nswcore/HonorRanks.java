@@ -109,7 +109,7 @@ public class HonorRanks {
     public void saveAllPlayerData() {
         if (Bukkit.getOnlinePlayers().size() > 0) {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                new Requests().updatePlayerData(player, getPlayerRankId(player), getPlayerPoints(player));
+                NSWCore.getServerHandler().getExecutor().execute(() -> new Requests().updatePlayerData(player, getPlayerRankId(player), getPlayerPoints(player)));
             }
         }
     }

@@ -1,5 +1,7 @@
 package fr.nuggetreckt.nswcore.guis.impl;
 
+import fr.nuggetreckt.nswcore.NSWCore;
+import fr.nuggetreckt.nswcore.database.Requests;
 import fr.nuggetreckt.nswcore.guis.CustomInventory;
 import fr.nuggetreckt.nswcore.utils.ItemUtils;
 import org.bukkit.Material;
@@ -8,6 +10,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.Supplier;
 
@@ -28,7 +34,11 @@ public class ReportsGui implements CustomInventory {
         ItemStack[] slots = new ItemStack[getSlots()];
 
         //Reports
-        slots[0] = new ItemUtils(Material.PAPER).setName("§8§l»§r §3Name §8§l«").hideFlags().setLore("").toItemStack();
+        setReportItems();
+
+        for (int i = 0; i < getSlots(); i++) {
+            slots[i] = getReportItem(i);
+        }
 
         //Utils
         slots[49] = new ItemUtils(Material.BARRIER).setName("§8§l»§r §3Fermer §8§l«").hideFlags().setLore(" ", "§8| §fFerme le menu").toItemStack();
@@ -54,5 +64,47 @@ public class ReportsGui implements CustomInventory {
         if (clickedItem.getItemMeta().getDisplayName().equals("§8§l»§r §3Fermer §8§l«")) {
             player.closeInventory();
         }
+    }
+
+    private final Map<Integer, ItemStack> reportItems = new HashMap<>();
+
+    private void setReportItems() {
+        Requests req = NSWCore.getRequestsManager();
+
+        final int reportsCount = req.getReportsCount();
+
+        String reportedName;
+        String creatorName;
+        int reportType;
+        String reportReason;
+        Timestamp timestamp;
+
+        for (int i = 1; i <= reportsCount; i++) {
+            if (i <= 44) {
+                reportedName = req.getReportedName(i);
+                creatorName = req.getCreatorName(i);
+                reportType = req.getReportType(i);
+                reportReason = req.getReportReason(i);
+                timestamp = req.getReportTime(i);
+
+                String reportDate = new SimpleDateFormat("MM/dd/yyyy").format(timestamp);
+                String reportTime = new SimpleDateFormat("HH:mm").format(timestamp);
+
+                ItemStack item = new ItemUtils(Material.PAPER).setName("§8§l»§r §c§l" + reportedName + " §8§l«").hideFlags()
+                        .setLore(" ", "§8| §fPar §3" + creatorName, "§8| §fPour §3" + NSWCore.getReportUtils().getTypeById(reportType).getDisplayName(),
+                                "§8| §fLe §3" + reportDate + " §fà §3" + reportTime, "§8| §fRaison : §7" + reportReason)
+                        .toItemStack();
+
+                setReportItem(i - 1, item);
+            }
+        }
+    }
+
+    private void setReportItem(int key, ItemStack item) {
+        this.reportItems.putIfAbsent(key, item);
+    }
+
+    private ItemStack getReportItem(int key) {
+        return this.reportItems.get(key);
     }
 }

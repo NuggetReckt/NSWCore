@@ -31,6 +31,7 @@ public class NSWCore extends JavaPlugin {
     private static StaffUtils staffUtils;
     private static ReportUtils reportUtils;
     private static ServerHandler serverHandler;
+    private static Requests requestsManager;
     private static BukkitTask bukkitTask;
     private final SaveTask saveTask;
     private static Connector connector = null;
@@ -52,6 +53,7 @@ public class NSWCore extends JavaPlugin {
         staffUtils = new StaffUtils();
         reportUtils = new ReportUtils();
         serverHandler = new ServerHandler();
+        requestsManager = new Requests();
     }
 
     @Override
@@ -62,7 +64,7 @@ public class NSWCore extends JavaPlugin {
         setServerPort();
 
         //Create table if absent
-        new Requests().createTables();
+        getRequestsManager().createTables();
 
         //Launch BukkitTask
         saveTask.launch();
@@ -185,6 +187,10 @@ public class NSWCore extends JavaPlugin {
 
     public static ServerHandler getServerHandler() {
         return serverHandler;
+    }
+
+    public static Requests getRequestsManager() {
+        return requestsManager;
     }
 
     public static boolean isFarmzone() {

@@ -1,6 +1,7 @@
 package fr.nuggetreckt.nswcore.utils;
 
 import fr.nuggetreckt.nswcore.NSWCore;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -133,6 +134,8 @@ public class StaffUtils {
     }
 
     public void restoreStaffData() {
+        if (Bukkit.getOnlinePlayers().size() == 0) return;
+
         for (UUID uuid : isStaffMode.keySet()) {
             Player player = NSWCore.getPlayerByUuid(uuid);
 

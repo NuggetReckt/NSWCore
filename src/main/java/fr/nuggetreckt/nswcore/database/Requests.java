@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 
 public class Requests {
 
@@ -99,6 +100,132 @@ public class Requests {
         close();
     }
 
+    public void deleteReport(int id) {
+        query = "DELETE * FROM core_reports WHERE id = " + id + ";";
+        updateData(query);
+        close();
+    }
+
+    public void markReportAsResolved(int id) {
+        query = "UPDATE core_reports SET isResolved = 1 WHERE id = " + id + ";";
+        updateData(query);
+        close();
+    }
+
+    public String getReportedName(int id) {
+        query = "SELECT reportedName FROM core_reports WHERE id = " + id + ";";
+        String result = null;
+
+        retrieveData(query);
+        try {
+            if (resultSet.next()) {
+                result = resultSet.getString("reportedName");
+            }
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } finally {
+            close();
+        }
+        return result;
+    }
+
+    public String getCreatorName(int id) {
+        query = "SELECT creatorName FROM core_reports WHERE id = " + id + ";";
+        String result = null;
+
+        retrieveData(query);
+        try {
+            if (resultSet.next()) {
+                result = resultSet.getString("creatorName");
+            }
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } finally {
+            close();
+        }
+        return result;
+    }
+
+    public int getReportType(int id) {
+        query = "SELECT typeId FROM core_reports WHERE id = " + id + ";";
+        int result = 0;
+
+        retrieveData(query);
+        try {
+            if (resultSet.next()) {
+                result = resultSet.getInt("typeId");
+            }
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } finally {
+            close();
+        }
+        return result;
+    }
+
+    public String getReportReason(int id) {
+        query = "SELECT reason FROM core_reports WHERE id = " + id + ";";
+        String result = null;
+
+        retrieveData(query);
+        try {
+            if (resultSet.next()) {
+                result = resultSet.getString("reason");
+            }
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } finally {
+            close();
+        }
+        return result;
+    }
+
+    public Timestamp getReportTime(int id) {
+        query = "SELECT * FROM core_reports WHERE id = " + id + ";";
+        Timestamp result = null;
+
+        retrieveData(query);
+        try {
+            if (resultSet.next()) {
+                result = resultSet.getTimestamp("date");
+            }
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } finally {
+            close();
+        }
+        return result;
+    }
+
+    public int getReportsCount() {
+        query = "SELECT COUNT(*) FROM core_reports;";
+        int result = 0;
+
+        retrieveData(query);
+        try {
+            if (resultSet.next()) {
+                result = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } finally {
+            close();
+        }
+        return result;
+    }
+
     public void createTables() {
         NSWCore.getServerHandler().getExecutor().execute(() -> {
             createPlayerDataTable();
@@ -112,11 +239,10 @@ public class Requests {
                 CREATE TABLE IF NOT EXISTS core_playerdata
                 (
                     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-                    uuid VARCHAR(36),
-                    playerName VARCHAR(50),
-                    rankId INT(1),
-                    reason TEXT,
-                    honorPoints INT(5)
+                    uuid VARCHAR(36) NOT NULL,
+                    playerName VARCHAR(50) NOT NULL,
+                    rankId INT(1) NOT NULL,
+                    honorPoints INT(5) NOT NULL
                 );
                 """;
         updateData(query);
@@ -133,7 +259,8 @@ public class Requests {
                     reportedUuid VARCHAR(36) NOT NULL,
                     reportedName VARCHAR(50) NOT NULL,
                     typeId INT(1) NOT NULL,
-                    reason TEXT,
+                    reason TEXT NOT NULL,
+                    isResolved TINYINT(1) NULL,
                     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
                 );
                 """;
@@ -146,7 +273,7 @@ public class Requests {
                 CREATE TABLE IF NOT EXISTS core_players
                 (
                     uuid VARCHAR(36) PRIMARY KEY NOT NULL,
-                    playerName VARCHAR(36) KEY 'core_players_playerName' NOT NULL,
+                    playerName VARCHAR(36) NOT NULL,
                     lastLogin TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
                 );
                 """;
