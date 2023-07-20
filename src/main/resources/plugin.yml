@@ -47,6 +47,12 @@ commands:
   report:
     description: Commande pour reporter des joueurs
     usage: "/report <joueur> <type> <raison>"
+  freeze:
+    description: Commande pour freeze un joueur
+    usage: "/freeze <joueur>"
+  unfreeze:
+    description: Commande pour unfreeze un joueur
+    usage: "/unfreeze <joueur>"
 permissions:
   nsw.*:
     description: Permission globale*

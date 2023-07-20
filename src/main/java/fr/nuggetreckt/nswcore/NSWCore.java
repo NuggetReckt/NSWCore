@@ -83,6 +83,8 @@ public class NSWCore extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("kit")).setExecutor(new KitCommand());
         Objects.requireNonNull(this.getCommand("spawn")).setExecutor(new SpawnCommand());
         Objects.requireNonNull(this.getCommand("report")).setExecutor(new ReportCommand());
+        Objects.requireNonNull(this.getCommand("freeze")).setExecutor(new FreezeCommand());
+        Objects.requireNonNull(this.getCommand("unfreeze")).setExecutor(new UnfreezeCommand());
 
         //register TabCompleters
         Objects.requireNonNull(this.getCommand("honorrank")).setTabCompleter(new TabCompletion());

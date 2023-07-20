@@ -20,6 +20,8 @@ public enum MessageManager {
     COMMAND_ONLY_AVAILABLE_SURVIVAL_MESSAGE("§cCette commande n'est disponible qu'en serveur survie !"),
     NO_ENOUGH_HONORPOINTS("§cVous n'avez pas assez de Points d'Honneur ! §8(§3%s§8/§3%s§8)"),
     MAX_HONORRANK_MESSAGE("§cVous êtes déjà au Rang d'Honneur maximum ! §8(§36§8)"),
+    PLAYER_ALREADY_FROZEN_MESSAGE("§cLe joueur est déjà freeze !"),
+    PLAYER_NOT_FROZEN_MESSAGE("§cLe joueur n'est pas freeze !"),
 
     //Success messages
     SUCCESS_TP_MESSAGE("Téléporté avec succès !"),
