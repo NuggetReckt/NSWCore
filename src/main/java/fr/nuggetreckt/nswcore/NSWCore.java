@@ -101,6 +101,7 @@ public class NSWCore extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new OnDeathListener(), this);
         getServer().getPluginManager().registerEvents(new StaffEventsCanceller(), this);
         getServer().getPluginManager().registerEvents(new StaffEventsListener(), this);
+        getServer().getPluginManager().registerEvents(new OnCommandListener(), this);
 
         if (isFarmzone()) {
             getServer().getPluginManager().registerEvents(new OnDragonDeathListener(), this);

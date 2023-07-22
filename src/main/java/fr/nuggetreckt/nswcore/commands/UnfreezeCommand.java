@@ -16,17 +16,23 @@ public class UnfreezeCommand implements CommandExecutor {
             Player player = (Player) commandSender;
 
             if (player.hasPermission("group.staff")) {
-                Player target = NSWCore.getPlayerByName(args[0]);
-                assert target != null;
+                if (args.length >= 1) {
+                    Player target = NSWCore.getPlayerByName(args[0]);
+                    assert target != null;
 
-                if (NSWCore.getStaffUtils().isFrozen(target)) {
-                    NSWCore.getStaffUtils().setFrozen(target, false);
-                    player.sendMessage(String.format(MessageManager.PLAYER_UNFREEZE_MESSAGE_STAFF.getMessage(), "NSW", target.getName()));
-                    target.sendMessage(String.format(MessageManager.PLAYER_UNFREEZE_MESSAGE_TARGET.getMessage(), "NSW", player.getName()));
+                    if (NSWCore.getStaffUtils().isFrozen(target)) {
+                        NSWCore.getStaffUtils().setFrozen(target, false);
+                        player.sendMessage(String.format(MessageManager.PLAYER_UNFREEZE_MESSAGE_STAFF.getMessage(), "NSW", target.getName()));
+                        target.sendMessage(String.format(MessageManager.PLAYER_UNFREEZE_MESSAGE_TARGET.getMessage(), "NSW", player.getName()));
+                    } else {
+                        //Le joueur n'est pas freeze
+                        player.sendMessage(String.format(MessageManager.PLAYER_NOT_FROZEN_MESSAGE.getMessage(), "NSW"));
+                    }
                 } else {
-                    //Le joueur n'est pas freeze
-                    player.sendMessage(String.format(MessageManager.PLAYER_NOT_FROZEN_MESSAGE.getMessage(), "NSW"));
+                    player.sendMessage(String.format(MessageManager.NOT_ENOUGH_ARGS_MESSAGE.getMessage(), "NSW"));
                 }
+            } else {
+                player.sendMessage(String.format(MessageManager.NO_PERMISSION_MESSAGE.getMessage(), "NSW"));
             }
         }
         return true;

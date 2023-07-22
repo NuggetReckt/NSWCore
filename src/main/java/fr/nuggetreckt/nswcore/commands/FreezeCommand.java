@@ -16,17 +16,25 @@ public class FreezeCommand implements CommandExecutor {
             Player player = (Player) commandSender;
 
             if (player.hasPermission("group.staff")) {
-                Player target = NSWCore.getPlayerByName(args[0]);
-                assert target != null;
+                if (args.length >= 1) {
+                    Player target = NSWCore.getPlayerByName(args[0]);
+                    assert target != null;
 
-                if (!NSWCore.getStaffUtils().isFrozen(target)) {
-                    NSWCore.getStaffUtils().setFrozen(target, true);
-                    player.sendMessage(String.format(MessageManager.PLAYER_FREEZE_MESSAGE_STAFF.getMessage(), "NSW", target.getName()));
-                    target.sendMessage(String.format(MessageManager.PLAYER_FREEZE_MESSAGE_TARGET.getMessage(), "NSW", player.getName()));
+                    if (!NSWCore.getStaffUtils().isFrozen(target)) {
+                        NSWCore.getStaffUtils().setFrozen(target, true);
+                        player.sendMessage(String.format(MessageManager.PLAYER_FREEZE_MESSAGE_STAFF.getMessage(), "NSW", target.getName()));
+                        target.sendMessage(String.format(MessageManager.PLAYER_FREEZE_MESSAGE_TARGET.getMessage(), "NSW", player.getName()));
+
+                        target.sendTitle("§4§lVous êtes freeze", "§cRendez-vous sur le Discord §8(§3/discord§8)", 10, 200, 60);
+                    } else {
+                        //Le joueur est déja freeze
+                        player.sendMessage(String.format(MessageManager.PLAYER_ALREADY_FROZEN_MESSAGE.getMessage(), "NSW"));
+                    }
                 } else {
-                    //Le joueur est déja freeze
-                    player.sendMessage(String.format(MessageManager.PLAYER_ALREADY_FROZEN_MESSAGE.getMessage(), "NSW"));
+                    player.sendMessage(String.format(MessageManager.NOT_ENOUGH_ARGS_MESSAGE.getMessage(), "NSW"));
                 }
+            } else {
+                player.sendMessage(String.format(MessageManager.NO_PERMISSION_MESSAGE.getMessage(), "NSW"));
             }
         }
         return true;

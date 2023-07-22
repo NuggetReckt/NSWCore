@@ -22,6 +22,7 @@ public enum MessageManager {
     MAX_HONORRANK_MESSAGE("§cVous êtes déjà au Rang d'Honneur maximum ! §8(§36§8)"),
     PLAYER_ALREADY_FROZEN_MESSAGE("§cLe joueur est déjà freeze !"),
     PLAYER_NOT_FROZEN_MESSAGE("§cLe joueur n'est pas freeze !"),
+    COMMANDS_DISABLED("§cLes commandes ont été désactivées."),
 
     //Success messages
     SUCCESS_TP_MESSAGE("Téléporté avec succès !"),
@@ -38,7 +39,7 @@ public enum MessageManager {
     PLAYER_FREEZE_MESSAGE_STAFF("Vous avez freeze le joueur §3%s"),
     PLAYER_UNFREEZE_MESSAGE_STAFF("Vous avez unfreeze le joueur §3%s"),
     SUCCESS_PLAYER_REPORTED("Vous avez report le joueur §3%s §favec succès. " +
-            "Nous vous en remercions et nous en prendrons compte dans les plus bref délais." +
+            "Nous vous en remercions et nous en prendrons compte dans les plus bref délais. " +
             "Si vous possédez des preuves/informations supplémentaire au concernant votre report, " +
             "merci de nous en faire part au plus vite via discord. §8(§3/discord§8)"),
 
