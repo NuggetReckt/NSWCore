@@ -30,7 +30,7 @@ public class OnJoinListener implements Listener {
                 player.sendMessage(" §8| §fUtilise §3/rtp §fpour te téléporter aléatoirement");
                 player.sendMessage(" §8| §fUtilise §3/kit §fpour réclamer ton kit");
             } else {
-                Bukkit.broadcastMessage(String.format(MessageManager.WELCOME_PLAYER_JOIN_MESSAGE.getBroadcastMessage(), player.getName(), nsw));
+                Bukkit.broadcastMessage(String.format(MessageManager.WELCOME_PLAYER_JOIN.getBroadcastMessage(), player.getName(), nsw));
             }
         }
         if (player.isOp() || player.hasPermission("group.admin")) {

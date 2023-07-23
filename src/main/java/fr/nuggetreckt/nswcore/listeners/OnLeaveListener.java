@@ -40,9 +40,10 @@ public class OnLeaveListener implements Listener {
         if (staffUtils.isFrozen(player)) {
             for (Player staff : Bukkit.getOnlinePlayers()) {
                 if (staff.hasPermission("group.staff") || staff.isOp()) {
-                    staff.sendMessage(String.format(MessageManager.PLAYER_FREEZED_QUIT_MESSAGE.getWarnMessage(), player.getName()));
+                    staff.sendMessage(String.format(MessageManager.PLAYER_FREEZED_QUIT.getWarnMessage(), player.getName()));
                 }
             }
+            NSWCore.getInstance().getLogger().info("\033[0;36mLe joueur \033[0;31m" + player.getName() + "\033[0;36m s'est déconnecté en étant freeze.\033[0m");
         }
         if (player.hasPermission("group.staff") || player.isOp()) {
             if (staffUtils.isStaffMode(player)) {

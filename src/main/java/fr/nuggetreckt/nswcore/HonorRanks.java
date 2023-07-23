@@ -82,7 +82,7 @@ public class HonorRanks {
                 playerPoints.replace(player.getUniqueId(), points);
                 playerRank.replace(player.getUniqueId(), nextRank);
 
-                Bukkit.broadcastMessage(String.format(MessageManager.HONORRANKS_UPRANK_BROADCASTMESSAGE.getBroadcastMessage(),
+                Bukkit.broadcastMessage(String.format(MessageManager.HONORRANKS_UPRANK_BROADCAST.getBroadcastMessage(),
                         player.getName(), nextRank.getRankId()));
 
                 new EffectUtils().uprankEffect(player);
@@ -90,7 +90,7 @@ public class HonorRanks {
                 player.sendMessage(String.format(MessageManager.NO_ENOUGH_HONORPOINTS.getMessage(), "HR", currentPoints, pointsNeeded));
             }
         } else {
-            player.sendMessage(String.format(MessageManager.MAX_HONORRANK_MESSAGE.getMessage(), "HR"));
+            player.sendMessage(String.format(MessageManager.MAX_HONORRANK.getMessage(), "HR"));
         }
     }
 
@@ -99,7 +99,7 @@ public class HonorRanks {
             Rank nextRank = getNextPlayerRank(player);
             playerRank.replace(player.getUniqueId(), nextRank);
 
-            Bukkit.broadcastMessage(String.format(MessageManager.HONORRANKS_UPRANK_BROADCASTMESSAGE.getBroadcastMessage(),
+            Bukkit.broadcastMessage(String.format(MessageManager.HONORRANKS_UPRANK_BROADCAST.getBroadcastMessage(),
                     player.getName(), nextRank.getRankId()));
 
             new EffectUtils().uprankEffect(player);

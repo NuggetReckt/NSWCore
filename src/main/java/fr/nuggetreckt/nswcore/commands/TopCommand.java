@@ -4,7 +4,6 @@ import fr.nuggetreckt.nswcore.NSWCore;
 import fr.nuggetreckt.nswcore.utils.CooldownManager;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
 import fr.nuggetreckt.nswcore.utils.TeleportUtils;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -37,10 +36,10 @@ public class TopCommand implements CommandExecutor {
                     }
                     toTop(player);
                 } else {
-                    player.sendMessage(String.format(MessageManager.WAIT_BEFORE_USE_MESSAGE.getMessage(), "TP", timeLeft.toMinutes()));
+                    player.sendMessage(String.format(MessageManager.WAIT_BEFORE_USE.getMessage(), "TP", timeLeft.toMinutes()));
                 }
             } else {
-                player.sendMessage(String.format(MessageManager.NO_HR_PERMISSION_MESSAGE.getMessage(), "TP"));
+                player.sendMessage(String.format(MessageManager.NO_HR_PERMISSION.getMessage(), "TP"));
             }
         }
         return true;
@@ -59,7 +58,7 @@ public class TopCommand implements CommandExecutor {
 
             if (teleportUtils.isValid(block)) {
                 target.teleport(block.getLocation().add(0.5D, 1.0D, 0.5D));
-                target.sendMessage(String.format(MessageManager.SUCCESS_TP_MESSAGE.getMessage(), "TP"));
+                target.sendMessage(String.format(MessageManager.SUCCESS_TP.getMessage(), "TP"));
                 NSWCore.getEffectUtils().teleportEffect(target);
                 return;
             }

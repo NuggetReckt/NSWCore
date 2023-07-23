@@ -47,7 +47,7 @@ public class StaffUtils {
             setCanFly(player, true);
             setItems(player, true);
 
-            player.sendMessage(String.format(MessageManager.STAFF_MODE_ENTER_MESSAGE.getMessage(), "Staff"));
+            player.sendMessage(String.format(MessageManager.STAFF_MODE_ENTER.getMessage(), "Staff"));
         } else {
             setStaffMode(player, false);
             setInvisible(player, false);
@@ -56,7 +56,7 @@ public class StaffUtils {
             setItems(player, false);
             player.teleport(getOldLocation(player));
 
-            player.sendMessage(String.format(MessageManager.STAFF_MODE_LEAVE_MESSAGE.getMessage(), "Staff"));
+            player.sendMessage(String.format(MessageManager.STAFF_MODE_LEAVE.getMessage(), "Staff"));
         }
     }
 

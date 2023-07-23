@@ -91,10 +91,10 @@ public class KitGui implements CustomInventory {
                     player.sendMessage(String.format(MessageManager.KIT_RECEIVED.getMessage(), "Kit"));
                     player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 15, 1);
                 } else {
-                    player.sendMessage(String.format(MessageManager.NOT_ENOUGH_ROOM_INV_MESSAGE.getMessage(), "Kit"));
+                    player.sendMessage(String.format(MessageManager.NOT_ENOUGH_ROOM_INV.getMessage(), "Kit"));
                 }
             } else {
-                player.sendMessage(String.format(MessageManager.WAIT_BEFORE_KIT_MESSAGE.getMessage(), "Kit", timeLeft.toHours()));
+                player.sendMessage(String.format(MessageManager.WAIT_BEFORE_KIT.getMessage(), "Kit", timeLeft.toHours()));
             }
             player.closeInventory();
         }

@@ -33,43 +33,43 @@ public class OnDeathListener implements Listener {
                         int a = r.nextInt(0, 1);
 
                         if (a == 0) {
-                            event.setDeathMessage(String.format(MessageManager.PLAYER_KILL_MESSAGE.getDeathMessage(), player.getName(), damager.getName()));
+                            event.setDeathMessage(String.format(MessageManager.PLAYER_KILL.getDeathMessage(), player.getName(), damager.getName()));
                         } else {
-                            event.setDeathMessage(String.format(MessageManager.PLAYER_KILL2_MESSAGE.getDeathMessage(), player.getName(), damager.getName()));
+                            event.setDeathMessage(String.format(MessageManager.PLAYER_KILL2.getDeathMessage(), player.getName(), damager.getName()));
                         }
                     } else if (damager instanceof Creeper) {
-                        event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH_CREEPER_MESSAGE.getDeathMessage(), player.getName()));
+                        event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH_CREEPER.getDeathMessage(), player.getName()));
                     } else if (damager instanceof Projectile) {
                         Object shooter = ((Projectile) damager).getShooter();
                         if (shooter instanceof Entity) {
-                            event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH_MOB_MESSAGE.getDeathMessage(), player.getName(), ((Entity) shooter).getName()));
+                            event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH_MOB.getDeathMessage(), player.getName(), ((Entity) shooter).getName()));
                         }
                     } else {
-                        event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH_MOB_MESSAGE.getDeathMessage(), player.getName(), damager.getName()));
+                        event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH_MOB.getDeathMessage(), player.getName(), damager.getName()));
                     }
                 }
                 break;
             case LAVA, FIRE, FIRE_TICK, HOT_FLOOR:
-                event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH_BURNED_MESSAGE.getDeathMessage(), player.getName()));
+                event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH_BURNED.getDeathMessage(), player.getName()));
                 break;
             case DROWNING:
-                event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH_DROWNED_MESSAGE.getDeathMessage(), player.getName()));
+                event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH_DROWNED.getDeathMessage(), player.getName()));
                 break;
             case SUFFOCATION:
                 break;
             case FALL, FLY_INTO_WALL:
-                event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH_FALL_MESSAGE.getDeathMessage(), player.getName()));
+                event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH_FALL.getDeathMessage(), player.getName()));
                 break;
             case VOID:
-                event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH_VOID_MESSAGE.getDeathMessage(), player.getName()));
+                event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH_VOID.getDeathMessage(), player.getName()));
                 break;
             default:
                 int a = r.nextInt(0, 1);
 
                 if (a == 0) {
-                    event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH_MESSAGE.getDeathMessage(), player.getName()));
+                    event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH.getDeathMessage(), player.getName()));
                 } else {
-                    event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH2_MESSAGE.getDeathMessage(), player.getName()));
+                    event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH2.getDeathMessage(), player.getName()));
                 }
                 break;
         }

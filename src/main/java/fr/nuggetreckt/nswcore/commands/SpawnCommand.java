@@ -38,19 +38,19 @@ public class SpawnCommand implements CommandExecutor {
                         } else {
                             cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.SPAWN_COOLDOWN.getValue()), "TP");
                         }
-                        player.sendMessage(String.format(MessageManager.PRE_SPAWN_TP_MESSAGE.getMessage(), "TP"));
+                        player.sendMessage(String.format(MessageManager.PRE_SPAWN_TP.getMessage(), "TP"));
 
                         teleportUtils.setTeleports(player, true);
 
                         BukkitTask task = Bukkit.getScheduler().runTaskLater(NSWCore.getInstance(), () -> {
                             teleportUtils.setTeleports(player, false);
                             player.teleport(spawnLoc);
-                            player.sendMessage(String.format(MessageManager.SUCCESS_SPAWN_TP_MESSAGE.getMessage(), "TP"));
+                            player.sendMessage(String.format(MessageManager.SUCCESS_SPAWN_TP.getMessage(), "TP"));
                             NSWCore.getEffectUtils().teleportEffect(player);
                         }, 100L);
                         NSWCore.setBukkitTask(task);
                     } else {
-                        player.sendMessage(String.format(MessageManager.WAIT_BEFORE_USE_MESSAGE.getMessage(), "TP", timeLeft.toSeconds()));
+                        player.sendMessage(String.format(MessageManager.WAIT_BEFORE_USE.getMessage(), "TP", timeLeft.toSeconds()));
                     }
                 } else if (args.length == 1) {
                     if (player.hasPermission("nsw.commands.admin") || player.isOp()) {
@@ -58,14 +58,14 @@ public class SpawnCommand implements CommandExecutor {
                         assert target != null;
 
                         target.teleport(spawnLoc);
-                        target.sendMessage(String.format(MessageManager.SUCCESS_SPAWN_TP_MESSAGE.getMessage(), "TP"));
-                        player.sendMessage(String.format(MessageManager.SUCCESS_TP_OTHER_MESSAGE.getMessage(), "TP", target.getName()));
+                        target.sendMessage(String.format(MessageManager.SUCCESS_SPAWN_TP.getMessage(), "TP"));
+                        player.sendMessage(String.format(MessageManager.SUCCESS_TP_OTHER.getMessage(), "TP", target.getName()));
                     } else {
-                        player.sendMessage(MessageManager.NO_PERMISSION_MESSAGE.getMessage(), "TP");
+                        player.sendMessage(MessageManager.NO_PERMISSION.getMessage(), "TP");
                     }
                 }
             } else {
-                player.sendMessage(String.format(MessageManager.COMMAND_ONLY_AVAILABLE_SURVIVAL_MESSAGE.getMessage(), "TP"));
+                player.sendMessage(String.format(MessageManager.COMMAND_ONLY_AVAILABLE_SURVIVAL.getMessage(), "TP"));
             }
         }
         return true;

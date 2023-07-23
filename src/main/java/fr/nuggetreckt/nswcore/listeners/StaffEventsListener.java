@@ -41,14 +41,14 @@ public class StaffEventsListener implements Listener {
             if (item.getType() == Material.BLUE_ICE) {
                 if (!staffUtils.isFrozen(target)) {
                     staffUtils.setFrozen(target, true);
-                    player.sendMessage(String.format(MessageManager.PLAYER_FREEZE_MESSAGE_STAFF.getMessage(), "NSW", target.getName()));
-                    target.sendMessage(String.format(MessageManager.PLAYER_FREEZE_MESSAGE_TARGET.getMessage(), "NSW", player.getName()));
+                    player.sendMessage(String.format(MessageManager.PLAYER_FREEZE_STAFF.getMessage(), "NSW", target.getName()));
+                    target.sendMessage(String.format(MessageManager.PLAYER_FREEZE_TARGET.getMessage(), "NSW", player.getName()));
 
                     target.sendTitle("§4§lVous êtes freeze", "§cRendez-vous sur le Discord §8(§3/discord§8)", 10, 200, 60);
                 } else {
                     staffUtils.setFrozen(target, false);
-                    player.sendMessage(String.format(MessageManager.PLAYER_UNFREEZE_MESSAGE_STAFF.getMessage(), "NSW", target.getName()));
-                    target.sendMessage(String.format(MessageManager.PLAYER_UNFREEZE_MESSAGE_TARGET.getMessage(), "NSW", player.getName()));
+                    player.sendMessage(String.format(MessageManager.PLAYER_UNFREEZE_STAFF.getMessage(), "NSW", target.getName()));
+                    target.sendMessage(String.format(MessageManager.PLAYER_UNFREEZE_TARGET.getMessage(), "NSW", player.getName()));
                 }
             }
             if (item.getType() == Material.CHEST) {

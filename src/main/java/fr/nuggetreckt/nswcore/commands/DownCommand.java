@@ -36,10 +36,10 @@ public class DownCommand implements CommandExecutor {
                     }
                     toDown(player);
                 } else {
-                    player.sendMessage(String.format(MessageManager.WAIT_BEFORE_USE_MESSAGE.getMessage(), "TP", timeLeft.toMinutes()));
+                    player.sendMessage(String.format(MessageManager.WAIT_BEFORE_USE.getMessage(), "TP", timeLeft.toMinutes()));
                 }
             } else {
-                player.sendMessage(String.format(MessageManager.NO_HR_PERMISSION_MESSAGE.getMessage(), "TP"));
+                player.sendMessage(String.format(MessageManager.NO_HR_PERMISSION.getMessage(), "TP"));
             }
         }
         return true;
@@ -58,7 +58,7 @@ public class DownCommand implements CommandExecutor {
 
             if (teleportUtils.isValid(block)) {
                 target.teleport(block.getLocation().add(0.5D, 1.0D, 0.05D));
-                target.sendMessage(String.format(MessageManager.SUCCESS_TP_MESSAGE.getMessage(), "TP"));
+                target.sendMessage(String.format(MessageManager.SUCCESS_TP.getMessage(), "TP"));
                 NSWCore.getEffectUtils().teleportEffect(target);
                 return;
             }

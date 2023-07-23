@@ -8,9 +8,11 @@ import fr.nuggetreckt.nswcore.database.SaveTask;
 import fr.nuggetreckt.nswcore.expansions.PAPIExpansion;
 import fr.nuggetreckt.nswcore.listeners.*;
 import fr.nuggetreckt.nswcore.utils.*;
+import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -33,6 +35,8 @@ public class NSWCore extends JavaPlugin {
     private static ServerHandler serverHandler;
     private static Requests requestsManager;
     private static BukkitTask bukkitTask;
+    private static LuckPerms luckPermsAPI;
+    private static LuckPermsUtils luckPermsUtils;
     private final SaveTask saveTask;
     private static Connector connector = null;
     private static int serverPort;
@@ -54,6 +58,7 @@ public class NSWCore extends JavaPlugin {
         reportUtils = new ReportUtils();
         serverHandler = new ServerHandler();
         requestsManager = new Requests();
+        luckPermsUtils = new LuckPermsUtils();
     }
 
     @Override
@@ -90,7 +95,6 @@ public class NSWCore extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("honorrank")).setTabCompleter(new TabCompletion());
         Objects.requireNonNull(this.getCommand("spawn")).setTabCompleter(new TabCompletion());
         Objects.requireNonNull(this.getCommand("report")).setTabCompleter(new TabCompletion());
-        Objects.requireNonNull(this.getCommand("report")).setTabCompleter(new TabCompletion());
 
         //Register events
         getServer().getPluginManager().registerEvents(new OnJoinListener(), this);
@@ -108,9 +112,10 @@ public class NSWCore extends JavaPlugin {
         }
 
         //Register PAPI expansion
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            new PAPIExpansion().register();
-        }
+        setPlaceHolderAPI();
+
+        //Register Luckperms API
+        setLuckPermsAPI();
 
         logger.info(String.format("[%s] Plugin loaded successfully", getDescription().getName()));
         logger.info("  _   _  _______          _______               ");
@@ -196,6 +201,14 @@ public class NSWCore extends JavaPlugin {
         return requestsManager;
     }
 
+    public static LuckPerms getLuckPermsAPI() {
+        return luckPermsAPI;
+    }
+
+    public static LuckPermsUtils getLuckPermsUtils() {
+        return luckPermsUtils;
+    }
+
     public static boolean isFarmzone() {
         return serverPort == farmzonePort;
     }
@@ -210,5 +223,18 @@ public class NSWCore extends JavaPlugin {
 
     private void setServerPort() {
         serverPort = Bukkit.getServer().getPort();
+    }
+
+    private void setLuckPermsAPI() {
+        RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
+        if (provider != null) {
+            luckPermsAPI = provider.getProvider();
+        }
+    }
+
+    private void setPlaceHolderAPI() {
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            new PAPIExpansion().register();
+        }
     }
 }

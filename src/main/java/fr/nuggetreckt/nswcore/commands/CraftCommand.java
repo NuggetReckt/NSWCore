@@ -18,7 +18,7 @@ public class CraftCommand implements CommandExecutor {
             if (player.hasPermission("nsw.commands.craft")) {
                 player.openWorkbench(null, true);
             } else {
-                player.sendMessage(String.format(MessageManager.NO_PERMISSION_MESSAGE.getMessage(), "NSW"));
+                player.sendMessage(String.format(MessageManager.NO_PERMISSION.getMessage(), "NSW"));
             }
         }
         return true;
