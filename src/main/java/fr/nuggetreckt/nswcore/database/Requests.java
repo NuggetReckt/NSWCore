@@ -80,7 +80,7 @@ public class Requests {
         retrieveData(query);
         try {
             if (resultSet.next()) {
-                result = NSWCore.getPlayerByName(resultSet.getString("playerName"));
+                result = NSWCore.getInstance().getPlayerByName(resultSet.getString("playerName"));
             }
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
@@ -110,6 +110,25 @@ public class Requests {
         query = "UPDATE core_reports SET isResolved = 1 WHERE id = " + id + ";";
         updateData(query);
         close();
+    }
+
+    public int getResolved(int id) {
+        query = "SELECT isResolved FROM core_reports WHERE id = " + id + ";";
+        int result = 0;
+
+        retrieveData(query);
+        try {
+            if (resultSet.next()) {
+                result = resultSet.getInt("isResolved");
+            }
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } finally {
+            close();
+        }
+        return result;
     }
 
     public String getReportedName(int id) {
@@ -260,7 +279,7 @@ public class Requests {
                     reportedName VARCHAR(50) NOT NULL,
                     typeId INT(1) NOT NULL,
                     reason TEXT NOT NULL,
-                    isResolved TINYINT(1) NULL,
+                    isResolved TINYINT(1) DEFAULT 0,
                     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
                 );
                 """;

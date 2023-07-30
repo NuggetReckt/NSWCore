@@ -3,6 +3,7 @@ package fr.nuggetreckt.nswcore;
 import fr.nuggetreckt.nswcore.database.Requests;
 import fr.nuggetreckt.nswcore.utils.EffectUtils;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
+import fr.nuggetreckt.nswcore.utils.RewardUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -51,7 +52,7 @@ public class HonorRanks {
     private final Map<UUID, Long> playerPoints = new HashMap<>();
 
     public void init(@NotNull Player player) {
-        if (NSWCore.hasJoinedOnce(player)) {
+        if (NSWCore.getInstance().hasJoinedOnce(player)) {
             int rankId = new Requests().getPlayerRankId(player);
             long points = new Requests().getPlayerPoints(player);
 
@@ -68,6 +69,7 @@ public class HonorRanks {
         long oldPoints = getPlayerPoints(player);
 
         playerPoints.replace(player.getUniqueId(), oldPoints + honorPoints);
+        new EffectUtils().gainPointsEffect(player);
     }
 
     public void upRankPlayer(@NotNull Player player) {
@@ -85,7 +87,8 @@ public class HonorRanks {
                 Bukkit.broadcastMessage(String.format(MessageManager.HONORRANKS_UPRANK_BROADCAST.getBroadcastMessage(),
                         player.getName(), nextRank.getRankId()));
 
-                new EffectUtils().uprankEffect(player);
+                new RewardUtils().setReward(player, nextRank);
+                NSWCore.getEffectUtils().uprankEffect(player);
             } else {
                 player.sendMessage(String.format(MessageManager.NO_ENOUGH_HONORPOINTS.getMessage(), "HR", currentPoints, pointsNeeded));
             }
@@ -102,12 +105,13 @@ public class HonorRanks {
             Bukkit.broadcastMessage(String.format(MessageManager.HONORRANKS_UPRANK_BROADCAST.getBroadcastMessage(),
                     player.getName(), nextRank.getRankId()));
 
-            new EffectUtils().uprankEffect(player);
+            new RewardUtils().setReward(player, nextRank);
+            NSWCore.getEffectUtils().uprankEffect(player);
         }
     }
 
     public void saveAllPlayerData() {
-        if (Bukkit.getOnlinePlayers().size() > 0) {
+        if (!Bukkit.getOnlinePlayers().isEmpty()) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 NSWCore.getServerHandler().getExecutor().execute(() -> new Requests().updatePlayerData(player, getPlayerRankId(player), getPlayerPoints(player)));
             }
@@ -155,7 +159,7 @@ public class HonorRanks {
         return "§8[" + getFormat(player) + "§8]";
     }
 
-    private String getFormat(Player player) {
+    public String getFormat(Player player) {
         int rankId = getPlayerRankId(player);
         return switch (rankId) {
             case 0 -> "§7" + rankId;

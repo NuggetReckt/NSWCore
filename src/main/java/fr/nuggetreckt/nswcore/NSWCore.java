@@ -22,9 +22,14 @@ import java.util.logging.Logger;
 
 public class NSWCore extends JavaPlugin {
 
-    public static String prefix;
-    private static HonorRanks honorRanks;
+    public final String prefix;
+
+    private int serverPort;
+    private final int farmzonePort;
+
     private static NSWCore instance;
+
+    private static HonorRanks honorRanks;
     private static Logger logger;
     private static GuiManager guiManager;
     private static CooldownManager cooldownManager;
@@ -34,15 +39,15 @@ public class NSWCore extends JavaPlugin {
     private static ReportUtils reportUtils;
     private static ServerHandler serverHandler;
     private static Requests requestsManager;
-    private static BukkitTask bukkitTask;
-    private static LuckPerms luckPermsAPI;
     private static LuckPermsUtils luckPermsUtils;
-    private final SaveTask saveTask;
-    private static Connector connector = null;
-    private static int serverPort;
-    private static int farmzonePort;
+    private static SaveTask saveTask;
+    private static Connector connector;
+
+    private BukkitTask bukkitTask;
+    private LuckPerms luckPermsAPI;
 
     public NSWCore() {
+        instance = this;
         farmzonePort = 25568;
         prefix = "§8[§3%s§8] §r";
         logger = Logger.getLogger("Minecraft");
@@ -63,8 +68,6 @@ public class NSWCore extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        instance = this;
-
         //Set server port
         setServerPort();
 
@@ -137,23 +140,23 @@ public class NSWCore extends JavaPlugin {
         logger.info(String.format("[%s] Plugin shut down successfully", getDescription().getName()));
     }
 
-    public static String getPrefix() {
+    public String getPrefix() {
         return prefix;
     }
 
-    public static World getOverworld() {
+    public World getOverworld() {
         return Bukkit.getWorld("world");
     }
 
-    public static Player getPlayerByUuid(UUID uuid) {
+    public Player getPlayerByUuid(UUID uuid) {
         return Bukkit.getPlayer(uuid);
     }
 
-    public static Player getPlayerByName(String name) {
+    public Player getPlayerByName(String name) {
         return Bukkit.getPlayer(name);
     }
 
-    public static boolean hasJoinedOnce(Player player) {
+    public boolean hasJoinedOnce(Player player) {
         return new Requests().hasJoinedOnce(player);
     }
 
@@ -201,7 +204,7 @@ public class NSWCore extends JavaPlugin {
         return requestsManager;
     }
 
-    public static LuckPerms getLuckPermsAPI() {
+    public LuckPerms getLuckPermsAPI() {
         return luckPermsAPI;
     }
 
@@ -209,15 +212,15 @@ public class NSWCore extends JavaPlugin {
         return luckPermsUtils;
     }
 
-    public static boolean isFarmzone() {
+    public boolean isFarmzone() {
         return serverPort == farmzonePort;
     }
 
-    public static void setBukkitTask(BukkitTask task) {
+    public void setBukkitTask(BukkitTask task) {
         bukkitTask = task;
     }
 
-    public static BukkitTask getBukkitTask() {
+    public BukkitTask getBukkitTask() {
         return bukkitTask;
     }
 

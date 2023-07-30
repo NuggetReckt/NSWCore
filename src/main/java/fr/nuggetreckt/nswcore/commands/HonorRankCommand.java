@@ -39,7 +39,7 @@ public class HonorRankCommand implements CommandExecutor {
                     if (player.hasPermission("nsw.commands.admin")) {
                         if (args[1].equalsIgnoreCase("give")) {
                             if (args.length == 4) {
-                                Player target = NSWCore.getPlayerByName(args[2]);
+                                Player target = NSWCore.getInstance().getPlayerByName(args[2]);
                                 long value = Long.parseLong(args[3]);
                                 assert target != null;
 
@@ -51,7 +51,7 @@ public class HonorRankCommand implements CommandExecutor {
                             }
                         } else if (args[1].equalsIgnoreCase("upgrade")) {
                             if (args.length == 3) {
-                                Player target = NSWCore.getPlayerByName(args[2]);
+                                Player target = NSWCore.getInstance().getPlayerByName(args[2]);
                                 assert target != null;
 
                                 hr.forceUpRankPlayer(target);

@@ -134,10 +134,10 @@ public class StaffUtils {
     }
 
     public void restoreStaffData() {
-        if (Bukkit.getOnlinePlayers().size() == 0) return;
+        if (Bukkit.getOnlinePlayers().isEmpty()) return;
 
         for (UUID uuid : isStaffMode.keySet()) {
-            Player player = NSWCore.getPlayerByUuid(uuid);
+            Player player = NSWCore.getInstance().getPlayerByUuid(uuid);
 
             if (isStaffMode(player)) {
                 toggleStaffMode(player);

@@ -29,7 +29,7 @@ public class OnMoveListener implements Listener {
             if (x != toX || y != toY || z != toZ) {
                 teleportUtils.setTeleports(player, false);
 
-                BukkitTask task = NSWCore.getBukkitTask();
+                BukkitTask task = NSWCore.getInstance().getBukkitTask();
                 player.sendMessage(String.format(MessageManager.PLAYER_MOVED_TP.getMessage(), "TP"));
                 task.cancel();
             }

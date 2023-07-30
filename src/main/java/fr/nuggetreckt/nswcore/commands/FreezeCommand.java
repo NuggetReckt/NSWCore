@@ -17,7 +17,7 @@ public class FreezeCommand implements CommandExecutor {
 
             if (player.hasPermission("group.staff")) {
                 if (args.length >= 1) {
-                    Player target = NSWCore.getPlayerByName(args[0]);
+                    Player target = NSWCore.getInstance().getPlayerByName(args[0]);
                     assert target != null;
 
                     if (player != target) {

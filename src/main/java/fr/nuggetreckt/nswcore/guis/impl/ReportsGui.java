@@ -44,7 +44,7 @@ public class ReportsGui implements CustomInventory {
         slots[49] = new ItemUtils(Material.BARRIER).setName("§8§l»§r §3Fermer §8§l«").hideFlags().setLore(" ", "§8| §fFerme le menu").toItemStack();
 
         //Placeholders
-        slots[45] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").setLore("").toItemStack();
+        slots[45] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").toItemStack();
         slots[46] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").setLore("").toItemStack();
         slots[47] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").setLore("").toItemStack();
         slots[48] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").setLore("").toItemStack();
@@ -64,6 +64,16 @@ public class ReportsGui implements CustomInventory {
         if (clickedItem.getItemMeta().getDisplayName().equals("§8§l»§r §3Fermer §8§l«")) {
             player.closeInventory();
         }
+        if (clickedItem.getType().equals(Material.PAPER)) {
+            System.out.println("DEBUG: clickedSlot = " + slot);
+
+            //TOFIX
+            if (!NSWCore.getReportUtils().isResolved(slot)) {
+                /*NSWCore.getReportUtils().markReportAsResolved(slot);
+                player.closeInventory();
+                NSWCore.getGuiManager().open(player, this.getClass());*/
+            }
+        }
     }
 
     private final Map<Integer, ItemStack> reportItems = new HashMap<>();
@@ -78,6 +88,7 @@ public class ReportsGui implements CustomInventory {
         int reportType;
         String reportReason;
         Timestamp timestamp;
+        String resolved = "";
 
         for (int i = 1; i <= reportsCount; i++) {
             if (i <= 44) {
@@ -90,7 +101,11 @@ public class ReportsGui implements CustomInventory {
                 String reportDate = new SimpleDateFormat("MM/dd/yyyy").format(timestamp);
                 String reportTime = new SimpleDateFormat("HH:mm").format(timestamp);
 
-                ItemStack item = new ItemUtils(Material.PAPER).setName("§8§l»§r §c§l" + reportedName + " §8§l«").hideFlags()
+                if (NSWCore.getReportUtils().isResolved(i - 1)) {
+                    resolved = " §8(§l§aRésolu§8)";
+                }
+
+                ItemStack item = new ItemUtils(Material.PAPER).setName("§8§l»§r §c§l" + reportedName + " §8§l«" + resolved).hideFlags()
                         .setLore(" ", "§8| §fPar §3" + creatorName, "§8| §fPour §3" + NSWCore.getReportUtils().getTypeById(reportType).getDisplayName(),
                                 "§8| §fLe §3" + reportDate + " §fà §3" + reportTime, "§8| §fRaison : §7" + reportReason)
                         .toItemStack();

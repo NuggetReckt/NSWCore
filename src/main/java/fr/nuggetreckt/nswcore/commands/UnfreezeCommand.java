@@ -14,10 +14,11 @@ public class UnfreezeCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
+            NSWCore nswCore = NSWCore.getInstance();
 
             if (player.hasPermission("group.staff")) {
                 if (args.length >= 1) {
-                    Player target = NSWCore.getPlayerByName(args[0]);
+                    Player target = nswCore.getPlayerByName(args[0]);
                     assert target != null;
 
                     if (player != target) {

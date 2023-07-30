@@ -44,6 +44,10 @@ public class EffectUtils {
         playSound(player, Sound.ENTITY_PLAYER_LEVELUP);
     }
 
+    public void gainPointsEffect(@NotNull Player player) {
+        playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP);
+    }
+
     public void playSound(@NotNull Player player, Sound sound) {
         player.playSound(player, sound, 15, 1);
     }

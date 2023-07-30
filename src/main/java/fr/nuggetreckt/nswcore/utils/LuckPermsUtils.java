@@ -12,7 +12,14 @@ public class LuckPermsUtils {
         User user = getUser(player);
 
         user.data().add(Node.builder(permission).build());
-        NSWCore.getLuckPermsAPI().getUserManager().saveUser(user);
+        NSWCore.getInstance().getLuckPermsAPI().getUserManager().saveUser(user);
+    }
+
+    public void unsetPermission(Player player, String permission) {
+        User user = getUser(player);
+
+        user.data().remove(Node.builder(permission).build());
+        NSWCore.getInstance().getLuckPermsAPI().getUserManager().saveUser(user);
     }
 
     public boolean hasPermission(Player player, String permission) {
@@ -20,6 +27,6 @@ public class LuckPermsUtils {
     }
 
     private @NotNull User getUser(Player player) {
-        return NSWCore.getLuckPermsAPI().getPlayerAdapter(Player.class).getUser(player);
+        return NSWCore.getInstance().getLuckPermsAPI().getPlayerAdapter(Player.class).getUser(player);
     }
 }

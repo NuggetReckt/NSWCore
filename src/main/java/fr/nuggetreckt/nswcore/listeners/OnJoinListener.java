@@ -25,7 +25,7 @@ public class OnJoinListener implements Listener {
         NSWCore.getStaffUtils().init(player);
 
         if (!player.hasPlayedBefore()) {
-            if (NSWCore.isFarmzone()) {
+            if (NSWCore.getInstance().isFarmzone()) {
                 player.sendMessage("§8[§3NSW§8] §fBienvenue en §3§lFarmZone §f!");
                 player.sendMessage(" §8| §fUtilise §3/rtp §fpour te téléporter aléatoirement");
                 player.sendMessage(" §8| §fUtilise §3/kit §fpour réclamer ton kit");

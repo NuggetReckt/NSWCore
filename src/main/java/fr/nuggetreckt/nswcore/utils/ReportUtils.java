@@ -10,11 +10,11 @@ import java.util.Map;
 
 public class ReportUtils {
     public enum Type {
-        CHEAT(1, "Cheat", ""),
-        GRIEF(2, "Grief", ""),
-        CHAT_SPAM(3, "Spam", ""),
-        CHAT_PUB(4, "Pub", ""),
-        CHAT_INSULTS(5, "Insultes", ""),
+        CHEAT(1, "Cheat", "Le joueur triche"),
+        GRIEF(2, "Grief", "Le joueur grief"),
+        CHAT_SPAM(3, "Spam", "Le joueur spam/flood dans le chat"),
+        CHAT_PUB(4, "Pub", "Le joueur fait de la publicité"),
+        CHAT_INSULTS(5, "Insultes", "Le joueur insulte d'autres joueurs"),
         ;
 
         private static final Map<Integer, Type> BY_ID = new HashMap<>();
@@ -54,11 +54,25 @@ public class ReportUtils {
         NSWCore.getServerHandler().getExecutor().execute(() -> new Requests().setReport(creator, reported, type.typeId, reason));
     }
 
+    public void markReportAsResolved(int id) {
+        NSWCore.getServerHandler().getExecutor().execute(() -> new Requests().markReportAsResolved(id));
+    }
+
+    public void deleteReport(int id) {
+        NSWCore.getServerHandler().getExecutor().execute(() -> new Requests().deleteReport(id));
+    }
+
+    public boolean isResolved(int id) {
+        int resolved = new Requests().getResolved(id);
+
+        return resolved == 1;
+    }
+
     public String getTypes() {
         StringBuilder sb = new StringBuilder();
 
         for (Type i : Type.values()) {
-            sb.append(" §8|§f Types de report §3").append(i.getDisplayName()).append(" §8(§f").append(i.getDesc()).append("§8)").append("\n");
+            sb.append(" §8|§3 ").append(i.getDisplayName()).append(" §8(§f").append(i.getDesc()).append("§8)").append("\n");
         }
         return sb.toString();
     }

@@ -25,6 +25,7 @@ public enum MessageManager {
     PLAYER_FREEZE_HIMSELF("§cVous ne pouvez pas vous freeze vous-même !"),
     PLAYER_UNFREEZE_HIMSELF("§cVous ne pouvez pas vous unfreeze vous-même !"),
     COMMANDS_DISABLED("§cLes commandes ont été désactivées."),
+    UNKNOWN_REPORT_TYPE("§cType de report inconnu. Liste des type de report disponibles :\n%s"),
 
     //Success messages
     SUCCESS_TP("Téléporté avec succès !"),
@@ -71,6 +72,7 @@ public enum MessageManager {
              §8| §fRang d'Honneur actuel : §3%s
              §8| §fProchain Rang d'Honneur : §fVous êtes déjà au Rang d'Honneur Maximum !"""),
     HONORRANKS_UPRANK_BROADCAST("§3%s §fest passé Rang d'Honneur §3%s §f!"),
+    HONORANKS_UPRANK_REWARDS("§fFélicitations ! Vous êtes monté au Rang d'Honneur niveau %s §r! \n%s"),
     REPORT_TYPELIST("Liste des types de report disponibles :\n%s"),
     PLAYER_FREEZE_TARGET("Vous avez été freeze par §3%s§f. " +
             "Veuillez vous rendre sur le discord immédiatement. §8(§3/discord§8) " +
@@ -86,7 +88,7 @@ public enum MessageManager {
     }
 
     public String getMessage() {
-        return NSWCore.getPrefix() + this.message;
+        return NSWCore.getInstance().getPrefix() + this.message;
     }
 
     public String getBroadcastMessage() {
