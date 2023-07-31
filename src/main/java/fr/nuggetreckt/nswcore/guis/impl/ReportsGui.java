@@ -69,9 +69,9 @@ public class ReportsGui implements CustomInventory {
 
             //TOFIX
             if (!NSWCore.getReportUtils().isResolved(slot)) {
-                /*NSWCore.getReportUtils().markReportAsResolved(slot);
+                NSWCore.getReportUtils().markReportAsResolved(slot);
                 player.closeInventory();
-                NSWCore.getGuiManager().open(player, this.getClass());*/
+                NSWCore.getGuiManager().open(player, this.getClass());
             }
         }
     }
@@ -85,7 +85,7 @@ public class ReportsGui implements CustomInventory {
 
         String reportedName;
         String creatorName;
-        int reportType;
+        String reportType;
         String reportReason;
         Timestamp timestamp;
         String resolved = "";
@@ -106,8 +106,8 @@ public class ReportsGui implements CustomInventory {
                 }
 
                 ItemStack item = new ItemUtils(Material.PAPER).setName("§8§l»§r §c§l" + reportedName + " §8§l«" + resolved).hideFlags()
-                        .setLore(" ", "§8| §fPar §3" + creatorName, "§8| §fPour §3" + NSWCore.getReportUtils().getTypeById(reportType).getDisplayName(),
-                                "§8| §fLe §3" + reportDate + " §fà §3" + reportTime, "§8| §fRaison : §7" + reportReason)
+                        .setLore(" ", "§8| §fPar §3" + creatorName, "§8| §fPour §3" + reportType, "§8| §fLe §3" +
+                                reportDate + " §fà §3" + reportTime, "§8| §fRaison : §7" + reportReason)
                         .toItemStack();
 
                 setReportItem(i - 1, item);

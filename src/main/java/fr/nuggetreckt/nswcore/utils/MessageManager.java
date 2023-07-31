@@ -25,7 +25,6 @@ public enum MessageManager {
     PLAYER_FREEZE_HIMSELF("§cVous ne pouvez pas vous freeze vous-même !"),
     PLAYER_UNFREEZE_HIMSELF("§cVous ne pouvez pas vous unfreeze vous-même !"),
     COMMANDS_DISABLED("§cLes commandes ont été désactivées."),
-    UNKNOWN_REPORT_TYPE("§cType de report inconnu. Liste des type de report disponibles :\n%s"),
 
     //Success messages
     SUCCESS_TP("Téléporté avec succès !"),
@@ -41,10 +40,6 @@ public enum MessageManager {
     STAFF_MODE_LEAVE("Sortie du mode staff"),
     PLAYER_FREEZE_STAFF("Vous avez freeze le joueur §3%s"),
     PLAYER_UNFREEZE_STAFF("Vous avez unfreeze le joueur §3%s"),
-    SUCCESS_PLAYER_REPORTED("Vous avez report le joueur §3%s §favec succès. " +
-            "Nous vous en remercions et nous en prendrons compte dans les plus bref délais. " +
-            "Si vous possédez des preuves/informations supplémentaire au concernant votre report, " +
-            "merci de nous en faire part au plus vite via discord. §8(§3/discord§8)"),
 
     //Other messages
     PRE_TP("Téléportation dans §32 §fsecondes..."),
@@ -73,7 +68,6 @@ public enum MessageManager {
              §8| §fProchain Rang d'Honneur : §fVous êtes déjà au Rang d'Honneur Maximum !"""),
     HONORRANKS_UPRANK_BROADCAST("§3%s §fest passé Rang d'Honneur §3%s §f!"),
     HONORANKS_UPRANK_REWARDS("§fFélicitations ! Vous êtes monté au Rang d'Honneur niveau %s §r! \n%s"),
-    REPORT_TYPELIST("Liste des types de report disponibles :\n%s"),
     PLAYER_FREEZE_TARGET("Vous avez été freeze par §3%s§f. " +
             "Veuillez vous rendre sur le discord immédiatement. §8(§3/discord§8) " +
             "\n§cNe vous déconnectez pas ou vous serez banni définitivement."),

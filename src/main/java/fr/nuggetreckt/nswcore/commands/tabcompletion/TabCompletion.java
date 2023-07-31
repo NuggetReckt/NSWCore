@@ -1,6 +1,5 @@
 package fr.nuggetreckt.nswcore.commands.tabcompletion;
 
-import fr.nuggetreckt.nswcore.utils.ReportUtils.Type;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -9,7 +8,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class TabCompletion implements TabCompleter {
@@ -48,16 +46,6 @@ public class TabCompletion implements TabCompleter {
                 return getPlayers();
             }
         }
-        if (command.getName().equalsIgnoreCase("report")) {
-            if (args.length == 1) {
-                return getPlayers();
-            } else if (args.length == 2) {
-                return getReportTypes();
-            } else if (args.length >= 3) {
-                return Collections.singletonList("Raison");
-            }
-        }
-
         return null;
     }
 
@@ -68,14 +56,5 @@ public class TabCompletion implements TabCompleter {
             playerList.add(i.getName());
         }
         return playerList;
-    }
-
-    private @NotNull List<String> getReportTypes() {
-        List<String> reportType = new ArrayList<>();
-
-        for (Type i : Type.values()) {
-            reportType.add(i.getDisplayName());
-        }
-        return reportType;
     }
 }

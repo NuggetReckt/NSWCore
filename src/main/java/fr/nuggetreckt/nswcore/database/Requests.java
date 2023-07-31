@@ -92,14 +92,6 @@ public class Requests {
         return result;
     }
 
-    public void setReport(@NotNull Player creator, @NotNull Player reported, int typeId, String reason) {
-        query = "INSERT INTO core_reports (creatorUuid, creatorName, reportedUuid, reportedName, typeId, reason) " +
-                "VALUES ('" + creator.getUniqueId() + "', '" + creator.getName() + "', '" + reported.getUniqueId() +
-                "', '" + reported.getName() + "', '" + typeId + "', '" + reason + "');";
-        updateData(query);
-        close();
-    }
-
     public void deleteReport(int id) {
         query = "DELETE * FROM core_reports WHERE id = " + id + ";";
         updateData(query);
@@ -169,14 +161,14 @@ public class Requests {
         return result;
     }
 
-    public int getReportType(int id) {
-        query = "SELECT typeId FROM core_reports WHERE id = " + id + ";";
-        int result = 0;
+    public String getReportType(int id) {
+        query = "SELECT typeName FROM core_reports WHERE id = " + id + ";";
+        String result = null;
 
         retrieveData(query);
         try {
             if (resultSet.next()) {
-                result = resultSet.getInt("typeId");
+                result = resultSet.getString("typeName");
             }
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
@@ -248,7 +240,6 @@ public class Requests {
     public void createTables() {
         NSWCore.getServerHandler().getExecutor().execute(() -> {
             createPlayerDataTable();
-            createReportsTable();
             createPlayerTable();
         });
     }
@@ -262,25 +253,6 @@ public class Requests {
                     playerName VARCHAR(50) NOT NULL,
                     rankId INT(1) NOT NULL,
                     honorPoints INT(5) NOT NULL
-                );
-                """;
-        updateData(query);
-        close();
-    }
-
-    private void createReportsTable() {
-        query = """
-                CREATE TABLE IF NOT EXISTS core_reports
-                (
-                    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-                    creatorUuid VARCHAR(36) NOT NULL,
-                    creatorName VARCHAR(50) NOT NULL,
-                    reportedUuid VARCHAR(36) NOT NULL,
-                    reportedName VARCHAR(50) NOT NULL,
-                    typeId INT(1) NOT NULL,
-                    reason TEXT NOT NULL,
-                    isResolved TINYINT(1) DEFAULT 0,
-                    date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
                 );
                 """;
         updateData(query);
