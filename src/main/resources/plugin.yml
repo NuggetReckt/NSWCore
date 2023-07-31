@@ -44,9 +44,6 @@ commands:
   spawn:
     description: Commande pour se téléporter au spawn
     usage: "/spawn"
-  report:
-    description: Commande pour reporter des joueurs
-    usage: "/report <joueur> <type> <raison>"
   freeze:
     description: Commande pour freeze un joueur
     usage: "/freeze <joueur>"
