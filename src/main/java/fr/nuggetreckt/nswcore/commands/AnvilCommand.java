@@ -22,7 +22,7 @@ public class AnvilCommand implements CommandExecutor {
                 Inventory anvilInventory = Bukkit.createInventory(player, InventoryType.ANVIL);
                 player.openInventory(anvilInventory);
             } else {
-                player.sendMessage(String.format(MessageManager.NO_PERMISSION.getMessage(), "NSW"));
+                player.sendMessage(String.format(MessageManager.NO_PERMISSION_CMD.getMessage(), "NSW"));
             }
         }
         return true;

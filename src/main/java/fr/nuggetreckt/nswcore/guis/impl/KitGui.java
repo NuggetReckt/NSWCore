@@ -40,22 +40,22 @@ public class KitGui implements CustomInventory {
         slots[22] = new ItemUtils(Material.BARRIER).setName("§8§l»§r §3Fermer §8§l«").hideFlags().setLore(" ", "§8| §fFerme le menu").toItemStack();
 
         //Placeholders
-        slots[0] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").setLore("").toItemStack();
-        slots[1] = new ItemUtils(Material.BLUE_STAINED_GLASS_PANE).setName(" ").setLore("").toItemStack();
-        slots[7] = new ItemUtils(Material.BLUE_STAINED_GLASS_PANE).setName(" ").setLore("").toItemStack();
-        slots[8] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").setLore("").toItemStack();
-        slots[9] = new ItemUtils(Material.BLUE_STAINED_GLASS_PANE).setName("").setLore("").toItemStack();
-        slots[17] = new ItemUtils(Material.BLUE_STAINED_GLASS_PANE).setName(" ").setLore("").toItemStack();
-        slots[18] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").setLore("").toItemStack();
-        slots[19] = new ItemUtils(Material.BLUE_STAINED_GLASS_PANE).setName(" ").setLore("").toItemStack();
+        slots[0] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").toItemStack();
+        slots[1] = new ItemUtils(Material.BLUE_STAINED_GLASS_PANE).setName(" ").toItemStack();
+        slots[7] = new ItemUtils(Material.BLUE_STAINED_GLASS_PANE).setName(" ").toItemStack();
+        slots[8] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").toItemStack();
+        slots[9] = new ItemUtils(Material.BLUE_STAINED_GLASS_PANE).setName("").toItemStack();
+        slots[17] = new ItemUtils(Material.BLUE_STAINED_GLASS_PANE).setName(" ").toItemStack();
+        slots[18] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").toItemStack();
+        slots[19] = new ItemUtils(Material.BLUE_STAINED_GLASS_PANE).setName(" ").toItemStack();
         slots[25] = new ItemUtils(Material.BLUE_STAINED_GLASS_PANE).setName(" ").setLore(" ").toItemStack();
-        slots[26] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").setLore("").toItemStack();
+        slots[26] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").toItemStack();
 
         return () -> slots;
     }
 
     @Override
-    public void onClick(Player player, Inventory inventory, @NotNull ItemStack clickedItem, int slot) {
+    public void onClick(Player player, Inventory inventory, @NotNull ItemStack clickedItem, int slot, boolean isLeftClick) {
         if (!clickedItem.hasItemMeta()) return;
         if (!Objects.requireNonNull(clickedItem.getItemMeta()).hasDisplayName()) return;
 

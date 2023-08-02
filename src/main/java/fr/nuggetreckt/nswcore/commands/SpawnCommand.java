@@ -61,7 +61,7 @@ public class SpawnCommand implements CommandExecutor {
                         target.sendMessage(String.format(MessageManager.SUCCESS_SPAWN_TP.getMessage(), "TP"));
                         player.sendMessage(String.format(MessageManager.SUCCESS_TP_OTHER.getMessage(), "TP", target.getName()));
                     } else {
-                        player.sendMessage(MessageManager.NO_PERMISSION.getMessage(), "TP");
+                        player.sendMessage(MessageManager.NO_PERMISSION_CMD.getMessage(), "TP");
                     }
                 }
             } else {

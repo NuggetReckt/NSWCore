@@ -27,7 +27,7 @@ public class OnInvClickListener implements Listener {
 
         NSWCore.getGuiManager().registeredMenus.values().stream().filter(menu -> inventoryView.getTitle().equalsIgnoreCase(menu.getName()))
                 .forEach(menu -> {
-                    menu.onClick(player, inventory, currentItem, slot);
+                    menu.onClick(player, inventory, currentItem, slot, event.isLeftClick());
                     event.setCancelled(true);
                 });
     }

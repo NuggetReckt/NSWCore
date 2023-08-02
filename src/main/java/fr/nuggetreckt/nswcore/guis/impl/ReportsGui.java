@@ -4,6 +4,7 @@ import fr.nuggetreckt.nswcore.NSWCore;
 import fr.nuggetreckt.nswcore.database.Requests;
 import fr.nuggetreckt.nswcore.guis.CustomInventory;
 import fr.nuggetreckt.nswcore.utils.ItemUtils;
+import fr.nuggetreckt.nswcore.utils.MessageManager;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -45,19 +46,19 @@ public class ReportsGui implements CustomInventory {
 
         //Placeholders
         slots[45] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").toItemStack();
-        slots[46] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").setLore("").toItemStack();
-        slots[47] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").setLore("").toItemStack();
-        slots[48] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").setLore("").toItemStack();
-        slots[50] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").setLore("").toItemStack();
-        slots[51] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").setLore("").toItemStack();
-        slots[52] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").setLore("").toItemStack();
-        slots[53] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").setLore("").toItemStack();
+        slots[46] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").toItemStack();
+        slots[47] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").toItemStack();
+        slots[48] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").toItemStack();
+        slots[50] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").toItemStack();
+        slots[51] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").toItemStack();
+        slots[52] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").toItemStack();
+        slots[53] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").toItemStack();
 
         return () -> slots;
     }
 
     @Override
-    public void onClick(Player player, Inventory inventory, @NotNull ItemStack clickedItem, int slot) {
+    public void onClick(Player player, Inventory inventory, @NotNull ItemStack clickedItem, int slot, boolean isLeftClick) {
         if (!clickedItem.hasItemMeta()) return;
         if (!Objects.requireNonNull(clickedItem.getItemMeta()).hasDisplayName()) return;
 
@@ -65,14 +66,18 @@ public class ReportsGui implements CustomInventory {
             player.closeInventory();
         }
         if (clickedItem.getType().equals(Material.PAPER)) {
-            System.out.println("DEBUG: clickedSlot = " + slot);
-
-            //TOFIX
-            if (!NSWCore.getReportUtils().isResolved(slot)) {
+            if (isLeftClick) {
+                System.out.println("DEBUG: marqué comme résolu avec succès.");
                 NSWCore.getReportUtils().markReportAsResolved(slot);
-                player.closeInventory();
-                NSWCore.getGuiManager().open(player, this.getClass());
+            } else {
+                if (player.hasPermission("nsw.*")) {
+                    System.out.println("DEBUG: supprimé avec succès.");
+                    NSWCore.getReportUtils().deleteReport(slot);
+                } else {
+                    player.sendMessage(String.format(MessageManager.NO_PERMISSION.getMessage(), "Reports"));
+                }
             }
+
         }
     }
 
@@ -102,12 +107,13 @@ public class ReportsGui implements CustomInventory {
                 String reportTime = new SimpleDateFormat("HH:mm").format(timestamp);
 
                 if (NSWCore.getReportUtils().isResolved(i - 1)) {
-                    resolved = " §8(§l§aRésolu§8)";
+                    resolved = " §8(§a§lRésolu§8)";
                 }
 
                 ItemStack item = new ItemUtils(Material.PAPER).setName("§8§l»§r §c§l" + reportedName + " §8§l«" + resolved).hideFlags()
                         .setLore(" ", "§8| §fPar §3" + creatorName, "§8| §fPour §3" + reportType, "§8| §fLe §3" +
-                                reportDate + " §fà §3" + reportTime, "§8| §fRaison : §7" + reportReason)
+                                        reportDate + " §fà §3" + reportTime, "§8| §fRaison : §7" + reportReason, " ",
+                                " §8| §fClic gauche : §aMarquer comme résolu", " §8| §fClic droit : §cSupprimer")
                         .toItemStack();
 
                 setReportItem(i - 1, item);

@@ -18,7 +18,7 @@ public class EnderchestCommand implements CommandExecutor {
             if (player.hasPermission("nsw.commands.ec")) {
                 player.openInventory(player.getEnderChest());
             } else {
-                player.sendMessage(String.format(MessageManager.NO_PERMISSION.getMessage(), "NSW"));
+                player.sendMessage(String.format(MessageManager.NO_PERMISSION_CMD.getMessage(), "NSW"));
             }
         }
         return true;

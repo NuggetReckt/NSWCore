@@ -1,7 +1,7 @@
 package fr.nuggetreckt.nswcore.utils;
 
-import fr.nuggetreckt.nswcore.guis.impl.KitGui;
 import fr.nuggetreckt.nswcore.guis.CustomInventory;
+import fr.nuggetreckt.nswcore.guis.impl.KitGui;
 import fr.nuggetreckt.nswcore.guis.impl.ReportsGui;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -9,7 +9,6 @@ import org.bukkit.inventory.Inventory;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public class GuiManager {
 
@@ -17,7 +16,6 @@ public class GuiManager {
         registersGUI();
     }
 
-    public HashMap<UUID, Class<? extends CustomInventory>> map = new HashMap<>();
     public Map<Class<? extends CustomInventory>, CustomInventory> registeredMenus = new HashMap<>();
 
     public void open(Player player, Class<? extends CustomInventory> gClass) {

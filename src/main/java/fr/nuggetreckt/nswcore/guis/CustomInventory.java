@@ -17,5 +17,5 @@ public interface CustomInventory {
 
     Supplier<ItemStack[]> getContents(Player player);
 
-    void onClick(Player player, Inventory inventory, ItemStack clickedItem, int slot);
+    void onClick(Player player, Inventory inventory, ItemStack clickedItem, int slot, boolean isLeftClick);
 }

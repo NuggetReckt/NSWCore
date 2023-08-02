@@ -64,7 +64,7 @@ public class HonorRankCommand implements CommandExecutor {
                             player.sendMessage(String.format(MessageManager.NOT_ENOUGH_ARGS.getMessage(), "HR", command.getUsage()));
                         }
                     } else {
-                        player.sendMessage(String.format(MessageManager.NO_PERMISSION.getMessage(), "HR"));
+                        player.sendMessage(String.format(MessageManager.NO_PERMISSION_CMD.getMessage(), "HR"));
                     }
                 } else {
                     player.sendMessage(String.format(MessageManager.UNKNOWN_SUBCOMMAND.getMessage(), "HR"));

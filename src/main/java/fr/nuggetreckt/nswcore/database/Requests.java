@@ -93,7 +93,7 @@ public class Requests {
     }
 
     public void deleteReport(int id) {
-        query = "DELETE * FROM core_reports WHERE id = " + id + ";";
+        query = "DELETE FROM core_reports WHERE id = " + id + ";";
         updateData(query);
         close();
     }

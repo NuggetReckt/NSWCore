@@ -38,7 +38,7 @@ public class FreezeCommand implements CommandExecutor {
                     player.sendMessage(String.format(MessageManager.NOT_ENOUGH_ARGS.getMessage(), "NSW"));
                 }
             } else {
-                player.sendMessage(String.format(MessageManager.NO_PERMISSION.getMessage(), "NSW"));
+                player.sendMessage(String.format(MessageManager.NO_PERMISSION_CMD.getMessage(), "NSW"));
             }
         }
         return true;

@@ -158,7 +158,7 @@ public class FurnaceCommand implements CommandExecutor {
                     player.sendMessage(String.format(MessageManager.WAIT_BEFORE_USE_SECONDS.getMessage(), "Furnace", timeLeft.toSeconds()));
                 }
             } else {
-                player.sendMessage(String.format(MessageManager.NO_PERMISSION.getMessage(), "Furnace"));
+                player.sendMessage(String.format(MessageManager.NO_PERMISSION_CMD.getMessage(), "Furnace"));
             }
         }
         return true;

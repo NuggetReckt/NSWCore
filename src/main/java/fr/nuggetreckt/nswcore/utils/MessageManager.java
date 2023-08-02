@@ -4,7 +4,8 @@ import fr.nuggetreckt.nswcore.NSWCore;
 
 public enum MessageManager {
     //Error messages
-    NO_PERMISSION("§cVous n'avez pas la permission d'exécuter cette commande !"),
+    NO_PERMISSION("§cVous n'avez pas la permission."),
+    NO_PERMISSION_CMD("§cVous n'avez pas la permission d'exécuter cette commande !"),
     NO_HR_PERMISSION("§cVous n'avez pas le Rang d'Honneur requis pour exécuter cette commande ! §8(§3/hr §7pour plus d'infos§8)"),
     NOT_ENOUGH_ARGS("§cArguments insuffisants. §8(§cUtilisation : §3%s§8)"),
     UNKNOWN_SUBCOMMAND("§cSous commande inconnue."),
