@@ -59,10 +59,7 @@ public class ReportsGui implements CustomInventory {
 
     @Override
     public void onClick(Player player, Inventory inventory, @NotNull ItemStack clickedItem, int slot, boolean isLeftClick) {
-        if (!clickedItem.hasItemMeta()) return;
-        if (!Objects.requireNonNull(clickedItem.getItemMeta()).hasDisplayName()) return;
-
-        if (clickedItem.getItemMeta().getDisplayName().equals("§8§l»§r §3Fermer §8§l«")) {
+        if (Objects.requireNonNull(clickedItem.getItemMeta()).getDisplayName().equals("§8§l»§r §3Fermer §8§l«")) {
             player.closeInventory();
         }
         if (clickedItem.getType().equals(Material.PAPER)) {

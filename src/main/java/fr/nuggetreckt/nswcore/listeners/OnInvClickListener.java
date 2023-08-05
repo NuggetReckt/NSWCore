@@ -11,6 +11,8 @@ import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public class OnInvClickListener implements Listener {
 
     private Inventory inventory;
@@ -22,12 +24,15 @@ public class OnInvClickListener implements Listener {
         InventoryView inventoryView = event.getView();
         ItemStack currentItem = event.getCurrentItem();
         int slot = event.getSlot();
+        boolean isLeftClick = event.isLeftClick();
 
         if (currentItem == null) return;
+        if (!currentItem.hasItemMeta()) return;
+        if (!Objects.requireNonNull(currentItem.getItemMeta()).hasDisplayName()) return;
 
         NSWCore.getGuiManager().registeredMenus.values().stream().filter(menu -> inventoryView.getTitle().equalsIgnoreCase(menu.getName()))
                 .forEach(menu -> {
-                    menu.onClick(player, inventory, currentItem, slot, event.isLeftClick());
+                    menu.onClick(player, inventory, currentItem, slot, isLeftClick);
                     event.setCancelled(true);
                 });
     }

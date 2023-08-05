@@ -56,10 +56,7 @@ public class KitGui implements CustomInventory {
 
     @Override
     public void onClick(Player player, Inventory inventory, @NotNull ItemStack clickedItem, int slot, boolean isLeftClick) {
-        if (!clickedItem.hasItemMeta()) return;
-        if (!Objects.requireNonNull(clickedItem.getItemMeta()).hasDisplayName()) return;
-
-        if (clickedItem.getItemMeta().getDisplayName().equals("§8§l»§r §3Kit du débutant §8§l«")) {
+        if (Objects.requireNonNull(clickedItem.getItemMeta()).getDisplayName().equals("§8§l»§r §3Kit du débutant §8§l«")) {
             UUID playerId = player.getUniqueId();
             CooldownManager cooldownManager = NSWCore.getCooldownManager();
             Duration timeLeft = cooldownManager.getRemainingCooldown(playerId, "kit");
