@@ -39,6 +39,7 @@ public class ReportsGui implements CustomInventory {
 
         //Utils
         //TODO: Tri par date > et <, nom du joueur report alphabétique > et <
+        //TODO: Masquer/Afficher les reports résolus
         slots[48] = new ItemUtils(Material.HOPPER).setName("§8§l»§r §3Trier §8§l«").hideFlags().setLore(" ", "§8| §fTrié par §a ", "§cTODO").toItemStack();
         slots[49] = new ItemUtils(Material.BARRIER).setName("§8§l»§r §3Fermer §8§l«").hideFlags().setLore(" ", "§8| §fFerme le menu").toItemStack();
         slots[50] = new ItemUtils(Material.SNOWBALL).setName("§8§l»§r §3Rafraîchir §8§l«").hideFlags().setLore(" ", "§8| §fActualise la page").toItemStack();
@@ -62,13 +63,13 @@ public class ReportsGui implements CustomInventory {
         if (clickedItem.getType().equals(Material.PAPER)) {
             if (isLeftClick) {
                 System.out.println("DEBUG: marqué comme résolu avec succès.");
-                NSWCore.getReportUtils().markReportAsResolved(slot);
-                NSWCore.getGuiManager().refreshInv(player, this.getClass());
+                NSWCore.getReportUtils().markReportAsResolved(slot + 1);
+                NSWCore.getGuiManager().refresh(player, this.getClass());
             } else {
                 if (player.hasPermission("nsw.*")) {
                     System.out.println("DEBUG: supprimé avec succès.");
-                    NSWCore.getReportUtils().deleteReport(slot);
-                    NSWCore.getGuiManager().refreshInv(player, this.getClass());
+                    NSWCore.getReportUtils().deleteReport(slot + 1);
+                    NSWCore.getGuiManager().refresh(player, this.getClass());
                 } else {
                     player.sendMessage(String.format(MessageManager.NO_PERMISSION.getMessage(), "Reports"));
                 }
@@ -76,10 +77,10 @@ public class ReportsGui implements CustomInventory {
         }
         if (clickedItem.getType().equals(Material.HOPPER)) {
             //TODO
-            NSWCore.getGuiManager().refreshInv(player, this.getClass());
+            NSWCore.getGuiManager().refresh(player, this.getClass());
         }
         if (clickedItem.getType().equals(Material.SNOWBALL)) {
-            NSWCore.getGuiManager().refreshInv(player, this.getClass());
+            NSWCore.getGuiManager().refresh(player, this.getClass());
         }
     }
 }

@@ -27,7 +27,7 @@ public class GuiManager {
         player.openInventory(inv);
     }
 
-    public void refreshInv(Player player, Class<? extends CustomInventory> gClass) {
+    public void refresh(Player player, Class<? extends CustomInventory> gClass) {
         if (!registeredMenus.containsKey(gClass)) return;
 
         CustomInventory menu = registeredMenus.get(gClass);
@@ -35,11 +35,11 @@ public class GuiManager {
         inv.setContents(menu.getContents(player).get());
     }
 
-    public void addMenu(CustomInventory m) {
+    private void addMenu(CustomInventory m) {
         registeredMenus.put(m.getClass(), m);
     }
 
-    public void registersGUI() {
+    private void registersGUI() {
         addMenu(new KitGui());
         addMenu(new ReportsGui());
     }
