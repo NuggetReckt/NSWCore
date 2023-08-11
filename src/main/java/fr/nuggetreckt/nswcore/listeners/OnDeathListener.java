@@ -26,7 +26,7 @@ public class OnDeathListener implements Listener {
 
         //TODO: add (if player spawn/home is not set) tp on player die to spawn
         switch (damageCause) {
-            case ENTITY_ATTACK, ENTITY_SWEEP_ATTACK, ENTITY_EXPLOSION, PROJECTILE:
+            case ENTITY_ATTACK, ENTITY_SWEEP_ATTACK, ENTITY_EXPLOSION, PROJECTILE -> {
                 if (entityDamageEvent instanceof EntityDamageByEntityEvent) {
                     Entity damager = ((EntityDamageByEntityEvent) player.getLastDamageCause()).getDamager();
                     if (damager instanceof Player) {
@@ -48,30 +48,29 @@ public class OnDeathListener implements Listener {
                         event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH_MOB.getDeathMessage(), player.getName(), damager.getName()));
                     }
                 }
-                break;
-            case LAVA, FIRE, FIRE_TICK, HOT_FLOOR:
-                event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH_BURNED.getDeathMessage(), player.getName()));
-                break;
-            case DROWNING:
-                event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH_DROWNED.getDeathMessage(), player.getName()));
-                break;
-            case SUFFOCATION:
-                break;
-            case FALL, FLY_INTO_WALL:
-                event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH_FALL.getDeathMessage(), player.getName()));
-                break;
-            case VOID:
-                event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH_VOID.getDeathMessage(), player.getName()));
-                break;
-            default:
-                int a = r.nextInt(0, 1);
+            }
+            case LAVA, FIRE, FIRE_TICK, HOT_FLOOR ->
+                    event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH_BURNED.getDeathMessage(), player.getName()));
+            case DROWNING ->
+                    event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH_DROWNED.getDeathMessage(), player.getName()));
+            case SUFFOCATION -> {
 
+            }
+            case POISON -> {
+
+            }
+            case FALL, FLY_INTO_WALL ->
+                    event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH_FALL.getDeathMessage(), player.getName()));
+            case VOID ->
+                    event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH_VOID.getDeathMessage(), player.getName()));
+            default -> {
+                int a = r.nextInt(0, 1);
                 if (a == 0) {
                     event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH.getDeathMessage(), player.getName()));
                 } else {
                     event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH2.getDeathMessage(), player.getName()));
                 }
-                break;
+            }
         }
     }
 }
