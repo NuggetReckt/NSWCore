@@ -46,7 +46,7 @@ public class RewardUtils {
                 NSWCore.getLuckPermsUtils().setPermission(player, "nsw.command.furnace");
             }
         }
-        player.sendMessage(String.format(MessageManager.HONORANKS_UPRANK_REWARDS.getMessage(), NSWCore.getHonorRanks().getFormat(player), getRewards(rank)));
+        player.sendMessage(String.format(MessageManager.HONORANKS_UPRANK_REWARDS.getMessage(), "HR", NSWCore.getHonorRanks().getFormat(player), getRewards(rank)));
     }
 
     private @NotNull String getRewards(@NotNull Rank rank) {
@@ -61,7 +61,7 @@ public class RewardUtils {
             }
             case Rank_3 -> {
                 rewardsList.add("5 claims supplémentaires");
-                rewardsList.add("accès aux commandes /top et /bottom");
+                rewardsList.add("Accès aux commandes /top et /bottom");
             }
             case Rank_4 -> {
                 rewardsList.add("5 claims supplémentaires");

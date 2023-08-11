@@ -68,7 +68,7 @@ public enum MessageManager {
              §8| §fRang d'Honneur actuel : §3%s
              §8| §fProchain Rang d'Honneur : §fVous êtes déjà au Rang d'Honneur Maximum !"""),
     HONORRANKS_UPRANK_BROADCAST("§3%s §fest passé Rang d'Honneur §3%s §f!"),
-    HONORANKS_UPRANK_REWARDS("§fFélicitations ! Vous êtes monté au Rang d'Honneur niveau %s §r! \n%s"),
+    HONORANKS_UPRANK_REWARDS("§fFélicitations ! Vous êtes monté au Rang d'Honneur niveau %s §r! %s"),
     PLAYER_FREEZE_TARGET("Vous avez été freeze par §3%s§f. " +
             "Veuillez vous rendre sur le discord immédiatement. §8(§3/discord§8) " +
             "\n§cNe vous déconnectez pas ou vous serez banni définitivement."),

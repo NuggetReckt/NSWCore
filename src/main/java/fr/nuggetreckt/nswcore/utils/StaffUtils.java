@@ -32,6 +32,8 @@ public class StaffUtils {
     public void init(@NotNull Player player) {
         if (player.hasPermission("group.staff")) {
             isStaffMode.putIfAbsent(player.getUniqueId(), false);
+            oldLocation.putIfAbsent(player.getUniqueId(), null);
+            oldInventory.putIfAbsent(player.getUniqueId(), null);
         }
         isFrozen.putIfAbsent(player.getUniqueId(), false);
     }
@@ -103,7 +105,7 @@ public class StaffUtils {
 
     private void setLocation(Player player, Location location) {
         if (!isStaffMode(player)) {
-            oldLocation.putIfAbsent(player.getUniqueId(), location);
+            oldLocation.replace(player.getUniqueId(), location);
         } else {
             oldLocation.remove(player.getUniqueId());
         }
@@ -111,7 +113,7 @@ public class StaffUtils {
 
     private void setInventory(Player player, ItemStack[] contents) {
         if (!isStaffMode(player)) {
-            oldInventory.putIfAbsent(player.getUniqueId(), contents);
+            oldInventory.replace(player.getUniqueId(), contents);
         } else {
             oldInventory.remove(player.getUniqueId());
         }
