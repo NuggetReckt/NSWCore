@@ -108,12 +108,11 @@ public class OnDeathListener implements Listener {
                 event.setDeathMessage(deathMessage);
                 deathMessages.clear();
             }
-            case FALL, FLY_INTO_WALL -> {
+            case FALL -> {
                 deathMessages.add(MessageManager.PLAYER_DEATH_FALL);
                 deathMessages.add(MessageManager.PLAYER_DEATH_FALL2);
                 deathMessages.add(MessageManager.PLAYER_DEATH_FALL3);
                 deathMessages.add(MessageManager.PLAYER_DEATH_FALL4);
-                deathMessages.add(MessageManager.PLAYER_DEATH_FALL5);
 
                 int a = r.nextInt(0, deathMessages.size());
                 deathMessage = String.format(deathMessages.get(a).getDeathMessage(), player.getName());
@@ -121,6 +120,20 @@ public class OnDeathListener implements Listener {
                 event.setDeathMessage(deathMessage);
                 deathMessages.clear();
             }
+            case FLY_INTO_WALL -> {
+                deathMessages.add(MessageManager.PLAYER_DEATH_FALL);
+                deathMessages.add(MessageManager.PLAYER_DEATH_FALL2);
+                deathMessages.add(MessageManager.PLAYER_DEATH_FALL4);
+                deathMessages.add(MessageManager.PLAYER_DEATH_FLY);
+
+                int a = r.nextInt(0, deathMessages.size());
+                deathMessage = String.format(deathMessages.get(a).getDeathMessage(), player.getName());
+
+                event.setDeathMessage(deathMessage);
+                deathMessages.clear();
+            }
+            case KILL ->
+                    event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH.getMessage(), player.getName()));
             case VOID -> {
                 deathMessages.add(MessageManager.PLAYER_DEATH_VOID);
                 deathMessages.add(MessageManager.PLAYER_DEATH_VOID2);

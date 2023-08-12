@@ -64,7 +64,7 @@ public enum MessageManager {
     PLAYER_DEATH_FALL2("§3%s §fa trébuché."),
     PLAYER_DEATH_FALL3("§3%s §fa raté son mlg."),
     PLAYER_DEATH_FALL4("§3%s §fs’est étalé comme une crêpe."),
-    PLAYER_DEATH_FALL5("§3%s §fa essayé de voler en état d'ivresse."),
+    PLAYER_DEATH_FLY("§3%s §fa essayé de voler en état d'ivresse."),
     PLAYER_DEATH_VOID("§3%s §fest tombé dans le vide."),
     PLAYER_DEATH_VOID2("§3%s §fs'est pris pour Thomas Pesquet."),
     PLAYER_KILL("§3%s §fs'est fait tuer par §3%s§f."),
