@@ -29,7 +29,6 @@ public class OnDeathListener implements Listener {
         List<MessageManager> deathMessages = new ArrayList<>();
         String deathMessage;
 
-        //TODO: add (if player spawn/home is not set) tp on player die to spawn
         switch (damageCause) {
             case ENTITY_ATTACK, ENTITY_SWEEP_ATTACK, ENTITY_EXPLOSION, PROJECTILE -> {
                 if (entityDamageEvent instanceof EntityDamageByEntityEvent) {
@@ -132,8 +131,6 @@ public class OnDeathListener implements Listener {
                 event.setDeathMessage(deathMessage);
                 deathMessages.clear();
             }
-            case KILL ->
-                    event.setDeathMessage(String.format(MessageManager.PLAYER_DEATH.getMessage(), player.getName()));
             case VOID -> {
                 deathMessages.add(MessageManager.PLAYER_DEATH_VOID);
                 deathMessages.add(MessageManager.PLAYER_DEATH_VOID2);

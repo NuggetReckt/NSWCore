@@ -10,6 +10,7 @@ import fr.nuggetreckt.nswcore.listeners.*;
 import fr.nuggetreckt.nswcore.utils.*;
 import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -22,10 +23,11 @@ import java.util.logging.Logger;
 
 public class NSWCore extends JavaPlugin {
 
-    public final String prefix;
+    private final String prefix;
 
     private int serverPort;
     private final int farmzonePort;
+    private Location spawnLocation;
 
     private static NSWCore instance;
 
@@ -71,6 +73,9 @@ public class NSWCore extends JavaPlugin {
         //Set server port
         setServerPort();
 
+        //Set spawn location
+        setSpawnLocation();
+
         //Create table if absent
         getRequestsManager().createTables();
 
@@ -104,6 +109,7 @@ public class NSWCore extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new OnInvClickListener(), this);
         getServer().getPluginManager().registerEvents(new OnMoveListener(), this);
         getServer().getPluginManager().registerEvents(new OnDeathListener(), this);
+        getServer().getPluginManager().registerEvents(new OnRespawnListener(), this);
         getServer().getPluginManager().registerEvents(new StaffEventsCanceller(), this);
         getServer().getPluginManager().registerEvents(new StaffEventsListener(), this);
         getServer().getPluginManager().registerEvents(new OnCommandListener(), this);
@@ -113,7 +119,7 @@ public class NSWCore extends JavaPlugin {
         }
 
         //Register PAPI expansion
-        setPlaceHolderAPI();
+        setPlaceholderAPI();
 
         //Register Luckperms API
         setLuckPermsAPI();
@@ -146,12 +152,24 @@ public class NSWCore extends JavaPlugin {
         return Bukkit.getWorld("world");
     }
 
+    public Location getSpawnLocation() {
+        return spawnLocation;
+    }
+
     public Player getPlayerByUuid(UUID uuid) {
         return Bukkit.getPlayer(uuid);
     }
 
     public Player getPlayerByName(String name) {
         return Bukkit.getPlayer(name);
+    }
+
+    public BukkitTask getBukkitTask() {
+        return bukkitTask;
+    }
+
+    public LuckPerms getLuckPermsAPI() {
+        return luckPermsAPI;
     }
 
     public boolean hasJoinedOnce(Player player) {
@@ -202,10 +220,6 @@ public class NSWCore extends JavaPlugin {
         return requestsManager;
     }
 
-    public LuckPerms getLuckPermsAPI() {
-        return luckPermsAPI;
-    }
-
     public static LuckPermsUtils getLuckPermsUtils() {
         return luckPermsUtils;
     }
@@ -218,12 +232,12 @@ public class NSWCore extends JavaPlugin {
         bukkitTask = task;
     }
 
-    public BukkitTask getBukkitTask() {
-        return bukkitTask;
-    }
-
     private void setServerPort() {
         serverPort = Bukkit.getServer().getPort();
+    }
+
+    private void setSpawnLocation() {
+        spawnLocation = new Location(getOverworld(), 0.5, 84, 0.5, 180, 0);
     }
 
     private void setLuckPermsAPI() {
@@ -233,7 +247,7 @@ public class NSWCore extends JavaPlugin {
         }
     }
 
-    private void setPlaceHolderAPI() {
+    private void setPlaceholderAPI() {
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new PAPIExpansion().register();
         }

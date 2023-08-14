@@ -28,7 +28,7 @@ public class SpawnCommand implements CommandExecutor {
             TeleportUtils teleportUtils = NSWCore.getTeleportUtils();
             Duration timeLeft = cooldownManager.getRemainingCooldown(playerId, "spawn");
 
-            Location spawnLoc = new Location(NSWCore.getInstance().getOverworld(), 0.5, 84, 0.5, 180, 0);
+            Location spawnLoc = NSWCore.getInstance().getSpawnLocation();
 
             if (!NSWCore.getInstance().isFarmzone()) {
                 if (args.length == 0) {

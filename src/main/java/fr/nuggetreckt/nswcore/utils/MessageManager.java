@@ -75,6 +75,7 @@ public enum MessageManager {
     //Other messages
     PRE_TP("Téléportation dans §32 §fsecondes..."),
     PRE_SPAWN_TP("Téléportation dans §35 §fsecondes... §cNe bougez pas !"),
+    RESPAWN_TP("Vous avez été téléporté au spawn car vous êtes mort"),
     WELCOME_PLAYER_JOIN("Bienvenue à §3%s §fsur %s §f!"),
     HONORRANKS_RANKLIST("Liste des Rangs d'Honneur :\n%s"),
     HONORRANKS_RANK("Vous êtes %s"),
