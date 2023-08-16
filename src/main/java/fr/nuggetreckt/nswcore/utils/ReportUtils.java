@@ -16,7 +16,7 @@ public class ReportUtils {
     private final Map<Integer, Integer> reportIds = new HashMap<>();
     //TODO: algo de "routage" d'id afin d'éviter les erreurs
 
-    public void setReportItems() {
+    public void setReportItems(boolean maskResolvedReports) {
         resetReports();
 
         Requests req = NSWCore.getRequestsManager();
@@ -35,12 +35,18 @@ public class ReportUtils {
 
         for (int i = 1; i <= reportsCount; i++) {
             if (i <= 44) {
+                isResolved = isResolved(i);
+
+                if (isResolved && maskResolvedReports) {
+                    //just works for read only and items stays at their initial slot
+                    continue;
+                }
+
                 reportedName = req.getReportedName(i);
                 creatorName = req.getCreatorName(i);
                 reportType = req.getReportType(i);
                 reportReason = req.getReportReason(i);
                 timestamp = req.getReportTime(i);
-                isResolved = isResolved(i);
 
                 System.out.println("DEBUG: report = " + reportedName + " - " + reportReason);
                 System.out.println("DEBUG: isResolved = " + isResolved);
@@ -70,18 +76,13 @@ public class ReportUtils {
         NSWCore.getServerHandler().getExecutor().execute(() -> {
             NSWCore.getRequestsManager().deleteReport(id);
             reportItems.remove(id);
-
-            System.out.println("DEBUG: method deleteReport() fired");
-            System.out.println("DEBUG: id = " + id);
         });
     }
 
     public void markReportAsResolved(int id) {
         NSWCore.getServerHandler().getExecutor().execute(() -> {
+            if (isResolved(id)) return;
             NSWCore.getRequestsManager().markReportAsResolved(id);
-
-            System.out.println("DEBUG: method markReportAsResolved() fired");
-            System.out.println("DEBUG: id = " + id);
         });
     }
 
@@ -101,5 +102,13 @@ public class ReportUtils {
         int resolved = new Requests().getResolved(id);
 
         return resolved == 1;
+    }
+
+    public String getShownStatus(boolean bool) {
+        if (bool) {
+            return "§aOui";
+        } else {
+            return "§cNon";
+        }
     }
 }
