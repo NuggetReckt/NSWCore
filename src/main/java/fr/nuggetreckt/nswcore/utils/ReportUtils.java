@@ -12,9 +12,21 @@ import java.util.Map;
 
 public class ReportUtils {
 
-    private final Map<Integer, ItemStack> reportItems = new HashMap<>();
-    private final Map<Integer, Integer> reportIds = new HashMap<>();
+    private final Map<Integer, ItemStack> reportItems;
+    private final Map<Integer, Integer> reportIds;
     //TODO: algo de "routage" d'id afin d'éviter les erreurs
+
+    private String reportedName;
+    private String creatorName;
+    private String reportType;
+    private String reportReason;
+    private Timestamp timestamp;
+    private boolean isResolved;
+
+    public ReportUtils() {
+        this.reportItems = new HashMap<>();
+        this.reportIds = new HashMap<>();
+    }
 
     public void setReportItems(boolean maskResolvedReports) {
         resetReports();
@@ -25,28 +37,16 @@ public class ReportUtils {
 
         if (reportsCount == 0) return;
 
-        String reportedName;
-        String creatorName;
-        String reportType;
-        String reportReason;
-        Timestamp timestamp;
-        boolean isResolved;
         String resolved;
 
         for (int i = 1; i <= reportsCount; i++) {
             if (i <= 44) {
-                isResolved = isResolved(i);
+                req.setReportData(i);
 
                 if (isResolved && maskResolvedReports) {
                     //just works for read only and items stays at their initial slot
                     continue;
                 }
-
-                reportedName = req.getReportedName(i);
-                creatorName = req.getCreatorName(i);
-                reportType = req.getReportType(i);
-                reportReason = req.getReportReason(i);
-                timestamp = req.getReportTime(i);
 
                 System.out.println("DEBUG: report = " + reportedName + " - " + reportReason);
                 System.out.println("DEBUG: isResolved = " + isResolved);
@@ -98,9 +98,7 @@ public class ReportUtils {
         this.reportItems.putIfAbsent(key, item);
     }
 
-    public boolean isResolved(int id) {
-        int resolved = new Requests().getResolved(id);
-
+    public boolean isResolved(int resolved) {
         return resolved == 1;
     }
 
@@ -110,5 +108,14 @@ public class ReportUtils {
         } else {
             return "§cNon";
         }
+    }
+
+    public void setReportData(String creatorName, String reportedName, String reportType, String reportReason, Timestamp timestamp, int resolved) {
+        this.creatorName = creatorName;
+        this.reportedName = reportedName;
+        this.reportType = reportType;
+        this.reportReason = reportReason;
+        this.timestamp = timestamp;
+        this.isResolved = isResolved(resolved);
     }
 }

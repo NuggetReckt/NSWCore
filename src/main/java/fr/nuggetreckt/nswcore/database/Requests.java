@@ -104,109 +104,25 @@ public class Requests {
         close();
     }
 
-    public int getResolved(int id) {
-        query = "SELECT isResolved FROM core_reports WHERE id = " + id + ";";
-        int result = 0;
-
-        retrieveData(query);
-        try {
-            if (resultSet.next()) {
-                result = resultSet.getInt("isResolved");
-            }
-        } catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
-        } finally {
-            close();
-        }
-        return result;
-    }
-
-    public String getReportedName(int id) {
-        query = "SELECT reportedName FROM core_reports WHERE id = " + id + ";";
-        String result = null;
-
-        retrieveData(query);
-        try {
-            if (resultSet.next()) {
-                result = resultSet.getString("reportedName");
-            }
-        } catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
-        } finally {
-            close();
-        }
-        return result;
-    }
-
-    public String getCreatorName(int id) {
-        query = "SELECT creatorName FROM core_reports WHERE id = " + id + ";";
-        String result = null;
-
-        retrieveData(query);
-        try {
-            if (resultSet.next()) {
-                result = resultSet.getString("creatorName");
-            }
-        } catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
-        } finally {
-            close();
-        }
-        return result;
-    }
-
-    public String getReportType(int id) {
-        query = "SELECT typeName FROM core_reports WHERE id = " + id + ";";
-        String result = null;
-
-        retrieveData(query);
-        try {
-            if (resultSet.next()) {
-                result = resultSet.getString("typeName");
-            }
-        } catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
-        } finally {
-            close();
-        }
-        return result;
-    }
-
-    public String getReportReason(int id) {
-        query = "SELECT reason FROM core_reports WHERE id = " + id + ";";
-        String result = null;
-
-        retrieveData(query);
-        try {
-            if (resultSet.next()) {
-                result = resultSet.getString("reason");
-            }
-        } catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
-        } finally {
-            close();
-        }
-        return result;
-    }
-
-    public Timestamp getReportTime(int id) {
+    public void setReportData(int id) {
         query = "SELECT * FROM core_reports WHERE id = " + id + ";";
-        Timestamp result = null;
+
+        String creatorName = null;
+        String reportedName = null;
+        String reportType = null;
+        String reportReason = null;
+        Timestamp timestamp = null;
+        int isResolved = 0;
 
         retrieveData(query);
         try {
             if (resultSet.next()) {
-                result = resultSet.getTimestamp("date");
+                creatorName = resultSet.getString("creatorName");
+                reportedName = resultSet.getString("reportedName");
+                reportType = resultSet.getString("typeName");
+                reportReason = resultSet.getString("reason");
+                isResolved = resultSet.getInt("isResolved");
+                timestamp = resultSet.getTimestamp("date");
             }
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
@@ -215,7 +131,8 @@ public class Requests {
         } finally {
             close();
         }
-        return result;
+
+        NSWCore.getReportUtils().setReportData(creatorName, reportedName, reportType, reportReason, timestamp, isResolved);
     }
 
     public int getReportsCount() {
