@@ -131,7 +131,6 @@ public class Requests {
         } finally {
             close();
         }
-
         NSWCore.getReportUtils().setReportData(creatorName, reportedName, reportType, reportReason, timestamp, isResolved);
     }
 
