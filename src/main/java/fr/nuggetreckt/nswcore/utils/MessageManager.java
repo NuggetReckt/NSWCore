@@ -51,7 +51,7 @@ public enum MessageManager {
     PLAYER_DEATH_EXPLOSION("§3%s§f a explosé."),
     PLAYER_DEATH_EXPLOSION2("§fVisiblement, §3%s§f ferait un mauvais artificier..."),
     PLAYER_DEATH_DROWNED("§3%s §fs'est noyé."),
-    PLAYER_DEATH_DROWNED2("§3%s §fs'est prit pour Némo."),
+    PLAYER_DEATH_DROWNED2("§3%s §fs'est pris pour Némo."),
     PLAYER_DEATH_DROWNED3("§3%s §fa bu la tasse."),
     PLAYER_DEATH_BURNED("§3%s §fest mort brûlé vif."),
     PLAYER_DEATH_BURNED2("§3%s §fs'est transformé en charbon."),
