@@ -89,7 +89,6 @@ public class NSWCore extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("down")).setExecutor(new DownCommand());
         Objects.requireNonNull(this.getCommand("enderchest")).setExecutor(new EnderchestCommand());
         Objects.requireNonNull(this.getCommand("craft")).setExecutor(new CraftCommand());
-        Objects.requireNonNull(this.getCommand("anvil")).setExecutor(new AnvilCommand());
         Objects.requireNonNull(this.getCommand("furnace")).setExecutor(new FurnaceCommand());
         Objects.requireNonNull(this.getCommand("honorrank")).setExecutor(new HonorRankCommand());
         Objects.requireNonNull(this.getCommand("staff")).setExecutor(new StaffCommand());

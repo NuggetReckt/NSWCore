@@ -25,9 +25,6 @@ commands:
   craft:
     description: Ouvre l'interface de la table de craft
     usage: "/craft"
-  anvil:
-    description: Ouvre l'interface de l'enclume
-    usage: "/anvil"
   furnace:
     description: Permet de cuire les minerais dans la main du joueur
     usage: "/furnace"
@@ -71,7 +68,5 @@ permissions:
     description: Permission pour la commande /ec
   nsw.commands.craft:
     description: Permission pour la commande /craft
-  nsw.commands.anvil:
-    description: Permission pour la commande /anvil
   nsw.commands.furnace:
     description: Permission pour la commande /furnace

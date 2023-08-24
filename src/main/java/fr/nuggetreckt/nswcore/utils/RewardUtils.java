@@ -36,7 +36,6 @@ public class RewardUtils {
                 NSWCore.getLuckPermsUtils().setPermission(player, "lands.chunks.25");
 
                 NSWCore.getLuckPermsUtils().setPermission(player, "nsw.command.craft");
-                NSWCore.getLuckPermsUtils().setPermission(player, "nsw.command.anvil");
             }
             case Rank_6 -> {
                 NSWCore.getLuckPermsUtils().unsetPermission(player, "lands.chunks.25");
@@ -69,7 +68,7 @@ public class RewardUtils {
             }
             case Rank_5 -> {
                 rewardsList.add("5 claims supplémentaires");
-                rewardsList.add("Accès aux commandes /craft et /anvil");
+                rewardsList.add("Accès aux commandes /craft");
             }
             case Rank_6 -> {
                 rewardsList.add("10 claims supplémentaires");
