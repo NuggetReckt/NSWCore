@@ -10,15 +10,22 @@ public class Connector {
 
     private Connection conn;
 
+    private final String user;
+    private final String password;
+
     public Connector() {
         Dotenv dotenv = Dotenv.configure()
                 .directory("/env/")
                 .filename(".env")
                 .load();
 
-        String user = dotenv.get("DB_USER");
-        String password = dotenv.get("DB_PASSWORD");
+        user = dotenv.get("DB_USER");
+        password = dotenv.get("DB_PASSWORD");
 
+        connect();
+    }
+
+    public void connect() {
         try {
             conn = DriverManager.getConnection("jdbc:mysql://localhost/Core", user, password);
         } catch (SQLException e) {

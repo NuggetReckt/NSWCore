@@ -8,18 +8,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.UUID;
 
 public class Requests {
 
-    private final boolean isConnected;
     private Statement statement;
     private ResultSet resultSet;
 
     private String query;
-
-    public Requests() {
-        this.isConnected = NSWCore.getConnector().isConnected();
-    }
 
     public void initPlayerData(@NotNull Player player) {
         query = "INSERT INTO core_playerdata (uuid, playerName, rankId, honorPoints) VALUES ('" + player.getUniqueId() +
@@ -73,14 +69,33 @@ public class Requests {
         return result;
     }
 
-    public Player getPlayer(@NotNull Player player) {
-        query = "SELECT playerName FROM core_playerdata WHERE uuid = '" + player.getUniqueId() + "';";
+    public Player getPlayerByName(String playerName) {
+        query = "SELECT playerName FROM core_playerdata WHERE playerName = '" + playerName + "';";
         Player result = null;
 
         retrieveData(query);
         try {
             if (resultSet.next()) {
                 result = NSWCore.getInstance().getPlayerByName(resultSet.getString("playerName"));
+            }
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
+        } finally {
+            close();
+        }
+        return result;
+    }
+
+    public Player getPlayer(@NotNull Player player) {
+        query = "SELECT uuid FROM core_playerdata WHERE uuid = '" + player.getUniqueId() + "';";
+        Player result = null;
+
+        retrieveData(query);
+        try {
+            if (resultSet.next()) {
+                result = NSWCore.getInstance().getPlayerByUuid(UUID.fromString(resultSet.getString("uuid")));
             }
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
@@ -107,6 +122,7 @@ public class Requests {
     public void setReportData(int id) {
         query = "SELECT * FROM core_reports WHERE id = " + id + ";";
 
+        int reportId = 0;
         String creatorName = null;
         String reportedName = null;
         String reportType = null;
@@ -117,6 +133,7 @@ public class Requests {
         retrieveData(query);
         try {
             if (resultSet.next()) {
+                reportId = resultSet.getInt("id");
                 creatorName = resultSet.getString("creatorName");
                 reportedName = resultSet.getString("reportedName");
                 reportType = resultSet.getString("typeName");
@@ -131,7 +148,7 @@ public class Requests {
         } finally {
             close();
         }
-        NSWCore.getReportUtils().setReportData(creatorName, reportedName, reportType, reportReason, timestamp, isResolved);
+        NSWCore.getReportUtils().setReportData(reportId, creatorName, reportedName, reportType, reportReason, timestamp, isResolved);
     }
 
     public int getReportsCount() {
@@ -154,10 +171,7 @@ public class Requests {
     }
 
     public void createTables() {
-        NSWCore.getServerHandler().getExecutor().execute(() -> {
-            createPlayerDataTable();
-            createPlayerTable();
-        });
+        NSWCore.getServerHandler().getExecutor().execute(this::createPlayerDataTable);
     }
 
     private void createPlayerDataTable() {
@@ -175,25 +189,8 @@ public class Requests {
         close();
     }
 
-    private void createPlayerTable() {
-        query = """
-                CREATE TABLE IF NOT EXISTS core_players
-                (
-                    uuid VARCHAR(36) PRIMARY KEY NOT NULL,
-                    playerName VARCHAR(36) NOT NULL,
-                    lastLogin TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-                );
-                """;
-        updateData(query);
-        close();
-    }
-
-    public boolean hasJoinedOnce(@NotNull Player player) {
-        return getPlayer(player) != null;
-    }
-
     private void retrieveData(String query) {
-        if (isConnected) {
+        if (isConnected()) {
             try {
                 statement = NSWCore.getConnector().getConn().createStatement();
                 resultSet = statement.executeQuery(query);
@@ -206,15 +203,18 @@ public class Requests {
     }
 
     private void updateData(String query) {
-        if (isConnected) {
-            try {
-                statement = NSWCore.getConnector().getConn().createStatement();
-                statement.executeUpdate(query);
-            } catch (SQLException e) {
-                System.out.println("SQLException: " + e.getMessage());
-                System.out.println("SQLState: " + e.getSQLState());
-                System.out.println("VendorError: " + e.getErrorCode());
-            }
+
+        if (!isConnected()) {
+            NSWCore.getConnector().connect();
+        }
+
+        try {
+            statement = NSWCore.getConnector().getConn().createStatement();
+            statement.executeUpdate(query);
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
         }
     }
 
@@ -234,5 +234,9 @@ public class Requests {
             } // ignore
             statement = null;
         }
+    }
+
+    private boolean isConnected() {
+        return NSWCore.getConnector().isConnected();
     }
 }

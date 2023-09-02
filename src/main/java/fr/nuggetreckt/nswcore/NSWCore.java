@@ -163,16 +163,20 @@ public class NSWCore extends JavaPlugin {
         return Bukkit.getPlayer(name);
     }
 
+    public boolean hasJoinedOnce(Player player) {
+        return getRequestsManager().getPlayer(player) != null;
+    }
+
+    public boolean hasJoinedOnce(String playerName) {
+        return getRequestsManager().getPlayerByName(playerName) != null;
+    }
+
     public BukkitTask getBukkitTask() {
         return bukkitTask;
     }
 
     public LuckPerms getLuckPermsAPI() {
         return luckPermsAPI;
-    }
-
-    public boolean hasJoinedOnce(Player player) {
-        return new Requests().hasJoinedOnce(player);
     }
 
     public static NSWCore getInstance() {
@@ -238,6 +242,7 @@ public class NSWCore extends JavaPlugin {
     private void setSpawnLocation() {
         spawnLocation = new Location(getOverworld(), 0.5, 84, 0.5, 180, 0);
     }
+
 
     private void setLuckPermsAPI() {
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);

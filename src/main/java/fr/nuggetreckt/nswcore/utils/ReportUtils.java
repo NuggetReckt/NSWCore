@@ -14,8 +14,8 @@ public class ReportUtils {
 
     private final Map<Integer, ItemStack> reportItems;
     private final Map<Integer, Integer> reportIds;
-    //TODO: algo de "routage" d'id afin d'éviter les erreurs
 
+    private int reportId;
     private String reportedName;
     private String creatorName;
     private String reportType;
@@ -72,9 +72,12 @@ public class ReportUtils {
         }
     }
 
-    public void deleteReport(int id) {
+    public void deleteReport(int slot) {
         NSWCore.getServerHandler().getExecutor().execute(() -> {
+            int id = reportIds.get(slot);
+
             NSWCore.getRequestsManager().deleteReport(id);
+            reportIds.remove(id);
             reportItems.remove(id);
         });
     }
@@ -87,18 +90,21 @@ public class ReportUtils {
     }
 
     public ItemStack getReportItem(int key) {
-        return this.reportItems.get(key);
+        int id = reportIds.get(key);
+        return reportItems.get(id);
     }
 
     public void resetReports() {
         reportItems.clear();
+        reportIds.clear();
     }
 
-    private void setReportItem(int key, ItemStack item) {
-        this.reportItems.putIfAbsent(key, item);
+    private void setReportItem(int slot, ItemStack item) {
+        reportIds.put(reportId, slot);
+        reportItems.put(slot, item);
     }
 
-    public boolean isResolved(int resolved) {
+    private boolean isResolved(int resolved) {
         return resolved == 1;
     }
 
@@ -110,7 +116,8 @@ public class ReportUtils {
         }
     }
 
-    public void setReportData(String creatorName, String reportedName, String reportType, String reportReason, Timestamp timestamp, int resolved) {
+    public void setReportData(int reportId, String creatorName, String reportedName, String reportType, String reportReason, Timestamp timestamp, int resolved) {
+        this.reportId = reportId;
         this.creatorName = creatorName;
         this.reportedName = reportedName;
         this.reportType = reportType;
