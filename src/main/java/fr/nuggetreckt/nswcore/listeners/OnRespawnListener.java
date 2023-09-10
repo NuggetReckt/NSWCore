@@ -17,15 +17,9 @@ public class OnRespawnListener implements Listener {
 
         Location spawnLoc = NSWCore.getInstance().getSpawnLocation();
 
-        /*
-        TO UNCOMMENT AFTER 1.20 SERVER UPDATE !
         if (event.getRespawnReason() == PlayerRespawnEvent.RespawnReason.DEATH) {
             event.setRespawnLocation(spawnLoc);
             player.sendMessage(String.format(MessageManager.RESPAWN_TP.getMessage(), "TP"));
         }
-        */
-
-        event.setRespawnLocation(spawnLoc);
-        player.sendMessage(String.format(MessageManager.RESPAWN_TP.getMessage(), "TP"));
     }
 }

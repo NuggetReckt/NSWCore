@@ -5,6 +5,7 @@ prefix: NSWCore
 website: https://play.noskillworld.fr
 main: fr.nuggetreckt.nswcore.NSWCore
 api-version: 1.20
+depend: [PlaceholderAPI, LuckPerms]
 commands:
   top:
     description: Téléporte au plus haut block

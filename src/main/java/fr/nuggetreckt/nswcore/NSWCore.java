@@ -148,7 +148,7 @@ public class NSWCore extends JavaPlugin {
     }
 
     public World getOverworld() {
-        return Bukkit.getWorld("world");
+        return Bukkit.getWorld("main");
     }
 
     public Location getSpawnLocation() {
@@ -240,7 +240,7 @@ public class NSWCore extends JavaPlugin {
     }
 
     private void setSpawnLocation() {
-        spawnLocation = new Location(getOverworld(), 0.5, 84, 0.5, 180, 0);
+        spawnLocation = new Location(getOverworld(), -500.5, 89, 87.5, 180, 0);
     }
 
 

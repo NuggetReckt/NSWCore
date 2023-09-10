@@ -190,20 +190,21 @@ public class Requests {
     }
 
     private void retrieveData(String query) {
-        if (isConnected()) {
-            try {
-                statement = NSWCore.getConnector().getConn().createStatement();
-                resultSet = statement.executeQuery(query);
-            } catch (SQLException e) {
-                System.out.println("SQLException: " + e.getMessage());
-                System.out.println("SQLState: " + e.getSQLState());
-                System.out.println("VendorError: " + e.getErrorCode());
-            }
+        if (!isConnected()) {
+            NSWCore.getConnector().connect();
+        }
+
+        try {
+            statement = NSWCore.getConnector().getConn().createStatement();
+            resultSet = statement.executeQuery(query);
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getSQLState());
+            System.out.println("VendorError: " + e.getErrorCode());
         }
     }
 
     private void updateData(String query) {
-
         if (!isConnected()) {
             NSWCore.getConnector().connect();
         }

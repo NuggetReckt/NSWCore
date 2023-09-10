@@ -16,7 +16,7 @@ public class GuiManager {
         registersGUI();
     }
 
-    public Map<Class<? extends CustomInventory>, CustomInventory> registeredMenus = new HashMap<>();
+    public final Map<Class<? extends CustomInventory>, CustomInventory> registeredMenus = new HashMap<>();
 
     public void open(Player player, Class<? extends CustomInventory> gClass) {
         if (!registeredMenus.containsKey(gClass)) return;
