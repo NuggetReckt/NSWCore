@@ -13,32 +13,25 @@ public class RewardUtils {
     public void setReward(Player player, @NotNull Rank rank) {
         switch (rank) {
             case Rank_1 -> NSWCore.getLuckPermsUtils().setPermission(player, "lands.chunks.5");
-            case Rank_2 -> {
-                NSWCore.getLuckPermsUtils().unsetPermission(player, "lands.chunks.5");
-                NSWCore.getLuckPermsUtils().setPermission(player, "lands.chunks.10");
-            }
+            case Rank_2 -> NSWCore.getLuckPermsUtils().setPermission(player, "lands.chunks.10");
             case Rank_3 -> {
-                NSWCore.getLuckPermsUtils().unsetPermission(player, "lands.chunks.10");
                 NSWCore.getLuckPermsUtils().setPermission(player, "lands.chunks.15");
 
                 NSWCore.getLuckPermsUtils().setPermission(player, "nsw.command.top");
                 NSWCore.getLuckPermsUtils().setPermission(player, "nsw.command.bottom");
             }
             case Rank_4 -> {
-                NSWCore.getLuckPermsUtils().unsetPermission(player, "lands.chunks.15");
                 NSWCore.getLuckPermsUtils().setPermission(player, "lands.chunks.20");
 
                 NSWCore.getLuckPermsUtils().setPermission(player, "nsw.command.up");
                 NSWCore.getLuckPermsUtils().setPermission(player, "nsw.command.down");
             }
             case Rank_5 -> {
-                NSWCore.getLuckPermsUtils().unsetPermission(player, "lands.chunks.20");
                 NSWCore.getLuckPermsUtils().setPermission(player, "lands.chunks.25");
 
                 NSWCore.getLuckPermsUtils().setPermission(player, "nsw.command.craft");
             }
             case Rank_6 -> {
-                NSWCore.getLuckPermsUtils().unsetPermission(player, "lands.chunks.25");
                 NSWCore.getLuckPermsUtils().setPermission(player, "lands.chunks.35");
 
                 NSWCore.getLuckPermsUtils().setPermission(player, "nsw.command.ec");
@@ -68,10 +61,12 @@ public class RewardUtils {
             }
             case Rank_5 -> {
                 rewardsList.add("5 claims supplémentaires");
+                rewardsList.add("1 Home supplémentaire");
                 rewardsList.add("Accès aux commandes /craft");
             }
             case Rank_6 -> {
                 rewardsList.add("10 claims supplémentaires");
+                rewardsList.add("1 Home supplémentaire");
                 rewardsList.add("Accès aux commandes /ec et /furnace");
             }
         }
