@@ -4,11 +4,14 @@ import fr.nuggetreckt.nswcore.NSWCore;
 import fr.nuggetreckt.nswcore.utils.CooldownManager;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
 import fr.nuggetreckt.nswcore.utils.TeleportUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
@@ -57,11 +60,21 @@ public class DownCommand implements CommandExecutor {
             block = target.getWorld().getBlockAt(blockX, i, blockZ);
 
             if (teleportUtils.isValid(block)) {
-                target.teleport(block.getLocation().add(0.5D, 1.0D, 0.05D));
-                target.sendMessage(String.format(MessageManager.SUCCESS_TP.getMessage(), "TP"));
-                NSWCore.getEffectUtils().teleportEffect(target);
+                target.sendMessage(String.format(MessageManager.PRE_TP.getMessage(), "TP"));
+                teleportUtils.setTeleports(target, true);
+
+                Location location = block.getLocation().add(0.5D, 1.0D, 0.5D);
+
+                BukkitTask task = Bukkit.getScheduler().runTaskLater(NSWCore.getInstance(), () -> {
+                    teleportUtils.setTeleports(target, false);
+                    target.teleport(location);
+                    target.sendMessage(String.format(MessageManager.SUCCESS_TP.getMessage(), "TP"));
+                    NSWCore.getEffectUtils().teleportEffect(target);
+                }, 40L);
+                NSWCore.getInstance().setBukkitTask(task);
                 return;
             }
+
         }
         target.sendMessage(String.format(MessageManager.PLAYER_NOT_TP.getMessage(), "TP"));
     }

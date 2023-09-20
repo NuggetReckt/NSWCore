@@ -26,9 +26,7 @@ public class OnJoinListener implements Listener {
 
         if (!player.hasPlayedBefore()) {
             if (NSWCore.getInstance().isFarmzone()) {
-                player.sendMessage("§8[§3NSW§8] §fBienvenue en §3§lFarmZone §f!");
-                player.sendMessage(" §8| §fUtilise §3/rtp §fpour te téléporter aléatoirement");
-                player.sendMessage(" §8| §fUtilise §3/kit §fpour réclamer ton kit");
+                player.sendMessage(String.format(MessageManager.FARMZONE_WELCOME.getMessage(), "NSW"));
             } else {
                 Bukkit.broadcastMessage(String.format(MessageManager.WELCOME_PLAYER_JOIN.getBroadcastMessage(), player.getName(), nsw));
             }

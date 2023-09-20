@@ -1,5 +1,6 @@
 package fr.nuggetreckt.nswcore;
 
+import com.iridium.iridiumcolorapi.IridiumColorAPI;
 import fr.nuggetreckt.nswcore.database.Requests;
 import fr.nuggetreckt.nswcore.utils.EffectUtils;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
@@ -15,12 +16,12 @@ import java.util.UUID;
 
 public class HonorRanks {
     public enum Rank {
-        Rank_1(1, 10),
-        Rank_2(2, 30),
-        Rank_3(3, 60),
-        Rank_4(4, 100),
-        Rank_5(5, 150),
-        Rank_6(6, 250),
+        Rank_1(1, 10, "<SOLID:8afc6e>"),
+        Rank_2(2, 30, "<SOLID:65e5a0>"),
+        Rank_3(3, 60, "<SOLID:42cfcf>"),
+        Rank_4(4, 100, "<SOLID:379ec4>"),
+        Rank_5(5, 150, "<SOLID:2c70ba>"),
+        Rank_6(6, 250, "<SOLID:9C1FA4>§l"),
         ;
 
         private static final Map<Integer, Rank> BY_ID = new HashMap<>();
@@ -33,10 +34,12 @@ public class HonorRanks {
 
         private final int rankId;
         private final long honorPoints;
+        private final String colorCode;
 
-        Rank(int lvl, long pts) {
+        Rank(int lvl, long pts, String code) {
             this.rankId = lvl;
             this.honorPoints = pts;
+            this.colorCode = code;
         }
 
         public int getRankId() {
@@ -45,6 +48,10 @@ public class HonorRanks {
 
         public long getHonorPoints() {
             return this.honorPoints;
+        }
+
+        public String getColorCode() {
+            return this.colorCode;
         }
     }
 
@@ -85,7 +92,7 @@ public class HonorRanks {
                 playerRank.replace(player.getUniqueId(), nextRank);
 
                 Bukkit.broadcastMessage(String.format(MessageManager.HONORRANKS_UPRANK_BROADCAST.getBroadcastMessage(),
-                        player.getName(), nextRank.getRankId()));
+                        player.getName(), getFormat(player)));
 
                 new RewardUtils().setReward(player, nextRank);
                 NSWCore.getEffectUtils().uprankEffect(player);
@@ -93,7 +100,7 @@ public class HonorRanks {
                 player.sendMessage(String.format(MessageManager.NO_ENOUGH_HONORPOINTS.getMessage(), "HR", currentPoints, pointsNeeded));
             }
         } else {
-            player.sendMessage(String.format(MessageManager.MAX_HONORRANK.getMessage(), "HR"));
+            player.sendMessage(String.format(MessageManager.MAX_HONORRANK.getMessage(), "HR", NSWCore.getHonorRanks().getFormat(player)));
         }
     }
 
@@ -103,7 +110,7 @@ public class HonorRanks {
             playerRank.replace(player.getUniqueId(), nextRank);
 
             Bukkit.broadcastMessage(String.format(MessageManager.HONORRANKS_UPRANK_BROADCAST.getBroadcastMessage(),
-                    player.getName(), nextRank.getRankId()));
+                    player.getName(), getFormat(getPlayerRank(player))));
 
             new RewardUtils().setReward(player, nextRank);
             NSWCore.getEffectUtils().uprankEffect(player);
@@ -156,21 +163,20 @@ public class HonorRanks {
     }
 
     public String getPrefix(@NotNull Player player) {
-        return "§8[" + getFormat(player) + "§8]";
+        return "§8[" + getFormat(getPlayerRank(player)) + "§8]";
     }
 
     public String getFormat(Player player) {
-        int rankId = getPlayerRankId(player);
-        return switch (rankId) {
-            case 0 -> "§7" + rankId;
-            case 1 -> "§a" + rankId;
-            case 2 -> "§2" + rankId;
-            case 3 -> "§b" + rankId;
-            case 4 -> "§3" + rankId;
-            case 5 -> "§9" + rankId;
-            case 6 -> "§1§l" + rankId;
-            default -> null;
-        };
+        Rank rank = getPlayerRank(player);
+        return getFormat(rank);
+    }
+
+    public String getFormat(@NotNull Rank rank) {
+        if (rank.getRankId() == 0) {
+            return "§70";
+        } else {
+            return IridiumColorAPI.process(rank.getColorCode() + rank.getRankId());
+        }
     }
 
     private Rank getRankById(int id) {
@@ -181,7 +187,9 @@ public class HonorRanks {
         StringBuilder sb = new StringBuilder();
 
         for (Rank i : Rank.values()) {
-            sb.append(" §8|§f Rang §3").append(i.getRankId()).append(" §8(§3").append(i.getHonorPoints()).append(" §7Points d'Honneur§8)");
+            sb.append(" §8|§f Rang ").append(getFormat(i))
+                    .append(" §8(§3").append(i.getHonorPoints())
+                    .append(" §7Points d'Honneur§8)");
 
             if (i == getNextPlayerRank(player)) {
                 sb.append(" §3§l« PROCHAIN");

@@ -38,7 +38,8 @@ public class RewardUtils {
                 NSWCore.getLuckPermsUtils().setPermission(player, "nsw.command.furnace");
             }
         }
-        player.sendMessage(String.format(MessageManager.HONORANKS_UPRANK_REWARDS.getMessage(), "HR", NSWCore.getHonorRanks().getFormat(player), getRewards(rank)));
+        player.sendMessage(String.format(MessageManager.HONORANKS_UPRANK_REWARDS.getMessage(), "HR",
+                NSWCore.getHonorRanks().getFormat(player), getRewards(rank)));
     }
 
     private @NotNull String getRewards(@NotNull Rank rank) {

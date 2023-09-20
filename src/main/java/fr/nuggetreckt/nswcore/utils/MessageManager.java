@@ -20,7 +20,7 @@ public enum MessageManager {
     COMMAND_ONLY_AVAILABLE_FARMZONE("§cCette commande n'est disponible qu'en FarmZone !"),
     COMMAND_ONLY_AVAILABLE_SURVIVAL("§cCette commande n'est disponible qu'en serveur survie !"),
     NO_ENOUGH_HONORPOINTS("§cVous n'avez pas assez de Points d'Honneur ! §8(§3%s§8/§3%s§8)"),
-    MAX_HONORRANK("§cVous êtes déjà au Rang d'Honneur maximum ! §8(§36§8)"),
+    MAX_HONORRANK("§cVous êtes déjà au Rang d'Honneur maximum ! §8(%s§8)"),
     PLAYER_ALREADY_FROZEN("§cLe joueur est déjà freeze !"),
     PLAYER_NOT_FROZEN("§cLe joueur n'est pas freeze !"),
     PLAYER_FREEZE_HIMSELF("§cVous ne pouvez pas vous freeze vous-même !"),
@@ -73,22 +73,27 @@ public enum MessageManager {
     PLAYER_KILL4("§3%s §fa provoqué §3%s§f, il s'en est souvenu."),
 
     //Other messages
-    PRE_TP("Téléportation dans §32 §fsecondes..."),
+    PRE_TP("Téléportation dans §32 §fsecondes... §cNe bougez pas !"),
     PRE_SPAWN_TP("Téléportation dans §35 §fsecondes... §cNe bougez pas !"),
     RESPAWN_TP("Vous avez été téléporté au spawn car vous êtes mort"),
     WELCOME_PLAYER_JOIN("Bienvenue à §3%s §fsur %s §f!"),
+    FARMZONE_WELCOME("""
+            Bienvenue en §3§lFarmZone §f!
+             §8| §fUtilise §3/rtp §fpour te téléporter aléatoirement
+             §8| §fUtilise §3/kit §fpour réclamer ton kit
+            """),
     HONORRANKS_RANKLIST("Liste des Rangs d'Honneur :\n%s"),
     HONORRANKS_RANK("Vous êtes %s"),
     HONORRANKS_POINTS("Vous avez actuellement §3%s §fPoints d'Honneur"),
     HONORRANKS_RANKINFO("""
             Informations sur votre Rang d'Honneur :
-             §8| §fRang d'Honneur actuel : §3%s
-             §8| §fProchain Rang d'Honneur : §3%s §8(§3%s§8/§3%s §7Points d'Honneur requis§8)"""),
+             §8| §fRang d'Honneur actuel : %s
+             §8| §fProchain Rang d'Honneur : %s §8(§3%s§8/§3%s §7Points d'Honneur requis§8)"""),
     HONORRANKS_RANKINFO_MAX("""
             Informations sur votre Rang d'Honneur :
-             §8| §fRang d'Honneur actuel : §3%s
+             §8| §fRang d'Honneur actuel : %s
              §8| §fProchain Rang d'Honneur : §fVous êtes déjà au Rang d'Honneur Maximum !"""),
-    HONORRANKS_UPRANK_BROADCAST("§3%s §fest passé Rang d'Honneur §3%s §f!"),
+    HONORRANKS_UPRANK_BROADCAST("§3%s §fest passé Rang d'Honneur %s §f!"),
     HONORANKS_UPRANK_REWARDS("§fFélicitations ! Vous êtes monté au Rang d'Honneur niveau %s §r! %s"),
     PLAYER_FREEZE_TARGET("Vous avez été freeze par §3%s§f. " +
             "Veuillez vous rendre sur le discord immédiatement. §8(§3/discord§8) " +
