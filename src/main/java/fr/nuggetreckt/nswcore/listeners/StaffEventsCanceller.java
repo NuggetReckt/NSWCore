@@ -23,7 +23,7 @@ public class StaffEventsCanceller implements Listener {
     public void onPlayerLeave(@NotNull PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
-        if (!player.hasPermission("group.staff")) return;
+        if (!NSWCore.getInstance().isStaff(player)) return;
 
         if (staffUtils.isStaffMode(player)) {
             staffUtils.toggleStaffMode(player);
@@ -34,9 +34,9 @@ public class StaffEventsCanceller implements Listener {
     public void onPlayerBreak(@NotNull BlockBreakEvent event) {
         Player player = event.getPlayer();
 
-        if (!player.hasPermission("group.staff")) return;
+        if (!NSWCore.getInstance().isStaff(player)) return;
 
-        if (staffUtils.isStaffMode(player) && player.hasPermission("group.staff")) {
+        if (staffUtils.isStaffMode(player)) {
             event.setCancelled(true);
         }
     }
@@ -45,18 +45,18 @@ public class StaffEventsCanceller implements Listener {
     public void onPlayerPlace(@NotNull BlockPlaceEvent event) {
         Player player = event.getPlayer();
 
-        if (!player.hasPermission("group.staff")) return;
+        if (!NSWCore.getInstance().isStaff(player)) return;
 
         if (staffUtils.isStaffMode(player)) {
             event.setCancelled(true);
         }
     }
 
-/*    @EventHandler
+    /*@EventHandler
     public void onInventoryDrag(@NotNull InventoryDragEvent event) {
         Player player = (Player) event.getWhoClicked();
 
-        if (!player.hasPermission("group.staff")) return;
+        if (!NSWCore.getInstance().isStaff(player)) return;
 
         if (staffUtils.isStaffMode(player)) {
             event.setCancelled(true);
@@ -67,7 +67,7 @@ public class StaffEventsCanceller implements Listener {
     public void onItemDrop(@NotNull PlayerDropItemEvent event) {
         Player player = event.getPlayer();
 
-        if (!player.hasPermission("group.staff")) return;
+        if (!NSWCore.getInstance().isStaff(player)) return;
 
         if (staffUtils.isStaffMode(player)) {
             event.setCancelled(true);

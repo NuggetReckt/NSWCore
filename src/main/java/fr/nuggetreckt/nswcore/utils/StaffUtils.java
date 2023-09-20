@@ -6,8 +6,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -30,7 +28,7 @@ public class StaffUtils {
     }
 
     public void init(@NotNull Player player) {
-        if (player.hasPermission("group.staff")) {
+        if (NSWCore.getInstance().isStaff(player)) {
             isStaffMode.putIfAbsent(player.getUniqueId(), false);
             oldLocation.putIfAbsent(player.getUniqueId(), null);
             oldInventory.putIfAbsent(player.getUniqueId(), null);
@@ -66,9 +64,15 @@ public class StaffUtils {
         player.setCanPickupItems(!bool);
         player.setCollidable(!bool);
         if (bool) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0, false, false));
+            //Hide player from others
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                p.hidePlayer(NSWCore.getInstance(), player);
+            }
         } else {
-            player.removePotionEffect(PotionEffectType.INVISIBILITY);
+            //Show player from others
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                p.showPlayer(NSWCore.getInstance(), player);
+            }
         }
     }
 
@@ -85,10 +89,10 @@ public class StaffUtils {
         if (bool) {
             player.getInventory().clear();
 
-            player.getInventory().setItem(0, new ItemUtils(Material.BLUE_ICE).setName("§8§l»§r §3Freeze le joueur §8§l«").setLore("").toItemStack());
-            player.getInventory().setItem(1, new ItemUtils(Material.CHEST).setName("§8§l»§r §3Voir l'inventaire du joueur §8§l«").setLore("").toItemStack());
-            player.getInventory().setItem(2, new ItemUtils(Material.ENDER_CHEST).setName("§8§l»§r §3Voir l'EC du joueur §8§l«").setLore("").toItemStack());
-            player.getInventory().setItem(8, new ItemUtils(Material.PAPER).setName("§8§l»§r §3Reports §8§l«").setLore("").toItemStack());
+            player.getInventory().setItem(0, new ItemUtils(Material.BLUE_ICE).setName("§8§l»§r §3Freeze le joueur §8§l«").toItemStack());
+            player.getInventory().setItem(1, new ItemUtils(Material.CHEST).setName("§8§l»§r §3Voir l'inventaire du joueur §8§l«").toItemStack());
+            player.getInventory().setItem(2, new ItemUtils(Material.ENDER_CHEST).setName("§8§l»§r §3Voir l'EC du joueur §8§l«").toItemStack());
+            player.getInventory().setItem(8, new ItemUtils(Material.PAPER).setName("§8§l»§r §3Reports §8§l«").toItemStack());
         } else {
             player.getInventory().clear();
             player.getInventory().setContents(getOldInventory(player));

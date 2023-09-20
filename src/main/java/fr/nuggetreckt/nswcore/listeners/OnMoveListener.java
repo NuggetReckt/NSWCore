@@ -36,12 +36,12 @@ public class OnMoveListener implements Listener {
         }
 
         if (NSWCore.getStaffUtils().isFrozen(player)) {
-            int x = (int) event.getFrom().getX();
-            int y = (int) event.getFrom().getY();
-            int z = (int) event.getFrom().getZ();
-            int toX = (int) event.getTo().getX();
-            int toY = (int) event.getTo().getY();
-            int toZ = (int) event.getTo().getZ();
+            double x = event.getFrom().getX();
+            double y = event.getFrom().getY();
+            double z = event.getFrom().getZ();
+            double toX = event.getTo().getX();
+            double toY = event.getTo().getY();
+            double toZ = event.getTo().getZ();
 
             if (x != toX || y != toY || z != toZ) {
                 event.setCancelled(true);

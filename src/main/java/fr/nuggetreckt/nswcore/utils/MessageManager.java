@@ -94,7 +94,7 @@ public enum MessageManager {
             "Veuillez vous rendre sur le discord immédiatement. §8(§3/discord§8) " +
             "\n§cNe vous déconnectez pas ou vous serez banni définitivement."),
     PLAYER_UNFREEZE_TARGET("Vous avez été unfreeze par §3%s§f."),
-    PLAYER_FREEZED_QUIT("§cLe joueur §3%s §cs'est déconnecté en étant freeze"),
+    PLAYER_FROZEN_QUIT("§cLe joueur §3%s §cs'est déconnecté en étant freeze"),
     ;
 
     private final String message;

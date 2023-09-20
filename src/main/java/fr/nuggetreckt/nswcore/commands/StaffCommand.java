@@ -1,6 +1,7 @@
 package fr.nuggetreckt.nswcore.commands;
 
 import fr.nuggetreckt.nswcore.NSWCore;
+import fr.nuggetreckt.nswcore.utils.MessageManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,8 +17,10 @@ public class StaffCommand implements CommandExecutor, Listener {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
 
-            if (player.hasPermission("group.staff")) {
+            if (NSWCore.getInstance().isStaff(player)) {
                 NSWCore.getStaffUtils().toggleStaffMode(player);
+            } else {
+                player.sendMessage(String.format(MessageManager.NO_PERMISSION_CMD.getMessage(), "Staff"));
             }
         }
         return true;

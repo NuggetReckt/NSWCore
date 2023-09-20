@@ -16,7 +16,7 @@ public class UnfreezeCommand implements CommandExecutor {
             Player player = (Player) commandSender;
             NSWCore nswCore = NSWCore.getInstance();
 
-            if (player.hasPermission("group.staff")) {
+            if (NSWCore.getInstance().isStaff(player)) {
                 if (args.length >= 1) {
                     Player target = nswCore.getPlayerByName(args[0]);
                     assert target != null;
@@ -24,20 +24,20 @@ public class UnfreezeCommand implements CommandExecutor {
                     if (player != target) {
                         if (NSWCore.getStaffUtils().isFrozen(target)) {
                             NSWCore.getStaffUtils().setFrozen(target, false);
-                            player.sendMessage(String.format(MessageManager.PLAYER_UNFREEZE_STAFF.getMessage(), "NSW", target.getName()));
+                            player.sendMessage(String.format(MessageManager.PLAYER_UNFREEZE_STAFF.getMessage(), "Staff", target.getName()));
                             target.sendMessage(String.format(MessageManager.PLAYER_UNFREEZE_TARGET.getMessage(), "NSW", player.getName()));
                         } else {
                             //Le joueur n'est pas freeze
-                            player.sendMessage(String.format(MessageManager.PLAYER_NOT_FROZEN.getMessage(), "NSW"));
+                            player.sendMessage(String.format(MessageManager.PLAYER_NOT_FROZEN.getMessage(), "Staff"));
                         }
                     } else {
-                        player.sendMessage(String.format(MessageManager.PLAYER_UNFREEZE_HIMSELF.getMessage(), "NSW"));
+                        player.sendMessage(String.format(MessageManager.PLAYER_UNFREEZE_HIMSELF.getMessage(), "Staff"));
                     }
                 } else {
-                    player.sendMessage(String.format(MessageManager.NOT_ENOUGH_ARGS.getMessage(), "NSW"));
+                    player.sendMessage(String.format(MessageManager.NOT_ENOUGH_ARGS.getMessage(), "Staff", command.getUsage()));
                 }
             } else {
-                player.sendMessage(String.format(MessageManager.NO_PERMISSION_CMD.getMessage(), "NSW"));
+                player.sendMessage(String.format(MessageManager.NO_PERMISSION_CMD.getMessage(), "Staff"));
             }
         }
         return true;

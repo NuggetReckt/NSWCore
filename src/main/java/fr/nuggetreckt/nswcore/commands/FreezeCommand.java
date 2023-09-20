@@ -15,7 +15,7 @@ public class FreezeCommand implements CommandExecutor {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
 
-            if (player.hasPermission("group.staff")) {
+            if (NSWCore.getInstance().isStaff(player)) {
                 if (args.length >= 1) {
                     Player target = NSWCore.getInstance().getPlayerByName(args[0]);
                     assert target != null;
@@ -23,22 +23,22 @@ public class FreezeCommand implements CommandExecutor {
                     if (player != target) {
                         if (!NSWCore.getStaffUtils().isFrozen(target)) {
                             NSWCore.getStaffUtils().setFrozen(target, true);
-                            player.sendMessage(String.format(MessageManager.PLAYER_FREEZE_STAFF.getMessage(), "NSW", target.getName()));
+                            player.sendMessage(String.format(MessageManager.PLAYER_FREEZE_STAFF.getMessage(), "Staff", target.getName()));
                             target.sendMessage(String.format(MessageManager.PLAYER_FREEZE_TARGET.getMessage(), "NSW", player.getName()));
 
                             target.sendTitle("§4§lVous êtes freeze", "§cRendez-vous sur le Discord §8(§3/discord§8)", 10, 200, 60);
                         } else {
                             //Le joueur est déja freeze
-                            player.sendMessage(String.format(MessageManager.PLAYER_ALREADY_FROZEN.getMessage(), "NSW"));
+                            player.sendMessage(String.format(MessageManager.PLAYER_ALREADY_FROZEN.getMessage(), "Staff"));
                         }
                     } else {
-                        player.sendMessage(String.format(MessageManager.PLAYER_FREEZE_HIMSELF.getMessage(), "NSW"));
+                        player.sendMessage(String.format(MessageManager.PLAYER_FREEZE_HIMSELF.getMessage(), "Staff"));
                     }
                 } else {
-                    player.sendMessage(String.format(MessageManager.NOT_ENOUGH_ARGS.getMessage(), "NSW"));
+                    player.sendMessage(String.format(MessageManager.NOT_ENOUGH_ARGS.getMessage(), "Staff", command.getUsage()));
                 }
             } else {
-                player.sendMessage(String.format(MessageManager.NO_PERMISSION_CMD.getMessage(), "NSW"));
+                player.sendMessage(String.format(MessageManager.NO_PERMISSION_CMD.getMessage(), "Staff"));
             }
         }
         return true;

@@ -27,7 +27,7 @@ public class StaffEventsListener implements Listener {
     public void onItemClickAtEntity(@NotNull PlayerInteractAtEntityEvent event) {
         Player player = event.getPlayer();
 
-        if (!player.hasPermission("group.staff")) return;
+        if (!NSWCore.getInstance().isStaff(player)) return;
 
         ItemStack item = player.getInventory().getItemInMainHand();
 
@@ -70,7 +70,7 @@ public class StaffEventsListener implements Listener {
     public void onItemClick(@NotNull PlayerInteractEvent event) {
         Player player = event.getPlayer();
 
-        if (!player.hasPermission("group.staff")) return;
+        if (!NSWCore.getInstance().isStaff(player)) return;
 
         ItemStack item = player.getInventory().getItemInMainHand();
 
