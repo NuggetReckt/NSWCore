@@ -195,7 +195,7 @@ public class HonorRanks {
         StringBuilder sb = new StringBuilder();
 
         for (Rank i : Rank.values()) {
-            sb.append(" §8|§f Rang ").append(getFormat(i))
+            sb.append("§r §8|§f Rang ").append(getFormat(i))
                     .append(" §8(§3").append(i.getHonorPoints())
                     .append(" §7Points d'Honneur§8)");
 
