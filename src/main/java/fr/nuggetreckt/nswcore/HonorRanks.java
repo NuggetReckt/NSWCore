@@ -10,9 +10,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class HonorRanks {
     public enum Rank {
@@ -158,6 +156,16 @@ public class HonorRanks {
         return getRankById(nextRankId);
     }
 
+    public List<Rank> getPreviousPlayerRanks(Player player) {
+        int currentRankId = getPlayerRankId(player);
+        List<Rank> rankList = new ArrayList<>();
+
+        for (int i = 1; i <= currentRankId; i++) {
+            rankList.add(getRankById(i));
+        }
+        return rankList;
+    }
+
     public String getDisplayName(@NotNull Player player) {
         return "§fRang d'Honneur " + getFormat(player);
     }
@@ -191,6 +199,9 @@ public class HonorRanks {
                     .append(" §8(§3").append(i.getHonorPoints())
                     .append(" §7Points d'Honneur§8)");
 
+            if (getPreviousPlayerRanks(player).contains(i)) {
+                sb.append(" §8(§a✔§8)");
+            }
             if (i == getNextPlayerRank(player)) {
                 sb.append(" §3§l« PROCHAIN");
             }

@@ -32,7 +32,7 @@ commands:
   honorrank:
     description: Permet d'interagir avec les Rangs d'Honneur
     usage: "/hr admin give|upgrade <joueur> <montant>|<joueur>"
-    aliases: [ hr ]
+    aliases: [ hr, honneur ]
   kit:
     description: Permet aux nouveaux joueurs de commencer avec un kit de départ
     usage: "/kit"
