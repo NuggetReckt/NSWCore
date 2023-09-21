@@ -179,8 +179,8 @@ public class HonorRanks {
         return getFormat(rank);
     }
 
-    public String getFormat(@NotNull Rank rank) {
-        if (rank.getRankId() == 0) {
+    public String getFormat(Rank rank) {
+        if (rank == null) {
             return "§70";
         } else {
             return IridiumColorAPI.process(rank.getColorCode() + rank.getRankId());
@@ -200,7 +200,7 @@ public class HonorRanks {
                     .append(" §7Points d'Honneur§8)");
 
             if (getPreviousPlayerRanks(player).contains(i)) {
-                sb.append(" §8(§a✔§8)");
+                sb.append(" §8[§a✔§8]");
             }
             if (i == getNextPlayerRank(player)) {
                 sb.append(" §3§l« PROCHAIN");
