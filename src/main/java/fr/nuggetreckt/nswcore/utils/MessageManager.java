@@ -21,6 +21,7 @@ public enum MessageManager {
     COMMAND_ONLY_AVAILABLE_SURVIVAL("§cCette commande n'est disponible qu'en serveur survie !"),
     NO_ENOUGH_HONORPOINTS("§cVous n'avez pas assez de Points d'Honneur ! §8(§3%s§8/§3%s§8)"),
     MAX_HONORRANK("§cVous êtes déjà au Rang d'Honneur maximum ! §8(%s§8)"),
+    MAX_HONORRANK_OTHER("§cLe joueur §3%s §cest déjà au Rang d'Honneur maximum !"),
     PLAYER_ALREADY_FROZEN("§cLe joueur est déjà freeze !"),
     PLAYER_NOT_FROZEN("§cLe joueur n'est pas freeze !"),
     PLAYER_FREEZE_HIMSELF("§cVous ne pouvez pas vous freeze vous-même !"),

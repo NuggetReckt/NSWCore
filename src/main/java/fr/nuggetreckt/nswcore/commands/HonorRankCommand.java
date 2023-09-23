@@ -54,9 +54,13 @@ public class HonorRankCommand implements CommandExecutor {
                                 Player target = NSWCore.getInstance().getPlayerByName(args[2]);
                                 assert target != null;
 
-                                hr.forceUpRankPlayer(target);
-                                player.sendMessage(String.format(MessageManager.SUCCESS_UPGRADE.getMessage(), "HR", target.getName()));
-                                target.sendMessage(String.format(MessageManager.SUCCESS_UPGRADE_OTHER.getMessage(), "HR", target.getName()));
+                                if (hr.getNextPlayerRank(player) != null) {
+                                    player.sendMessage(String.format(MessageManager.SUCCESS_UPGRADE.getMessage(), "HR", target.getName()));
+                                    target.sendMessage(String.format(MessageManager.SUCCESS_UPGRADE_OTHER.getMessage(), "HR", target.getName()));
+                                    hr.forceUpRankPlayer(target);
+                                } else {
+                                    player.sendMessage(String.format(MessageManager.MAX_HONORRANK_OTHER.getMessage(), "HR", target.getName()));
+                                }
                             } else {
                                 player.sendMessage(String.format(MessageManager.NOT_ENOUGH_ARGS.getMessage(), "HR", command.getUsage()));
                             }

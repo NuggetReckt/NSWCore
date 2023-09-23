@@ -1,5 +1,8 @@
 package fr.nuggetreckt.nswcore.utils;
 
+import fr.nuggetreckt.nswcore.HonorRanks;
+import fr.nuggetreckt.nswcore.NSWCore;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -10,37 +13,59 @@ import java.util.Random;
 
 public class EffectUtils {
 
-    private Location location;
+    private final Random r;
+
+    public EffectUtils() {
+        r = new Random();
+    }
 
     public void teleportEffect(@NotNull Player player) {
-        location = player.getLocation().add(0, 1, 0);
-        Random r = new Random();
-
-        int particleCount = r.nextInt(95, 100);
-
-        for (int i = 0; i < particleCount; i++) {
-            double offsetX = r.nextDouble(0.2, 0.6);
-            double offsetY = r.nextDouble(0.3, 0.8);
-            double offsetZ = r.nextDouble(0.2, 0.6);
-
-            player.getWorld().spawnParticle(Particle.PORTAL, location, 1, offsetX, offsetY, offsetZ);
-        }
+        spawnParticles(player, Particle.PORTAL);
         playSound(player, Sound.ENTITY_ENDERMAN_TELEPORT);
     }
 
     public void uprankEffect(@NotNull Player player) {
-        location = player.getLocation().add(0, 1, 0);
-        Random r = new Random();
+        //spawnParticles(player, Particle.VILLAGER_HAPPY);
+        HonorRanks.Rank rank = NSWCore.getHonorRanks().getPlayerRank(player);
 
-        int particleCount = r.nextInt(95, 100);
+        int r = 0, g = 0, b = 0;
 
-        for (int i = 0; i < particleCount; i++) {
-            double offsetX = r.nextDouble(0.2, 0.6);
-            double offsetY = r.nextDouble(0.3, 0.8);
-            double offsetZ = r.nextDouble(0.2, 0.6);
-
-            player.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, location, 1, offsetX, offsetY, offsetZ);
+        switch (rank.getRankId()) {
+            case 1 -> {
+                r = 138;
+                g = 252;
+                b = 110;
+            }
+            case 2 -> {
+                r = 101;
+                g = 229;
+                b = 160;
+            }
+            case 3 -> {
+                r = 66;
+                g = 207;
+                b = 207;
+            }
+            case 4 -> {
+                r = 55;
+                g = 158;
+                b = 196;
+            }
+            case 5 -> {
+                r = 44;
+                g = 112;
+                b = 186;
+            }
+            case 6 -> {
+                r = 156;
+                g = 31;
+                b = 164;
+            }
         }
+
+        Color color = Color.fromRGB(r, g, b);
+
+        spawnParticles(player, color);
         playSound(player, Sound.ENTITY_PLAYER_LEVELUP);
     }
 
@@ -48,7 +73,35 @@ public class EffectUtils {
         playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP);
     }
 
-    public void playSound(@NotNull Player player, Sound sound) {
+    private void spawnParticles(@NotNull Player player, Particle particle) {
+        Location location = player.getLocation().add(0, 1, 0);
+
+        int particleCount = r.nextInt(190, 200);
+
+        for (int i = 0; i < particleCount; i++) {
+            double offsetX = r.nextDouble(0.2, 0.6);
+            double offsetY = r.nextDouble(0.3, 0.8);
+            double offsetZ = r.nextDouble(0.2, 0.6);
+
+            player.getWorld().spawnParticle(particle, location, 1, offsetX, offsetY, offsetZ, 0.7);
+        }
+    }
+
+    private void spawnParticles(@NotNull Player player, Color color) {
+        Location location = player.getLocation().add(0, 1, 0);
+
+        int particleCount = r.nextInt(190, 200);
+
+        for (int i = 0; i < particleCount; i++) {
+            double offsetX = r.nextDouble(0.2, 0.6);
+            double offsetY = r.nextDouble(0.3, 0.8);
+            double offsetZ = r.nextDouble(0.2, 0.6);
+
+            player.getWorld().spawnParticle(Particle.REDSTONE, location, 1, offsetX, offsetY, offsetZ, 1, new Particle.DustOptions(color, 1.0F));
+        }
+    }
+
+    private void playSound(@NotNull Player player, Sound sound) {
         player.playSound(player, sound, 15, 1);
     }
 }
