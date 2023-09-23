@@ -196,7 +196,7 @@ public class HonorRanks {
 
         for (Rank i : Rank.values()) {
             sb.append("§r §8|§f Rang ").append(getFormat(i))
-                    .append(" §8(§3").append(i.getHonorPoints())
+                    .append("§r §8(§3").append(i.getHonorPoints())
                     .append(" §7Points d'Honneur§8)");
 
             if (getPreviousPlayerRanks(player).contains(i)) {
