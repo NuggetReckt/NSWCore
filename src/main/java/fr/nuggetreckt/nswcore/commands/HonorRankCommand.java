@@ -31,7 +31,7 @@ public class HonorRankCommand implements CommandExecutor {
                                 hr.getFormat(player), hr.getFormat(hr.getNextPlayerRank(player)),
                                 hr.getPlayerPoints(player), hr.getPointsNeeded(player)));
                     } else {
-                        player.sendMessage(String.format(MessageManager.HONORRANKS_RANKINFO_MAX.getMessage(), "HR", hr.getPlayerRankId(player)));
+                        player.sendMessage(String.format(MessageManager.HONORRANKS_RANKINFO_MAX.getMessage(), "HR", hr.getFormat(player)));
                     }
                 } else if (args[0].equalsIgnoreCase("upgrade")) {
                     hr.upRankPlayer(player);
