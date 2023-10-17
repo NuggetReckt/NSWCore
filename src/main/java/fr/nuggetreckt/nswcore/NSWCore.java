@@ -248,7 +248,6 @@ public class NSWCore extends JavaPlugin {
         spawnLocation = new Location(getOverworld(), -500.5, 89, 87.5, 180, 0);
     }
 
-
     private void setLuckPermsAPI() {
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
         if (provider != null) {
