@@ -9,6 +9,7 @@ import fr.nuggetreckt.nswcore.expansions.PAPIExpansion;
 import fr.nuggetreckt.nswcore.listeners.*;
 import fr.nuggetreckt.nswcore.utils.*;
 import net.luckperms.api.LuckPerms;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -43,6 +44,7 @@ public class NSWCore extends JavaPlugin {
     private static ServerHandler serverHandler;
     private static Requests requestsManager;
     private static LuckPermsUtils luckPermsUtils;
+    private static Economy economy;
     private static SaveTask saveTask;
     private static Connector connector;
 
@@ -123,6 +125,9 @@ public class NSWCore extends JavaPlugin {
 
         //Register Luckperms API
         setLuckPermsAPI();
+
+        //Set economy
+        setEconomy();
 
         logger.info(String.format("[%s] Plugin loaded successfully", getDescription().getName()));
         logger.info("  _   _  _______          _______               ");
@@ -232,6 +237,10 @@ public class NSWCore extends JavaPlugin {
         return luckPermsUtils;
     }
 
+    public static Economy getEconomy() {
+        return economy;
+    }
+
     public boolean isFarmzone() {
         return serverPort == farmzonePort;
     }
@@ -256,8 +265,27 @@ public class NSWCore extends JavaPlugin {
     }
 
     private void setPlaceholderAPI() {
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            new PAPIExpansion().register();
+        if (getServer().getPluginManager().getPlugin("PlaceholderAPI") == null) {
+            logger.severe("The PlaceholderAPI plugin was not found! Please install it before starting the server.");
+            logger.info("Stopping the server...");
+            getServer().shutdown();
+            return;
         }
+        new PAPIExpansion().register();
+    }
+
+    private void setEconomy() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            logger.severe("The Vault plugin was not found! Please install it before starting the server.");
+            logger.info("Stopping the server...");
+            getServer().shutdown();
+            return;
+        }
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            logger.severe("An error occurred while setting up the economy.");
+            return;
+        }
+        economy = rsp.getProvider();
     }
 }

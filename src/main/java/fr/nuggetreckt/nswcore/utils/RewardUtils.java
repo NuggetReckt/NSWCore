@@ -12,29 +12,27 @@ public class RewardUtils {
 
     public void setReward(Player player, @NotNull Rank rank) {
         switch (rank) {
-            case Rank_1 -> {
-                //500nsc
-            }
+            case Rank_1 -> NSWCore.getEconomy().depositPlayer(player, 500.0);
             case Rank_2 -> {
-                //1000nsc
+                NSWCore.getEconomy().depositPlayer(player, 1000.0);
                 NSWCore.getLuckPermsUtils().setPermission(player, "nsw.command.top");
                 NSWCore.getLuckPermsUtils().setPermission(player, "nsw.command.bottom");
             }
             case Rank_3 -> {
-                //2000nsc
+                NSWCore.getEconomy().depositPlayer(player, 2000.0);
                 NSWCore.getLuckPermsUtils().setPermission(player, "nsw.command.up");
                 NSWCore.getLuckPermsUtils().setPermission(player, "nsw.command.down");
             }
             case Rank_4 -> {
-                //5000nsc
+                NSWCore.getEconomy().depositPlayer(player, 5000.0);
                 NSWCore.getLuckPermsUtils().setPermission(player, "nsw.command.craft");
             }
             case Rank_5 -> {
-                //8000nsc
+                NSWCore.getEconomy().depositPlayer(player, 8000.0);
                 NSWCore.getLuckPermsUtils().setPermission(player, "nsw.command.ec");
             }
             case Rank_6 -> {
-                //10000nsc
+                NSWCore.getEconomy().depositPlayer(player, 10000.0);
                 // /back
                 NSWCore.getLuckPermsUtils().setPermission(player, "nsw.command.furnace");
             }
@@ -48,28 +46,26 @@ public class RewardUtils {
         StringBuilder sb = new StringBuilder();
 
         switch (rank) {
-            case Rank_1 -> rewardsList.add("2 claims supplémentaires");
+            case Rank_1 -> rewardsList.add("500 NSc");
             case Rank_2 -> {
-                rewardsList.add("5 claims supplémentaires");
-                rewardsList.add("Cooldown du RTP réduit");
-            }
-            case Rank_3 -> {
-                rewardsList.add("5 claims supplémentaires");
+                rewardsList.add("1000 NSc");
                 rewardsList.add("Accès aux commandes /top et /bottom");
             }
-            case Rank_4 -> {
-                rewardsList.add("5 claims supplémentaires");
+            case Rank_3 -> {
+                rewardsList.add("2000 NSc");
                 rewardsList.add("Accès aux commandes /up et /down");
             }
+            case Rank_4 -> {
+                rewardsList.add("5000 NSc");
+                rewardsList.add("Accès à la commande /craft");
+            }
             case Rank_5 -> {
-                rewardsList.add("5 claims supplémentaires");
-                rewardsList.add("1 Home supplémentaire");
-                rewardsList.add("Accès aux commandes /craft");
+                rewardsList.add("8000 NSc");
+                rewardsList.add("Accès à la commande /ec");
             }
             case Rank_6 -> {
-                rewardsList.add("10 claims supplémentaires");
-                rewardsList.add("1 Home supplémentaire");
-                rewardsList.add("Accès aux commandes /ec et /furnace");
+                rewardsList.add("10000 NSc");
+                rewardsList.add("Accès à la commande /furnace");
             }
         }
         sb.append("§fVoici vos récompenses : \n");
