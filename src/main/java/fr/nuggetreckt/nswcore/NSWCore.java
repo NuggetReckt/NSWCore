@@ -258,6 +258,12 @@ public class NSWCore extends JavaPlugin {
     }
 
     private void setLuckPermsAPI() {
+        if (getServer().getPluginManager().getPlugin("LuckPerms") == null) {
+            logger.severe("The LuckPerms plugin was not found! Please install it before starting the server.");
+            logger.info("Stopping the server...");
+            getServer().shutdown();
+            return;
+        }
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
         if (provider != null) {
             luckPermsAPI = provider.getProvider();
@@ -281,11 +287,9 @@ public class NSWCore extends JavaPlugin {
             getServer().shutdown();
             return;
         }
-        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-        if (rsp == null) {
-            logger.severe("An error occurred while setting up the economy.");
-            return;
+        RegisteredServiceProvider<Economy> provider = getServer().getServicesManager().getRegistration(Economy.class);
+        if (provider != null) {
+            economy = provider.getProvider();
         }
-        economy = rsp.getProvider();
     }
 }

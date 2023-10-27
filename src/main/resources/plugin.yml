@@ -5,7 +5,7 @@ prefix: NSWCore
 website: https://play.noskillworld.fr
 main: fr.nuggetreckt.nswcore.NSWCore
 api-version: 1.20
-depend: [PlaceholderAPI, LuckPerms]
+depend: [PlaceholderAPI, LuckPerms, Vault]
 commands:
   top:
     description: Téléporte au plus haut block
@@ -50,7 +50,7 @@ commands:
     usage: "/unfreeze <joueur>"
 permissions:
   nsw.*:
-    description: Permission globale*
+    description: Permission globale
   nsw.bypass:
     description: Permet de bypass les cooldowns et les autres permissions
   nsw.commands.*:
