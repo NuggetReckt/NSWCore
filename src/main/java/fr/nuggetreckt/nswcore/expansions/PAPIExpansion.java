@@ -32,6 +32,9 @@ public class PAPIExpansion extends PlaceholderExpansion {
     public String onPlaceholderRequest(Player player, @NotNull String params) {
         HonorRanks hr = NSWCore.getHonorRanks();
 
+        if (params.equalsIgnoreCase("coloredname")) {
+            return NSWCore.getInstance().getColoredName();
+        }
         if (params.equalsIgnoreCase("displayname")) {
             return hr.getDisplayName(player);
         }

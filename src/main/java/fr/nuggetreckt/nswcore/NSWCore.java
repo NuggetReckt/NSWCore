@@ -1,5 +1,6 @@
 package fr.nuggetreckt.nswcore;
 
+import com.iridium.iridiumcolorapi.IridiumColorAPI;
 import fr.nuggetreckt.nswcore.commands.*;
 import fr.nuggetreckt.nswcore.commands.tabcompletion.TabCompletion;
 import fr.nuggetreckt.nswcore.database.Connector;
@@ -151,6 +152,10 @@ public class NSWCore extends JavaPlugin {
 
     public String getPrefix() {
         return prefix;
+    }
+
+    public String getColoredName() {
+        return IridiumColorAPI.process("<GRADIENT:2C70BA>§lNoSkillWorld</GRADIENT:42cfcf>");
     }
 
     public World getOverworld() {

@@ -1,6 +1,5 @@
 package fr.nuggetreckt.nswcore.listeners;
 
-import com.iridium.iridiumcolorapi.IridiumColorAPI;
 import fr.nuggetreckt.nswcore.HonorRanks;
 import fr.nuggetreckt.nswcore.NSWCore;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
@@ -16,7 +15,7 @@ public class OnJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(@NotNull PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        String nsw = IridiumColorAPI.process("<GRADIENT:2C70BA>§lNoSkillWorld</GRADIENT:42cfcf>");
+        String nsw = NSWCore.getInstance().getColoredName();
 
         HonorRanks hr = NSWCore.getHonorRanks();
         NSWCore.getTeleportUtils().initTeleports(player);
