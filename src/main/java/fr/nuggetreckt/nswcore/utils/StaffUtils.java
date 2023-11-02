@@ -33,6 +33,11 @@ public class StaffUtils {
             oldLocation.putIfAbsent(player.getUniqueId(), null);
             oldInventory.putIfAbsent(player.getUniqueId(), null);
         }
+        for (UUID uuid : isStaffMode.keySet()) {
+            if (isStaffMode.get(uuid)) {
+                setInvisible(player, true);
+            }
+        }
         isFrozen.putIfAbsent(player.getUniqueId(), false);
     }
 

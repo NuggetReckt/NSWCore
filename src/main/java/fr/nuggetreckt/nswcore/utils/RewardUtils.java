@@ -73,7 +73,6 @@ public class RewardUtils {
         for (String i : rewardsList) {
             sb.append(" §8|§f ").append(i).append("\n");
         }
-
         return sb.toString();
     }
 }
