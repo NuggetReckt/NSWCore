@@ -119,6 +119,12 @@ public class Requests {
         close();
     }
 
+    public void setDeathCount() {
+        query = "";
+        updateData(query);
+        close();
+    }
+
     public void setReportData(int id) {
         query = "SELECT * FROM core_reports WHERE id = " + id + ";";
 
