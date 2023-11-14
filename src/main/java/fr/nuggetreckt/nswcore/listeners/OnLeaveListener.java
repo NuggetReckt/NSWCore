@@ -21,7 +21,10 @@ public class OnLeaveListener implements Listener {
         HonorRanks hr = NSWCore.getHonorRanks();
         StaffUtils staffUtils = NSWCore.getStaffUtils();
 
-        NSWCore.getServerHandler().getExecutor().execute(() -> new Requests().updatePlayerData(player, hr.getPlayerRankId(player), hr.getPlayerPoints(player)));
+        NSWCore.getServerHandler().getExecutor().execute(() -> {
+            new Requests().updatePlayerData(player, hr.getPlayerRankId(player), hr.getPlayerPoints(player));
+            NSWCore.getStatsUtils().savePlayerStats(player);
+        });
 
         if (player.isOp() || player.hasPermission("group.admin")) {
             event.setQuitMessage("§8[§4-§8] §8[§4§lAdministrateur§8] §4" + player.getName() + " §fa quitté le serveur");

@@ -43,6 +43,7 @@ public class NSWCore extends JavaPlugin {
     private static StaffUtils staffUtils;
     private static ReportUtils reportUtils;
     private static ServerHandler serverHandler;
+    private static StatsUtils statsUtils;
     private static Requests requestsManager;
     private static LuckPermsUtils luckPermsUtils;
     private static Economy economy;
@@ -69,6 +70,7 @@ public class NSWCore extends JavaPlugin {
         reportUtils = new ReportUtils();
         serverHandler = new ServerHandler();
         requestsManager = new Requests();
+        statsUtils = new StatsUtils();
         luckPermsUtils = new LuckPermsUtils();
     }
 
@@ -236,6 +238,10 @@ public class NSWCore extends JavaPlugin {
 
     public static Requests getRequestsManager() {
         return requestsManager;
+    }
+
+    public static StatsUtils getStatsUtils() {
+        return statsUtils;
     }
 
     public static LuckPermsUtils getLuckPermsUtils() {

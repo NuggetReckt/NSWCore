@@ -119,8 +119,14 @@ public class Requests {
         close();
     }
 
-    public void setDeathCount() {
-        query = "";
+    public void setDeathCount(int count, UUID uuid) {
+        query = "UPDATE core_playerdata SET deathCount = " + count + " WHERE uuid = '" + uuid + "';";
+        updateData(query);
+        close();
+    }
+
+    public void setKillCount(int count, UUID uuid) {
+        query = "UPDATE core_playerdata SET killCount = " + count + " WHERE uuid = '" + uuid + "';";
         updateData(query);
         close();
     }
@@ -188,7 +194,9 @@ public class Requests {
                     uuid VARCHAR(36) NOT NULL,
                     playerName VARCHAR(50) NOT NULL,
                     rankId INT(1) NOT NULL,
-                    honorPoints INT(5) NOT NULL
+                    honorPoints INT(5) NOT NULL,
+                    deathCount INT(5),
+                    killCount INT(5)
                 );
                 """;
         updateData(query);
