@@ -131,6 +131,12 @@ public class Requests {
         close();
     }
 
+    public void setTimePlayed(long time, UUID uuid) {
+        query = "UPDATE core_playerdata SET timePlayed = " + time + " WHERE uuid = '" + uuid + "';";
+        updateData(query);
+        close();
+    }
+
     public void setReportData(int id) {
         query = "SELECT * FROM core_reports WHERE id = " + id + ";";
 
@@ -196,7 +202,8 @@ public class Requests {
                     rankId INT(1) NOT NULL,
                     honorPoints INT(5) NOT NULL,
                     deathCount INT(5),
-                    killCount INT(5)
+                    killCount INT(5),
+                    timePlayed BIGINT
                 );
                 """;
         updateData(query);
