@@ -1,5 +1,6 @@
 package fr.nuggetreckt.nswcore.utils;
 
+import com.iridium.iridiumcolorapi.IridiumColorAPI;
 import fr.nuggetreckt.nswcore.HonorRanks;
 import fr.nuggetreckt.nswcore.NSWCore;
 import org.bukkit.Color;
@@ -27,7 +28,6 @@ public class EffectUtils {
     public void uprankEffect(@NotNull Player player) {
         //spawnParticles(player, Particle.VILLAGER_HAPPY);
         HonorRanks.Rank rank = NSWCore.getHonorRanks().getPlayerRank(player);
-
         int r = 0, g = 0, b = 0;
 
         switch (rank.getRankId()) {
@@ -62,9 +62,10 @@ public class EffectUtils {
                 b = 164;
             }
         }
-
         Color color = Color.fromRGB(r, g, b);
 
+        player.sendTitle(String.format("%sRang supérieur !", IridiumColorAPI.process(NSWCore.getHonorRanks().getPlayerRank(player).getColorCode())),
+                String.format("Vous êtes passé %s", NSWCore.getHonorRanks().getDisplayName(player)), 10, 100, 40);
         spawnParticles(player, color);
         playSound(player, Sound.ENTITY_PLAYER_LEVELUP);
     }
