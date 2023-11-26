@@ -10,9 +10,11 @@ public class SaveTask {
 
     public void launch() {
         task = Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(NSWCore.getInstance(), () -> {
-            NSWCore.getHonorRanks().saveAllPlayerData();
-            NSWCore.getStatsUtils().saveAllPlayerStats();
-            NSWCore.getInstance().getLogger().info("Sauvegarde des données effectuée.");
+            if (!Bukkit.getOnlinePlayers().isEmpty()) {
+                NSWCore.getHonorRanks().saveAllPlayerData();
+                NSWCore.getStatsUtils().saveAllPlayerStats();
+                NSWCore.getInstance().getLogger().info("Sauvegarde des données effectuée.");
+            }
         }, 0L, 144000L);
     }
 
