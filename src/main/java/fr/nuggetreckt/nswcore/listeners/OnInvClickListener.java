@@ -39,8 +39,9 @@ public class OnInvClickListener implements Listener {
 
     @EventHandler
     public void onInventoryDrag(@NotNull InventoryDragEvent event) {
-        if (event.getInventory().equals(inventory)) {
-            event.setCancelled(true);
-        }
+        InventoryView inventoryView = event.getView();
+
+        NSWCore.getGuiManager().registeredMenus.values().stream().filter(menu -> inventoryView.getTitle().equalsIgnoreCase(menu.getName()))
+                .forEach(menu -> event.setCancelled(true));
     }
 }

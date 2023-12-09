@@ -161,7 +161,11 @@ public class NSWCore extends JavaPlugin {
     }
 
     public World getOverworld() {
-        return Bukkit.getWorld("main");
+        if (isFarmzone()) {
+            return Bukkit.getWorld("main");
+        } else {
+            return Bukkit.getWorld("world");
+        }
     }
 
     public Location getSpawnLocation() {
