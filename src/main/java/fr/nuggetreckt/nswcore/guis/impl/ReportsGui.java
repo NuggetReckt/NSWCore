@@ -65,12 +65,14 @@ public class ReportsGui implements CustomInventory {
                     NSWCore.getReportUtils().markReportAsResolved(slot + 1);
                     NSWCore.getGuiManager().refresh(player, this.getClass());
                 } else {
-                    if (player.hasPermission("nsw.*")) {
+                    player.sendMessage("§cfonctionnalité non disponible pour le moment.");
+                    NSWCore.getGuiManager().refresh(player, this.getClass());
+                    /*if (player.hasPermission("nsw.*")) {
                         NSWCore.getReportUtils().deleteReport(slot + 1);
                         NSWCore.getGuiManager().refresh(player, this.getClass());
                     } else {
                         player.sendMessage(String.format(MessageManager.NO_PERMISSION.getMessage(), "Reports"));
-                    }
+                    }*/
                 }
             }
             case SLIME_BALL -> {
