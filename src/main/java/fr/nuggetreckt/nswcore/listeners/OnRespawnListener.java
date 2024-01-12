@@ -15,7 +15,7 @@ public class OnRespawnListener implements Listener {
         Player player = event.getPlayer();
 
         if (event.getRespawnReason() == PlayerRespawnEvent.RespawnReason.DEATH) {
-            if (!event.isBedSpawn() || !event.isAnchorSpawn()) {
+            if (event.isBedSpawn() || event.isAnchorSpawn()) {
                 return;
             }
             if (!NSWCore.getInstance().isFarmzone()) {

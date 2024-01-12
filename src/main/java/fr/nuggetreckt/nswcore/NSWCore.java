@@ -269,7 +269,10 @@ public class NSWCore extends JavaPlugin {
     }
 
     private void setSpawnLocation() {
-        spawnLocation = new Location(getOverworld(), -500.5, 89, 87.5, 180, 0);
+        //spawnLocation = new Location(getOverworld(), 319.5, 65, 884.5, -90, 0);
+
+        // FOR TESTING
+        spawnLocation = new Location(getOverworld(), 0.5, 65, 0.5, -90, 0);
     }
 
     private void setLuckPermsAPI() {
