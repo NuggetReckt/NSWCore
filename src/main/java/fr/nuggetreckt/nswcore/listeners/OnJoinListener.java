@@ -29,6 +29,7 @@ public class OnJoinListener implements Listener {
                 player.sendMessage(String.format(MessageManager.FARMZONE_WELCOME.getMessage(), "NSW"));
             } else {
                 Bukkit.broadcastMessage(String.format(MessageManager.WELCOME_PLAYER_JOIN.getBroadcastMessage(), player.getName(), nsw));
+                player.teleport(NSWCore.getInstance().getSpawnLocation());
                 // Uncomment after testing
                 //player.openBook(new BookUtils().getWelcomeBook(player));
             }
