@@ -89,6 +89,7 @@ public class NSWCore extends JavaPlugin {
         saveTask.launch();
 
         //register commands
+        Objects.requireNonNull(this.getCommand("help")).setExecutor(new HelpCommand());
         Objects.requireNonNull(this.getCommand("top")).setExecutor(new TopCommand());
         Objects.requireNonNull(this.getCommand("bottom")).setExecutor(new BottomCommand());
         Objects.requireNonNull(this.getCommand("up")).setExecutor(new UpCommand());

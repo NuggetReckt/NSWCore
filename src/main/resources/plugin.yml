@@ -7,6 +7,10 @@ main: fr.nuggetreckt.nswcore.NSWCore
 api-version: 1.20
 depend: [PlaceholderAPI, LuckPerms, Vault]
 commands:
+  help:
+    description: Liste des commandes et des liens utiles
+    usage: "/help"
+    aliases: [ h, '?', aide ]
   top:
     description: Téléporte au plus haut block
     usage: "/top"

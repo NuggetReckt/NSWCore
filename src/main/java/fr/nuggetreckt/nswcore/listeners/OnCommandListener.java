@@ -18,5 +18,8 @@ public class OnCommandListener implements Listener {
             player.sendMessage(String.format(MessageManager.COMMANDS_DISABLED.getMessage(), "NSW"));
             event.setCancelled(true);
         }
+        if (event.getMessage().equalsIgnoreCase("?")) {
+            event.setCancelled(true);
+        }
     }
 }
