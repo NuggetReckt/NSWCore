@@ -78,6 +78,12 @@ public enum MessageManager {
     PRE_SPAWN_TP("Téléportation dans §35 §fsecondes... §cNe bougez pas !"),
     RESPAWN_TP("Vous avez été téléporté au spawn car vous êtes mort"),
     WELCOME_PLAYER_JOIN("Bienvenue à §3%s §fsur %s §f!"),
+    HELP_MAIN("""
+            Bienvenue dans la section d'aide de %s §r!
+            Clique sur le sujet pour lequel tu as besoin d'aide.
+            Si tu ne trouves pas ce qu'il te faut, rends-toi sur discord ! §8(§3/discord§8)
+            """),
+    HELP_SECTION("- §8(§6§l%s§8)"),
     FARMZONE_WELCOME("""
             Bienvenue en §3§lFarmZone §f!
              §8| §fUtilise §3/rtp §fpour te téléporter aléatoirement

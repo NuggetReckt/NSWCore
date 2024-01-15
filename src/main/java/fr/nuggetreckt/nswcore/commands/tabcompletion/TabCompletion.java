@@ -46,6 +46,17 @@ public class TabCompletion implements TabCompleter {
                 return getPlayers();
             }
         }
+        if (command.getName().equalsIgnoreCase("help")) {
+            List<String> subCommands = new ArrayList<>();
+
+            if (args.length == 1) {
+                subCommands.add("honneur");
+                subCommands.add("jobs");
+                subCommands.add("autres");
+                subCommands.add("liens");
+                return subCommands;
+            }
+        }
         return null;
     }
 

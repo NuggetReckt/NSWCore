@@ -107,6 +107,7 @@ public class NSWCore extends JavaPlugin {
         //register TabCompleters
         Objects.requireNonNull(this.getCommand("honorrank")).setTabCompleter(new TabCompletion());
         Objects.requireNonNull(this.getCommand("spawn")).setTabCompleter(new TabCompletion());
+        Objects.requireNonNull(this.getCommand("help")).setTabCompleter(new TabCompletion());
 
         //Register events
         getServer().getPluginManager().registerEvents(new OnJoinListener(), this);

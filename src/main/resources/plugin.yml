@@ -9,7 +9,7 @@ depend: [PlaceholderAPI, LuckPerms, Vault]
 commands:
   help:
     description: Liste des commandes et des liens utiles
-    usage: "/help"
+    usage: "/help [honneur | jobs | autres | liens]"
     aliases: [ h, '?', aide ]
   top:
     description: Téléporte au plus haut block
