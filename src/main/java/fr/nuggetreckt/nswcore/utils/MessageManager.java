@@ -73,17 +73,53 @@ public enum MessageManager {
     PLAYER_KILL3("§3%s §fs'est fait atomiser par §3%s§f."),
     PLAYER_KILL4("§3%s §fa provoqué §3%s§f, il s'en est souvenu."),
 
-    //Other messages
-    PRE_TP("Téléportation dans §32 §fsecondes... §cNe bougez pas !"),
-    PRE_SPAWN_TP("Téléportation dans §35 §fsecondes... §cNe bougez pas !"),
-    RESPAWN_TP("Vous avez été téléporté au spawn car vous êtes mort"),
-    WELCOME_PLAYER_JOIN("Bienvenue à §3%s §fsur %s §f!"),
+    //Help messages
     HELP_MAIN("""
             Bienvenue dans la section d'aide de %s §r!
             Clique sur le sujet pour lequel tu as besoin d'aide.
             Si tu ne trouves pas ce qu'il te faut, rends-toi sur discord ! §8(§3/discord§8)
             """),
-    HELP_SECTION("- §8(§6§l%s§8)"),
+    HELP_SECTION("- §8(§6§l%s§8)\n%s"),
+    HONORRANKS_HELP("""
+            §fCommandes :
+             §8| §3/hr §8(§7Affiche la progression de ton honneur, la liste des rangs et leur points requis§8)§r
+             §8| §3/hr info §8(§7Affiche votre rang actuels le prochain et le nombre de points requis pour passer à celui-ci§8)§r
+             §8| §3/hr points §8(§7Affiche le nombre de points que tu possèdes§8)§r
+             §8| §3/hr points §8(§7Affiche ton rang actuel§8)§r
+             §8| §3/hr upgrade §8(§7Passe au rang suivant si le quota de points est atteint§8)§r
+             
+            §fInfos :
+             §8| §7Les points d'honneur s'obtiennent en participant à des events, et en montant de niveau dans les jobs §8(§3/help jobs§8)§7.§r
+             §8| §7Le rang max est le rang §36§7.
+            """),
+    JOBS_HELP("""
+            §fCommandes
+             
+            §fInfos :
+            """),
+    OTHER_HELP("""
+            §fCommandes :
+             
+            """),
+    LINKS_HELP("""
+            §fLiens utiles :
+             §8| §fSite internet §8§l»§r §3§nhttps://play.noskillworld.fr§r
+             §8| §fDynmap §8§l»§r §3§nhttps://dynmap.noskillworld.fr§r
+             §8| §fPage de statut §8§l»§r §3§nhttps://statut.noskillworld.fr§r
+             
+            §fRéseaux sociaux :
+             §8| §fYouTube §8§l»§r §3§nhttps://www.youtube.com/@noskillworld_mc§r
+             §8| §fTikTok §8§l»§r §3§nhttps://www.tiktok.com/@noskillworld_mc§r
+             §8| §fInstagram §8§l»§r §3§nhttps://www.instagram.com/noskillworld§r
+             §8| §fTwitter §8§l»§r §3§nhttps://twitter.com/NoSkillWorld§r
+             §8| §fDiscord §8§l»§r §3§nhttps://discord.noskillworld.fr
+            """),
+
+    //Other messages
+    PRE_TP("Téléportation dans §32 §fsecondes... §cNe bougez pas !"),
+    PRE_SPAWN_TP("Téléportation dans §35 §fsecondes... §cNe bougez pas !"),
+    RESPAWN_TP("Vous avez été téléporté au spawn car vous êtes mort"),
+    WELCOME_PLAYER_JOIN("Bienvenue à §3%s §fsur %s §f!"),
     FARMZONE_WELCOME("""
             Bienvenue en §3§lFarmZone §f!
              §8| §fUtilise §3/rtp §fpour te téléporter aléatoirement
@@ -129,5 +165,9 @@ public enum MessageManager {
 
     public String getWarnMessage() {
         return " §8§l» §6⚠ §r" + this.message;
+    }
+
+    public String getRawMessage() {
+        return this.message;
     }
 }
