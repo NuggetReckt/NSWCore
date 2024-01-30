@@ -51,7 +51,7 @@ public class HelpCommand implements CommandExecutor {
                                 MessageManager.LINKS_HELP.getRawMessage()));
                         break;
                     default:
-                        player.sendMessage(String.format(MessageManager.NOT_ENOUGH_ARGS.getMessage(), "Aide", command.getUsage()));
+                        player.sendMessage(String.format(MessageManager.INCORRECT_ARGS.getMessage(), "Aide", command.getUsage()));
                         break;
                 }
             }

@@ -8,6 +8,7 @@ public enum MessageManager {
     NO_PERMISSION_CMD("§cVous n'avez pas la permission d'exécuter cette commande !"),
     NO_HR_PERMISSION("§cVous n'avez pas le Rang d'Honneur requis pour exécuter cette commande ! §8(§3/hr §7pour plus d'infos§8)"),
     NOT_ENOUGH_ARGS("§cArguments insuffisants. §8(§cUtilisation : §3%s§8)"),
+    INCORRECT_ARGS("§cArguments incorrects. §8(§cUtilisation : §3%s§8)"),
     UNKNOWN_SUBCOMMAND("§cSous commande inconnue."),
     UNKNOWN_PLAYER("§cCe joueur n'existe pas."),
     PLAYER_MOVED_TP("§cVous avez bougé, la téléportation a été annulée !"),
@@ -83,7 +84,7 @@ public enum MessageManager {
     HONORRANKS_HELP("""
             §fCommandes :
              §8| §3/hr §8(§7Affiche la progression de ton honneur, la liste des rangs et leur points requis§8)§r
-             §8| §3/hr info §8(§7Affiche votre rang actuels le prochain et le nombre de points requis pour passer à celui-ci§8)§r
+             §8| §3/hr info §8(§7Affiche ton rang actuel, le prochain rang et le nombre de points requis pour passer à celui-ci§8)§r
              §8| §3/hr points §8(§7Affiche le nombre de points que tu possèdes§8)§r
              §8| §3/hr points §8(§7Affiche ton rang actuel§8)§r
              §8| §3/hr upgrade §8(§7Passe au rang suivant si le quota de points est atteint§8)§r
@@ -93,14 +94,24 @@ public enum MessageManager {
              §8| §7Le rang max est le rang §36§7.
             """),
     JOBS_HELP("""
-            §fCommandes
-             
+            §fCommandes :
+             §8| §3/jobs §8(§7Ouvre l'interface principale des jobs§8)§r
+             §8| §3/jobs help §8(§7Affiche ce message§8)§r
+             §8| §3/jobs join <job> §8(§7Rejoins un job§8)§r
+             §8| §3/jobs leave §8(§7Quitte le job actuel§8)§r
+             §8| §3/jobs info §8(§7Affiche la liste des items qui donnent de l'xp pour ton job§8)§r
+             §8| §3/jobs xp §8(§7Affiche ta progression d'xp pour ton job§8)§r
+             §8| §3/jobs leaderboard §8(§7Affiche un classement des 20 premiers joueurs§8)§r
             §fInfos :
+             §8| §fWiki des jobs §8§l»§r §3§nhttps://play.noskillworld.fr/wiki/jobs.php
             """),
     OTHER_HELP("""
             §fCommandes :
-             
-            """),
+             §8| §3/spawn §8(§7Te téléporte au spawn§8)§r
+             §8| §3/tpa <joueur> §8(§7Envoie une demande de téléportation à un joueur§8)§r
+             §8| §3/<cmd> §8(§7<desc>§8)§r
+             ...
+            """), //A CONTINUER
     LINKS_HELP("""
             §fLiens utiles :
              §8| §fSite internet §8§l»§r §3§nhttps://play.noskillworld.fr§r
