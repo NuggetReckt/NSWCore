@@ -81,7 +81,7 @@
         </repository>
         <repository>
             <id>NSW</id>
-            <url>http://109.238.11.116:8081/repository/NSWAPI/</url>
+            <url>https://nexus.noskillworld.fr/repository/NSWAPI/</url>
         </repository>
     </repositories>
 
