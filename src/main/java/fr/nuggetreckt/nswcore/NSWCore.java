@@ -1,6 +1,8 @@
 package fr.nuggetreckt.nswcore;
 
 import com.iridium.iridiumcolorapi.IridiumColorAPI;
+import fr.noskillworld.api.NSWAPI;
+import fr.noskillworld.api.utils.Credentials;
 import fr.nuggetreckt.nswcore.commands.*;
 import fr.nuggetreckt.nswcore.commands.tabcompletion.TabCompletion;
 import fr.nuggetreckt.nswcore.database.Connector;
@@ -9,6 +11,7 @@ import fr.nuggetreckt.nswcore.database.SaveTask;
 import fr.nuggetreckt.nswcore.expansions.PAPIExpansion;
 import fr.nuggetreckt.nswcore.listeners.*;
 import fr.nuggetreckt.nswcore.utils.*;
+import io.github.cdimascio.dotenv.Dotenv;
 import net.luckperms.api.LuckPerms;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -50,6 +53,8 @@ public class NSWCore extends JavaPlugin {
     private static SaveTask saveTask;
     private static Connector connector;
 
+    private static NSWAPI nswapi;
+
     private BukkitTask bukkitTask;
     private LuckPerms luckPermsAPI;
 
@@ -72,6 +77,7 @@ public class NSWCore extends JavaPlugin {
         requestsManager = new Requests();
         statsUtils = new StatsUtils();
         luckPermsUtils = new LuckPermsUtils();
+        nswapi = new NSWAPI(setupCredentials());
     }
 
     @Override
@@ -258,6 +264,10 @@ public class NSWCore extends JavaPlugin {
         return economy;
     }
 
+    public static NSWAPI getApi() {
+        return nswapi;
+    }
+
     public boolean isFarmzone() {
         return serverPort == farmzonePort;
     }
@@ -311,5 +321,17 @@ public class NSWCore extends JavaPlugin {
         if (provider != null) {
             economy = provider.getProvider();
         }
+    }
+
+    private @NotNull Credentials setupCredentials() {
+        Dotenv dotenv = Dotenv.configure()
+                .directory("/env/")
+                .filename(".env")
+                .load();
+
+        String user = dotenv.get("DB_USER");
+        String password = dotenv.get("DB_PASSWORD");
+        String name = dotenv.get("DB_NAME");
+        return new Credentials(user, password, name);
     }
 }
