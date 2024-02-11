@@ -53,7 +53,7 @@ public class NSWCore extends JavaPlugin {
     private static SaveTask saveTask;
     private static Connector connector;
 
-    private static NSWAPI nswapi;
+    private NSWAPI nswapi;
 
     private BukkitTask bukkitTask;
     private LuckPerms luckPermsAPI;
@@ -63,6 +63,7 @@ public class NSWCore extends JavaPlugin {
         farmzonePort = 25568;
         prefix = "§8[§3%s§8] §r";
         logger = Logger.getLogger("Minecraft");
+        setApi();
 
         connector = new Connector();
         saveTask = new SaveTask();
@@ -77,7 +78,6 @@ public class NSWCore extends JavaPlugin {
         requestsManager = new Requests();
         statsUtils = new StatsUtils();
         luckPermsUtils = new LuckPermsUtils();
-        nswapi = new NSWAPI(setupCredentials());
     }
 
     @Override
@@ -264,7 +264,7 @@ public class NSWCore extends JavaPlugin {
         return economy;
     }
 
-    public static NSWAPI getApi() {
+    public NSWAPI getAPI() {
         return nswapi;
     }
 
@@ -285,6 +285,19 @@ public class NSWCore extends JavaPlugin {
 
         // FOR TESTING
         spawnLocation = new Location(getOverworld(), 0.5, 65, 0.5, -90, 0);
+    }
+
+    private void setApi() {
+        Dotenv dotenv = Dotenv.configure()
+                .directory("/env/")
+                .filename(".env")
+                .load();
+
+        String user = dotenv.get("DB_USER");
+        String password = dotenv.get("DB_PASSWORD");
+        String name = dotenv.get("DB_NAME");
+
+        nswapi = NSWAPI.create(new Credentials(user, password, name));
     }
 
     private void setLuckPermsAPI() {
@@ -321,17 +334,5 @@ public class NSWCore extends JavaPlugin {
         if (provider != null) {
             economy = provider.getProvider();
         }
-    }
-
-    private @NotNull Credentials setupCredentials() {
-        Dotenv dotenv = Dotenv.configure()
-                .directory("/env/")
-                .filename(".env")
-                .load();
-
-        String user = dotenv.get("DB_USER");
-        String password = dotenv.get("DB_PASSWORD");
-        String name = dotenv.get("DB_NAME");
-        return new Credentials(user, password, name);
     }
 }
