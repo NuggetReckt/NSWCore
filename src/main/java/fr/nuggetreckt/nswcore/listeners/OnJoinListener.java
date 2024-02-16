@@ -1,8 +1,8 @@
 package fr.nuggetreckt.nswcore.listeners;
 
-import fr.nuggetreckt.nswcore.HonorRanks;
+import fr.noskillworld.api.entities.NSWPlayer;
+import fr.noskillworld.api.honorranks.HonorRanksHandler;
 import fr.nuggetreckt.nswcore.NSWCore;
-import fr.nuggetreckt.nswcore.utils.BookUtils;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -16,12 +16,13 @@ public class OnJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(@NotNull PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        NSWPlayer nswPlayer = new NSWPlayer(player.getName(), player.getUniqueId());
         String nsw = NSWCore.getInstance().getColoredName();
 
-        HonorRanks hr = NSWCore.getHonorRanks();
+        HonorRanksHandler hr = NSWCore.getAPI().getHonorRanksHandler();
         NSWCore.getTeleportUtils().initTeleports(player);
 
-        NSWCore.getServerHandler().getExecutor().execute(() -> hr.init(player));
+        NSWCore.getAPI().getServerHandler().getExecutor().execute(() -> hr.init(nswPlayer));
         NSWCore.getStaffUtils().init(player);
 
         if (!player.hasPlayedBefore()) {

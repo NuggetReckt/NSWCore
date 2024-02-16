@@ -1,4 +1,4 @@
-package fr.nuggetreckt.nswcore.database;
+package fr.nuggetreckt.nswcore.tasks;
 
 import fr.nuggetreckt.nswcore.NSWCore;
 import org.bukkit.Bukkit;
@@ -11,8 +11,7 @@ public class SaveTask {
     public void launch() {
         task = Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(NSWCore.getInstance(), () -> {
             if (!Bukkit.getOnlinePlayers().isEmpty()) {
-                NSWCore.getHonorRanks().saveAllPlayerData();
-                NSWCore.getStatsUtils().saveAllPlayerStats();
+                NSWCore.getSaver().saveAll();
                 NSWCore.getInstance().getLogger().info("Sauvegarde des données effectuée.");
             }
         }, 0L, 144000L);

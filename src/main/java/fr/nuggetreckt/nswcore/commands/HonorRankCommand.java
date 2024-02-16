@@ -1,6 +1,6 @@
 package fr.nuggetreckt.nswcore.commands;
 
-import fr.nuggetreckt.nswcore.HonorRanks;
+import fr.noskillworld.api.honorranks.impl.HonorRanksHandlerImpl;
 import fr.nuggetreckt.nswcore.NSWCore;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
 import org.bukkit.command.Command;
@@ -15,28 +15,28 @@ public class HonorRankCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@Nonnull CommandSender commandSender, @Nonnull Command command, @Nonnull String s, @Nonnull String[] args) {
-        HonorRanks hr = NSWCore.getHonorRanks();
+        HonorRanksHandlerImpl hr = NSWCore.getAPI().getHonorRanksHandler();
 
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
 
             if (args.length == 0) {
-                player.sendMessage(String.format(MessageManager.HONORRANKS_RANKLIST.getMessage(), "HR", hr.getRanks(player)));
+                player.sendMessage(String.format(MessageManager.HONORRANKS_RANKLIST.getMessage(), "HR", hr.getRanks(player.getUniqueId())));
             } else {
                 if (args[0].equalsIgnoreCase("rank")) {
-                    player.sendMessage(String.format(MessageManager.HONORRANKS_RANK.getMessage(), "HR", hr.getDisplayName(player)));
+                    player.sendMessage(String.format(MessageManager.HONORRANKS_RANK.getMessage(), "HR", hr.getDisplayName(player.getUniqueId())));
                 } else if (args[0].equalsIgnoreCase("points")) {
-                    player.sendMessage(String.format(MessageManager.HONORRANKS_POINTS.getMessage(), "HR", hr.getPlayerPoints(player)));
+                    player.sendMessage(String.format(MessageManager.HONORRANKS_POINTS.getMessage(), "HR", hr.getPlayerPoints(player.getUniqueId())));
                 } else if (args[0].equalsIgnoreCase("info")) {
-                    if (hr.getNextPlayerRank(player) != null) {
+                    if (hr.getNextPlayerRank(player.getUniqueId()) != null) {
                         player.sendMessage(String.format(MessageManager.HONORRANKS_RANKINFO.getMessage(), "HR",
-                                hr.getFormat(player), hr.getFormat(hr.getNextPlayerRank(player)),
-                                hr.getPlayerPoints(player), hr.getPointsNeeded(player)));
+                                hr.getPlayerRankFormat(player.getUniqueId()), hr.getRankFormat(hr.getNextPlayerRank(player.getUniqueId())),
+                                hr.getPlayerPoints(player.getUniqueId()), hr.getPointsNeeded(player.getUniqueId())));
                     } else {
-                        player.sendMessage(String.format(MessageManager.HONORRANKS_RANKINFO_MAX.getMessage(), "HR", hr.getFormat(player)));
+                        player.sendMessage(String.format(MessageManager.HONORRANKS_RANKINFO_MAX.getMessage(), "HR", hr.getPlayerRankFormat(player.getUniqueId())));
                     }
                 } else if (args[0].equalsIgnoreCase("upgrade")) {
-                    hr.upRankPlayer(player);
+                    hr.upRankPlayer(player.getUniqueId());
                 } else if (args[0].equalsIgnoreCase("admin")) {
                     if (player.hasPermission("nsw.commands.admin")) {
                         if (args[1].equalsIgnoreCase("give")) {
@@ -45,7 +45,7 @@ public class HonorRankCommand implements CommandExecutor {
                                 long value = Long.parseLong(args[3]);
                                 assert target != null;
 
-                                hr.gainPlayerPoints(target, value);
+                                hr.gainPlayerPoints(target.getUniqueId(), value);
                                 player.sendMessage(String.format(MessageManager.SUCCESS_GIVEHP.getMessage(), "HR", value, target.getName()));
                                 target.sendMessage(String.format(MessageManager.SUCCESS_GIVEHP_OTHER.getMessage(), "HR", player.getName(), value));
                             } else {
@@ -56,10 +56,10 @@ public class HonorRankCommand implements CommandExecutor {
                                 Player target = NSWCore.getInstance().getPlayerByName(args[2]);
                                 assert target != null;
 
-                                if (hr.getNextPlayerRank(target) != null) {
+                                if (hr.getNextPlayerRank(target.getUniqueId()) != null) {
                                     player.sendMessage(String.format(MessageManager.SUCCESS_UPGRADE.getMessage(), "HR", target.getName()));
                                     target.sendMessage(String.format(MessageManager.SUCCESS_UPGRADE_OTHER.getMessage(), "HR", player.getName()));
-                                    hr.forceUpRankPlayer(target);
+                                    hr.forceUpRankPlayer(target.getUniqueId());
                                 } else {
                                     player.sendMessage(String.format(MessageManager.MAX_HONORRANK_OTHER.getMessage(), "HR", target.getName()));
                                 }
@@ -84,7 +84,7 @@ public class HonorRankCommand implements CommandExecutor {
                         long value = Long.parseLong(args[3]);
                         assert target != null;
 
-                        hr.gainPlayerPoints(target, value);
+                        hr.gainPlayerPoints(target.getUniqueId(), value);
                         commandSender.sendMessage(String.format(MessageManager.SUCCESS_GIVEHP.getMessage(), "HR", value, target.getName()));
                         target.sendMessage(String.format(MessageManager.SUCCESS_GIVEHP_OTHER.getMessage(), "HR", "Console", value));
                     } else {
@@ -95,10 +95,10 @@ public class HonorRankCommand implements CommandExecutor {
                         Player target = NSWCore.getInstance().getPlayerByName(args[2]);
                         assert target != null;
 
-                        if (hr.getNextPlayerRank(target) != null) {
+                        if (hr.getNextPlayerRank(target.getUniqueId()) != null) {
                             commandSender.sendMessage(String.format(MessageManager.SUCCESS_UPGRADE.getMessage(), "HR", target.getName()));
                             target.sendMessage(String.format(MessageManager.SUCCESS_UPGRADE_OTHER.getMessage(), "HR", "Console"));
-                            hr.forceUpRankPlayer(target);
+                            hr.forceUpRankPlayer(target.getUniqueId());
                         } else {
                             commandSender.sendMessage(String.format(MessageManager.MAX_HONORRANK_OTHER.getMessage(), "HR", target.getName()));
                         }

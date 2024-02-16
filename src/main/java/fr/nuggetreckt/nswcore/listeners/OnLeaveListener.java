@@ -1,8 +1,6 @@
 package fr.nuggetreckt.nswcore.listeners;
 
-import fr.nuggetreckt.nswcore.HonorRanks;
 import fr.nuggetreckt.nswcore.NSWCore;
-import fr.nuggetreckt.nswcore.database.Requests;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
 import fr.nuggetreckt.nswcore.utils.StaffUtils;
 import org.bukkit.Bukkit;
@@ -18,12 +16,11 @@ public class OnLeaveListener implements Listener {
     public void onPlayerLeave(@NotNull PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
-        HonorRanks hr = NSWCore.getHonorRanks();
         StaffUtils staffUtils = NSWCore.getStaffUtils();
 
         NSWCore.getServerHandler().getExecutor().execute(() -> {
-            new Requests().updatePlayerData(player, hr.getPlayerRankId(player), hr.getPlayerPoints(player));
-            NSWCore.getStatsUtils().savePlayerStats(player);
+            NSWCore.getSaver().savePlayerData(player);
+            NSWCore.getSaver().savePlayerStats(player);
         });
 
         if (player.isOp() || player.hasPermission("group.admin")) {

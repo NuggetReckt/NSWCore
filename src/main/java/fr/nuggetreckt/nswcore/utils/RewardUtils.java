@@ -1,6 +1,6 @@
 package fr.nuggetreckt.nswcore.utils;
 
-import fr.nuggetreckt.nswcore.HonorRanks.Rank;
+import fr.noskillworld.api.honorranks.HonorRanks;
 import fr.nuggetreckt.nswcore.NSWCore;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -10,7 +10,7 @@ import java.util.List;
 
 public class RewardUtils {
 
-    public void setReward(Player player, @NotNull Rank rank) {
+    public void setReward(Player player, @NotNull HonorRanks rank) {
         switch (rank) {
             case Rank_1 -> NSWCore.getEconomy().depositPlayer(player, 500.0);
             case Rank_2 -> {
@@ -38,10 +38,10 @@ public class RewardUtils {
             }
         }
         player.sendMessage(String.format(MessageManager.HONORANKS_UPRANK_REWARDS.getMessage(), "HR",
-                NSWCore.getHonorRanks().getFormat(player), getRewards(rank)));
+                NSWCore.getAPI().getHonorRanksHandler().getPlayerRankFormat(player.getUniqueId()), getRewards(rank)));
     }
 
-    private @NotNull String getRewards(@NotNull Rank rank) {
+    private @NotNull String getRewards(@NotNull HonorRanks rank) {
         List<String> rewardsList = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
 

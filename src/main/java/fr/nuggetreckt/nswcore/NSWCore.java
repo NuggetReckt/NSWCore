@@ -7,7 +7,8 @@ import fr.nuggetreckt.nswcore.commands.*;
 import fr.nuggetreckt.nswcore.commands.tabcompletion.TabCompletion;
 import fr.nuggetreckt.nswcore.database.Connector;
 import fr.nuggetreckt.nswcore.database.Requests;
-import fr.nuggetreckt.nswcore.database.SaveTask;
+import fr.nuggetreckt.nswcore.database.Saver;
+import fr.nuggetreckt.nswcore.tasks.SaveTask;
 import fr.nuggetreckt.nswcore.expansions.PAPIExpansion;
 import fr.nuggetreckt.nswcore.listeners.*;
 import fr.nuggetreckt.nswcore.utils.*;
@@ -37,7 +38,6 @@ public class NSWCore extends JavaPlugin {
 
     private static NSWCore instance;
 
-    private static HonorRanks honorRanks;
     private static Logger logger;
     private static GuiManager guiManager;
     private static CooldownManager cooldownManager;
@@ -46,14 +46,14 @@ public class NSWCore extends JavaPlugin {
     private static StaffUtils staffUtils;
     private static ReportUtils reportUtils;
     private static ServerHandler serverHandler;
-    private static StatsUtils statsUtils;
     private static Requests requestsManager;
+    private static Saver saver;
     private static LuckPermsUtils luckPermsUtils;
     private static Economy economy;
     private static SaveTask saveTask;
     private static Connector connector;
 
-    private NSWAPI nswapi;
+    private static NSWAPI nswapi;
 
     private BukkitTask bukkitTask;
     private LuckPerms luckPermsAPI;
@@ -68,7 +68,6 @@ public class NSWCore extends JavaPlugin {
         connector = new Connector();
         saveTask = new SaveTask();
         guiManager = new GuiManager();
-        honorRanks = new HonorRanks();
         cooldownManager = new CooldownManager();
         teleportUtils = new TeleportUtils();
         effectUtils = new EffectUtils();
@@ -76,7 +75,7 @@ public class NSWCore extends JavaPlugin {
         reportUtils = new ReportUtils();
         serverHandler = new ServerHandler();
         requestsManager = new Requests();
-        statsUtils = new StatsUtils();
+        saver = new Saver();
         luckPermsUtils = new LuckPermsUtils();
     }
 
@@ -151,7 +150,7 @@ public class NSWCore extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        getHonorRanks().saveAllPlayerData();
+        getSaver().saveAll();
         getStaffUtils().restoreStaffData();
         saveTask.stop();
         connector.close();
@@ -220,10 +219,6 @@ public class NSWCore extends JavaPlugin {
         return guiManager;
     }
 
-    public static HonorRanks getHonorRanks() {
-        return honorRanks;
-    }
-
     public static CooldownManager getCooldownManager() {
         return cooldownManager;
     }
@@ -252,8 +247,8 @@ public class NSWCore extends JavaPlugin {
         return requestsManager;
     }
 
-    public static StatsUtils getStatsUtils() {
-        return statsUtils;
+    public static Saver getSaver() {
+        return saver;
     }
 
     public static LuckPermsUtils getLuckPermsUtils() {
@@ -264,7 +259,7 @@ public class NSWCore extends JavaPlugin {
         return economy;
     }
 
-    public NSWAPI getAPI() {
+    public static NSWAPI getAPI() {
         return nswapi;
     }
 
