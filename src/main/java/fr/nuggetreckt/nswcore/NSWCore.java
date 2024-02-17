@@ -5,12 +5,10 @@ import fr.noskillworld.api.NSWAPI;
 import fr.noskillworld.api.utils.Credentials;
 import fr.nuggetreckt.nswcore.commands.*;
 import fr.nuggetreckt.nswcore.commands.tabcompletion.TabCompletion;
-import fr.nuggetreckt.nswcore.database.Connector;
-import fr.nuggetreckt.nswcore.database.Requests;
 import fr.nuggetreckt.nswcore.database.Saver;
-import fr.nuggetreckt.nswcore.tasks.SaveTask;
 import fr.nuggetreckt.nswcore.expansions.PAPIExpansion;
 import fr.nuggetreckt.nswcore.listeners.*;
+import fr.nuggetreckt.nswcore.tasks.SaveTask;
 import fr.nuggetreckt.nswcore.utils.*;
 import io.github.cdimascio.dotenv.Dotenv;
 import net.luckperms.api.LuckPerms;
@@ -45,13 +43,10 @@ public class NSWCore extends JavaPlugin {
     private static EffectUtils effectUtils;
     private static StaffUtils staffUtils;
     private static ReportUtils reportUtils;
-    private static ServerHandler serverHandler;
-    private static Requests requestsManager;
     private static Saver saver;
     private static LuckPermsUtils luckPermsUtils;
     private static Economy economy;
     private static SaveTask saveTask;
-    private static Connector connector;
 
     private static NSWAPI nswapi;
 
@@ -65,7 +60,6 @@ public class NSWCore extends JavaPlugin {
         logger = Logger.getLogger("Minecraft");
         setApi();
 
-        connector = new Connector();
         saveTask = new SaveTask();
         guiManager = new GuiManager();
         cooldownManager = new CooldownManager();
@@ -73,8 +67,6 @@ public class NSWCore extends JavaPlugin {
         effectUtils = new EffectUtils();
         staffUtils = new StaffUtils();
         reportUtils = new ReportUtils();
-        serverHandler = new ServerHandler();
-        requestsManager = new Requests();
         saver = new Saver();
         luckPermsUtils = new LuckPermsUtils();
     }
@@ -86,9 +78,6 @@ public class NSWCore extends JavaPlugin {
 
         //Set spawn location
         setSpawnLocation();
-
-        //Create table if absent
-        getRequestsManager().createTables();
 
         //Launch BukkitTask
         saveTask.launch();
@@ -153,7 +142,7 @@ public class NSWCore extends JavaPlugin {
         getSaver().saveAll();
         getStaffUtils().restoreStaffData();
         saveTask.stop();
-        connector.close();
+        getAPI().getDatabaseManager().getConnector().close();
         instance = null;
 
         logger.info(String.format("[%s] Plugin shut down successfully", getDescription().getName()));
@@ -191,14 +180,6 @@ public class NSWCore extends JavaPlugin {
         return Bukkit.getPlayer(name);
     }
 
-    public boolean hasJoinedOnce(Player player) {
-        return getRequestsManager().getPlayer(player) != null;
-    }
-
-    public boolean hasJoinedOnce(String playerName) {
-        return getRequestsManager().getPlayerByName(playerName) != null;
-    }
-
     public BukkitTask getBukkitTask() {
         return bukkitTask;
     }
@@ -209,10 +190,6 @@ public class NSWCore extends JavaPlugin {
 
     public static NSWCore getInstance() {
         return instance;
-    }
-
-    public static Connector getConnector() {
-        return connector;
     }
 
     public static GuiManager getGuiManager() {
@@ -237,14 +214,6 @@ public class NSWCore extends JavaPlugin {
 
     public static ReportUtils getReportUtils() {
         return reportUtils;
-    }
-
-    public static ServerHandler getServerHandler() {
-        return serverHandler;
-    }
-
-    public static Requests getRequestsManager() {
-        return requestsManager;
     }
 
     public static Saver getSaver() {

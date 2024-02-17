@@ -18,7 +18,7 @@ public class OnLeaveListener implements Listener {
 
         StaffUtils staffUtils = NSWCore.getStaffUtils();
 
-        NSWCore.getServerHandler().getExecutor().execute(() -> {
+        NSWCore.getAPI().getServerHandler().getExecutor().execute(() -> {
             NSWCore.getSaver().savePlayerData(player);
             NSWCore.getSaver().savePlayerStats(player);
         });

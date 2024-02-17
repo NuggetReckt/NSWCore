@@ -1,144 +1,16 @@
 package fr.nuggetreckt.nswcore.database;
 
+import fr.noskillworld.api.database.RequestsHandler;
 import fr.nuggetreckt.nswcore.NSWCore;
-import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
-import java.util.UUID;
 
 public class Requests {
 
-    private Statement statement;
-    private ResultSet resultSet;
-
-    private String query;
-
-    public void initPlayerData(@NotNull Player player) {
-        query = "INSERT INTO core_playerdata (uuid, playerName, rankId, honorPoints) VALUES ('" + player.getUniqueId() +
-                "', '" + player.getName() + "', 0, 0);";
-        updateData(query);
-        close();
-    }
-
-    public void updatePlayerData(@NotNull Player player, int rankId, long honorPoints) {
-        query = "UPDATE core_playerdata SET rankId = " + rankId + ", honorPoints = " + ((int) honorPoints) +
-                " WHERE uuid = '" + player.getUniqueId() + "';";
-        updateData(query);
-        close();
-    }
-
-    public int getPlayerRankId(@NotNull Player player) {
-        query = "SELECT rankId FROM core_playerdata WHERE uuid = '" + player.getUniqueId() + "';";
-        int result = 0;
-
-        retrieveData(query);
-        try {
-            if (resultSet.next()) {
-                result = resultSet.getInt("rankId");
-            }
-        } catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
-        } finally {
-            close();
-        }
-        return result;
-    }
-
-    public long getPlayerPoints(@NotNull Player player) {
-        query = "SELECT honorPoints FROM core_playerdata WHERE uuid = '" + player.getUniqueId() + "';";
-        long result = 0;
-
-        retrieveData(query);
-        try {
-            if (resultSet.next()) {
-                result = resultSet.getLong("honorPoints");
-            }
-        } catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
-        } finally {
-            close();
-        }
-        return result;
-    }
-
-    public Player getPlayerByName(String playerName) {
-        query = "SELECT playerName FROM core_playerdata WHERE playerName = '" + playerName + "';";
-        Player result = null;
-
-        retrieveData(query);
-        try {
-            if (resultSet.next()) {
-                result = NSWCore.getInstance().getPlayerByName(resultSet.getString("playerName"));
-            }
-        } catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
-        } finally {
-            close();
-        }
-        return result;
-    }
-
-    public Player getPlayer(@NotNull Player player) {
-        query = "SELECT uuid FROM core_playerdata WHERE uuid = '" + player.getUniqueId() + "';";
-        Player result = null;
-
-        retrieveData(query);
-        try {
-            if (resultSet.next()) {
-                result = NSWCore.getInstance().getPlayerByUuid(UUID.fromString(resultSet.getString("uuid")));
-            }
-        } catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
-        } finally {
-            close();
-        }
-        return result;
-    }
-
-    public void deleteReport(int id) {
-        query = "DELETE FROM core_reports WHERE id = " + id + ";";
-        updateData(query);
-        close();
-    }
-
-    public void markReportAsResolved(int id) {
-        query = "UPDATE core_reports SET isResolved = 1 WHERE id = " + id + ";";
-        updateData(query);
-        close();
-    }
-
-    public void setDeathCount(int count, UUID uuid) {
-        query = "UPDATE core_playerdata SET deathCount = " + count + " WHERE uuid = '" + uuid + "';";
-        updateData(query);
-        close();
-    }
-
-    public void setKillCount(int count, UUID uuid) {
-        query = "UPDATE core_playerdata SET killCount = " + count + " WHERE uuid = '" + uuid + "';";
-        updateData(query);
-        close();
-    }
-
-    public void setTimePlayed(long time, UUID uuid) {
-        query = "UPDATE core_playerdata SET timePlayed = " + time + " WHERE uuid = '" + uuid + "';";
-        updateData(query);
-        close();
-    }
-
     public void setReportData(int id) {
-        query = "SELECT * FROM core_reports WHERE id = " + id + ";";
+        String query = "SELECT * FROM core_reports WHERE id = " + id + ";";
+        RequestsHandler requestsHandler = NSWCore.getAPI().getDatabaseManager().getRequestHandler();
 
         int reportId = 0;
         String creatorName = null;
@@ -148,117 +20,24 @@ public class Requests {
         Timestamp timestamp = null;
         int isResolved = 0;
 
-        retrieveData(query);
+        requestsHandler.retrieveData(query);
         try {
-            if (resultSet.next()) {
-                reportId = resultSet.getInt("id");
-                creatorName = resultSet.getString("creatorName");
-                reportedName = resultSet.getString("reportedName");
-                reportType = resultSet.getString("typeName");
-                reportReason = resultSet.getString("reason");
-                isResolved = resultSet.getInt("isResolved");
-                timestamp = resultSet.getTimestamp("date");
+            if (requestsHandler.resultSet.next()) {
+                reportId = requestsHandler.resultSet.getInt("id");
+                creatorName = requestsHandler.resultSet.getString("creatorName");
+                reportedName = requestsHandler.resultSet.getString("reportedName");
+                reportType = requestsHandler.resultSet.getString("typeName");
+                reportReason = requestsHandler.resultSet.getString("reason");
+                isResolved = requestsHandler.resultSet.getInt("isResolved");
+                timestamp = requestsHandler.resultSet.getTimestamp("date");
             }
         } catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
+            NSWCore.getInstance().getLogger().severe("SQLException: " + e.getMessage());
+            NSWCore.getInstance().getLogger().severe("SQLState: " + e.getSQLState());
+            NSWCore.getInstance().getLogger().severe("VendorError: " + e.getErrorCode());
         } finally {
-            close();
+            requestsHandler.close();
         }
         NSWCore.getReportUtils().setReportData(reportId, creatorName, reportedName, reportType, reportReason, timestamp, isResolved);
-    }
-
-    public int getReportsCount() {
-        query = "SELECT COUNT(*) FROM core_reports;";
-        int result = 0;
-
-        retrieveData(query);
-        try {
-            if (resultSet.next()) {
-                result = resultSet.getInt(1);
-            }
-        } catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
-        } finally {
-            close();
-        }
-        return result;
-    }
-
-    public void createTables() {
-        NSWCore.getServerHandler().getExecutor().execute(this::createPlayerDataTable);
-    }
-
-    private void createPlayerDataTable() {
-        query = """
-                CREATE TABLE IF NOT EXISTS core_playerdata
-                (
-                    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-                    uuid VARCHAR(36) NOT NULL,
-                    playerName VARCHAR(50) NOT NULL,
-                    rankId INT(1) NOT NULL,
-                    honorPoints INT(5) NOT NULL,
-                    deathCount INT(5),
-                    killCount INT(5),
-                    timePlayed BIGINT
-                );
-                """;
-        updateData(query);
-        close();
-    }
-
-    private void retrieveData(String query) {
-        if (!isConnected()) {
-            NSWCore.getConnector().connect();
-        }
-
-        try {
-            statement = NSWCore.getConnector().getConn().createStatement();
-            resultSet = statement.executeQuery(query);
-        } catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
-        }
-    }
-
-    private void updateData(String query) {
-        if (!isConnected()) {
-            NSWCore.getConnector().connect();
-        }
-
-        try {
-            statement = NSWCore.getConnector().getConn().createStatement();
-            statement.executeUpdate(query);
-        } catch (SQLException e) {
-            System.out.println("SQLException: " + e.getMessage());
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("VendorError: " + e.getErrorCode());
-        }
-    }
-
-    private void close() {
-        if (resultSet != null) {
-            try {
-                resultSet.close();
-            } catch (SQLException ignored) {
-            } // ignore
-            resultSet = null;
-        }
-
-        if (statement != null) {
-            try {
-                statement.close();
-            } catch (SQLException ignored) {
-            } // ignore
-            statement = null;
-        }
-    }
-
-    private boolean isConnected() {
-        return NSWCore.getConnector().isConnected();
     }
 }

@@ -31,17 +31,14 @@ public class ReportUtils {
     public void setReportItems(boolean maskResolvedReports) {
         resetReports();
 
-        Requests req = NSWCore.getRequestsManager();
-
-        final int reportsCount = req.getReportsCount();
+        int reportsCount = NSWCore.getAPI().getDatabaseManager().getRequestSender().getReportsCount();
+        String resolved;
 
         if (reportsCount == 0) return;
 
-        String resolved;
-
         for (int i = 1; i <= reportsCount; i++) {
             if (i <= 44) {
-                req.setReportData(i);
+                new Requests().setReportData(i);
 
                 if (isResolved && maskResolvedReports) {
                     //just works for read only and items stays at their initial slot
@@ -73,19 +70,19 @@ public class ReportUtils {
     }
 
     public void deleteReport(int slot) {
-        NSWCore.getServerHandler().getExecutor().execute(() -> {
+        NSWCore.getAPI().getServerHandler().getExecutor().execute(() -> {
             int id = reportIds.get(slot);
 
-            NSWCore.getRequestsManager().deleteReport(id);
+            NSWCore.getAPI().getDatabaseManager().getRequestSender().deleteReport(id);
             reportIds.remove(id);
             reportItems.remove(id);
         });
     }
 
     public void markReportAsResolved(int id) {
-        NSWCore.getServerHandler().getExecutor().execute(() -> {
+        NSWCore.getAPI().getServerHandler().getExecutor().execute(() -> {
             if (isResolved(id)) return;
-            NSWCore.getRequestsManager().markReportAsResolved(id);
+            NSWCore.getAPI().getDatabaseManager().getRequestSender().markReportAsResolved(id);
         });
     }
 
