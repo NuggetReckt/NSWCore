@@ -1,108 +1,79 @@
 package fr.nuggetreckt.nswcore.utils;
 
+import fr.noskillworld.api.reports.Report;
 import fr.nuggetreckt.nswcore.NSWCore;
-import fr.nuggetreckt.nswcore.database.Requests;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ReportUtils {
 
-    private final Map<Integer, ItemStack> reportItems;
-    private final Map<Integer, Integer> reportIds;
-
-    private int reportId;
-    private String reportedName;
-    private String creatorName;
-    private String reportType;
-    private String reportReason;
-    private Timestamp timestamp;
-    private boolean isResolved;
+    private final Map<Integer, Report> reportIds;
 
     public ReportUtils() {
-        this.reportItems = new HashMap<>();
         this.reportIds = new HashMap<>();
     }
 
-    public void setReportItems(boolean maskResolvedReports) {
-        resetReports();
+    public List<ItemStack> getReportItems(boolean maskResolvedReports) {
+        List<ItemStack> items = new ArrayList<>();
+        List<Report> reports;
 
-        int reportsCount = NSWCore.getAPI().getDatabaseManager().getRequestSender().getReportsCount();
+        if (maskResolvedReports) {
+            reports = NSWCore.getAPI().getReportHandler().getUnResolvedReports();
+        } else {
+            reports = NSWCore.getAPI().getReportHandler().getReports();
+        }
+        int i = 0;
         String resolved;
+        reportIds.clear();
 
-        if (reportsCount == 0) return;
+        for (Report report : reports) {
+            Player creator = Bukkit.getPlayer(report.getCreatorUuid());
+            Player reported = Bukkit.getPlayer(report.getReportedUuid());
 
-        for (int i = 1; i <= reportsCount; i++) {
-            if (i <= 44) {
-                new Requests().setReportData(i);
-
-                if (isResolved && maskResolvedReports) {
-                    //just works for read only and items stays at their initial slot
-                    continue;
-                }
-
-                System.out.println("DEBUG: report = " + reportedName + " - " + reportReason);
-                System.out.println("DEBUG: isResolved = " + isResolved);
-                System.out.println("DEBUG: iteration = " + i);
-
-                if (isResolved) {
-                    resolved = " §8(§a§lRésolu§8)";
-                } else {
-                    resolved = "";
-                }
-
-                String reportDate = new SimpleDateFormat("MM/dd/yyyy").format(timestamp);
-                String reportTime = new SimpleDateFormat("HH:mm").format(timestamp);
-
-                ItemStack item = new ItemUtils(Material.PAPER).setName("§8§l»§r §c§l" + reportedName + " §8§l«" + resolved).hideFlags()
-                        .setLore(" ", "§8| §fPar §3" + creatorName, "§8| §fPour §3" + reportType, "§8| §fLe §3" +
-                                        reportDate + " §fà §3" + reportTime, "§8| §fRaison : §7" + reportReason, " ",
-                                " §8| §fClic gauche : §aMarquer comme résolu", " §8| §fClic droit : §cSupprimer")
-                        .toItemStack();
-
-                setReportItem(i, item);
+            if (report.isResolved()) {
+                resolved = " §8(§a§lRésolu§8)";
+            } else {
+                resolved = "";
             }
+
+            assert creator != null;
+            assert reported != null;
+
+            ItemStack item = new ItemUtils(Material.PAPER).setName("§8§l»§r §c§l" + reported.getName() + " §8§l«" + resolved).hideFlags()
+                    .setLore(" ", "§8| §fPar §3" + creator.getName(), "§8| §fPour §3" + report.getReportType().getDisplayName(), "§8| §fLe §3" +
+                                    report.getReportDate() + " §fà §3" + report.getReportTime(), "§8| §fRaison : §7" + report.getReason(), " ",
+                            " §8| §fClic gauche : §aMarquer comme résolu", " §8| §fClic droit : §cSupprimer")
+                    .toItemStack();
+
+            reportIds.put(i, report);
+            items.add(item);
+            i++;
+        }
+        return items;
+    }
+
+    public void deleteReport(@NotNull Report report) {
+        NSWCore.getAPI().getReportHandler().deleteReport(report.getId());
+    }
+
+    public void markReportResolved(@NotNull Report report) {
+        if (!report.isResolved()) {
+            NSWCore.getAPI().getReportHandler().markReportAsResolved(report.getId());
+        } else {
+            NSWCore.getAPI().getReportHandler().markReportAsUnresolved(report.getId());
         }
     }
 
-    public void deleteReport(int slot) {
-        NSWCore.getAPI().getServerHandler().getExecutor().execute(() -> {
-            int id = reportIds.get(slot);
-
-            NSWCore.getAPI().getDatabaseManager().getRequestSender().deleteReport(id);
-            reportIds.remove(id);
-            reportItems.remove(id);
-        });
-    }
-
-    public void markReportAsResolved(int id) {
-        NSWCore.getAPI().getServerHandler().getExecutor().execute(() -> {
-            if (isResolved(id)) return;
-            NSWCore.getAPI().getDatabaseManager().getRequestSender().markReportAsResolved(id);
-        });
-    }
-
-    public ItemStack getReportItem(int key) {
-        int id = reportIds.get(key);
-        return reportItems.get(id);
-    }
-
-    public void resetReports() {
-        reportItems.clear();
-        reportIds.clear();
-    }
-
-    private void setReportItem(int slot, ItemStack item) {
-        reportIds.put(reportId, slot);
-        reportItems.put(slot, item);
-    }
-
-    private boolean isResolved(int resolved) {
-        return resolved == 1;
+    public Report getReportBySlot(int slot) {
+        return reportIds.get(slot);
     }
 
     public String getShownStatus(boolean bool) {
@@ -111,15 +82,5 @@ public class ReportUtils {
         } else {
             return "§cNon";
         }
-    }
-
-    public void setReportData(int reportId, String creatorName, String reportedName, String reportType, String reportReason, Timestamp timestamp, int resolved) {
-        this.reportId = reportId;
-        this.creatorName = creatorName;
-        this.reportedName = reportedName;
-        this.reportType = reportType;
-        this.reportReason = reportReason;
-        this.timestamp = timestamp;
-        this.isResolved = isResolved(resolved);
     }
 }

@@ -1,5 +1,6 @@
 package fr.nuggetreckt.nswcore.guis.impl;
 
+import fr.noskillworld.api.reports.Report;
 import fr.nuggetreckt.nswcore.NSWCore;
 import fr.nuggetreckt.nswcore.guis.CustomInventory;
 import fr.nuggetreckt.nswcore.utils.ItemUtils;
@@ -10,6 +11,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 public class ReportsGui implements CustomInventory {
@@ -29,13 +31,11 @@ public class ReportsGui implements CustomInventory {
     @Override
     public Supplier<ItemStack[]> getContents(Player player) {
         ItemStack[] slots = new ItemStack[getSlots()];
-
-        //Init items
-        NSWCore.getReportUtils().setReportItems(maskResolvedReports);
+        List<ItemStack> reportItems = NSWCore.getReportUtils().getReportItems(maskResolvedReports);
 
         //Display items
-        for (int i = 0; i < getSlots(); i++) {
-            slots[i] = NSWCore.getReportUtils().getReportItem(i + 1);
+        for (int i = 0; i < getSlots() && i < reportItems.size(); i++) {
+            slots[i] = reportItems.get(i);
         }
 
         //Utils
@@ -61,19 +61,20 @@ public class ReportsGui implements CustomInventory {
             case BARRIER -> player.closeInventory();
             case SNOWBALL -> NSWCore.getGuiManager().refresh(player, this.getClass());
             case PAPER -> {
+                Report report = NSWCore.getReportUtils().getReportBySlot(slot);
+
+                if (report == null) return;
                 if (isLeftClick) {
-                    NSWCore.getReportUtils().markReportAsResolved(slot + 1);
-                    NSWCore.getGuiManager().refresh(player, this.getClass());
+                    NSWCore.getReportUtils().markReportResolved(report);
                 } else {
-                    player.sendMessage("§cfonctionnalité non disponible pour le moment.");
-                    NSWCore.getGuiManager().refresh(player, this.getClass());
-                    /*if (player.hasPermission("nsw.*")) {
-                        NSWCore.getReportUtils().deleteReport(slot + 1);
+                    if (player.hasPermission("nsw.*")) {
+                        NSWCore.getReportUtils().deleteReport(report);
                         NSWCore.getGuiManager().refresh(player, this.getClass());
                     } else {
                         player.sendMessage(String.format(MessageManager.NO_PERMISSION.getMessage(), "Reports"));
-                    }*/
+                    }
                 }
+                NSWCore.getGuiManager().refresh(player, this.getClass());
             }
             case SLIME_BALL -> {
                 maskResolvedReports = !maskResolvedReports;
