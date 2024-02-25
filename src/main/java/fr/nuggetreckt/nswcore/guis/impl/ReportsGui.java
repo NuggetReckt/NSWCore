@@ -1,5 +1,6 @@
 package fr.nuggetreckt.nswcore.guis.impl;
 
+import fr.noskillworld.api.NSWAPI;
 import fr.noskillworld.api.reports.Report;
 import fr.nuggetreckt.nswcore.NSWCore;
 import fr.nuggetreckt.nswcore.guis.CustomInventory;
@@ -12,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 public class ReportsGui implements CustomInventory {
@@ -69,12 +71,12 @@ public class ReportsGui implements CustomInventory {
                 } else {
                     if (player.hasPermission("nsw.*")) {
                         NSWCore.getReportUtils().deleteReport(report);
-                        NSWCore.getGuiManager().refresh(player, this.getClass());
                     } else {
                         player.sendMessage(String.format(MessageManager.NO_PERMISSION.getMessage(), "Reports"));
+                        return;
                     }
                 }
-                NSWCore.getGuiManager().refresh(player, this.getClass());
+                NSWAPI.getAPI().getServerHandler().getExecutor().schedule(() -> NSWCore.getGuiManager().refresh(player, this.getClass()), 250, TimeUnit.MILLISECONDS);
             }
             case SLIME_BALL -> {
                 maskResolvedReports = !maskResolvedReports;

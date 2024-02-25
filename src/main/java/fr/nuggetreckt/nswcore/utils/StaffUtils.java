@@ -97,6 +97,7 @@ public class StaffUtils {
             player.getInventory().setItem(0, new ItemUtils(Material.BLUE_ICE).setName("§8§l»§r §3Freeze le joueur §8§l«").toItemStack());
             player.getInventory().setItem(1, new ItemUtils(Material.CHEST).setName("§8§l»§r §3Voir l'inventaire du joueur §8§l«").toItemStack());
             player.getInventory().setItem(2, new ItemUtils(Material.ENDER_CHEST).setName("§8§l»§r §3Voir l'EC du joueur §8§l«").toItemStack());
+            player.getInventory().setItem(7, new ItemUtils(Material.COMPASS).setName("§8§l»§r §3Joueurs §8§l«").toItemStack());
             player.getInventory().setItem(8, new ItemUtils(Material.PAPER).setName("§8§l»§r §3Reports §8§l«").toItemStack());
         } else {
             player.getInventory().clear();

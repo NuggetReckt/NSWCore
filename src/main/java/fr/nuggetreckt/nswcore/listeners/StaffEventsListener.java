@@ -1,6 +1,7 @@
 package fr.nuggetreckt.nswcore.listeners;
 
 import fr.nuggetreckt.nswcore.NSWCore;
+import fr.nuggetreckt.nswcore.guis.impl.PlayerListGui;
 import fr.nuggetreckt.nswcore.guis.impl.ReportsGui;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
 import fr.nuggetreckt.nswcore.utils.StaffUtils;
@@ -38,30 +39,32 @@ public class StaffEventsListener implements Listener {
         Player target = (Player) event.getRightClicked();
 
         if (staffUtils.isStaffMode(player)) {
-            if (item.getType() == Material.BLUE_ICE) {
-                if (!staffUtils.isFrozen(target)) {
-                    staffUtils.setFrozen(target, true);
-                    player.sendMessage(String.format(MessageManager.PLAYER_FREEZE_STAFF.getMessage(), "NSW", target.getName()));
-                    target.sendMessage(String.format(MessageManager.PLAYER_FREEZE_TARGET.getMessage(), "NSW", player.getName()));
+            switch (item.getType()) {
+                case BLUE_ICE -> {
+                    if (!staffUtils.isFrozen(target)) {
+                        staffUtils.setFrozen(target, true);
+                        player.sendMessage(String.format(MessageManager.PLAYER_FREEZE_STAFF.getMessage(), "NSW", target.getName()));
+                        target.sendMessage(String.format(MessageManager.PLAYER_FREEZE_TARGET.getMessage(), "NSW", player.getName()));
 
-                    target.sendTitle("§4§lVous êtes freeze", "§cRendez-vous sur le Discord §8(§3/discord§8)", 10, 200, 60);
-                } else {
-                    staffUtils.setFrozen(target, false);
-                    player.sendMessage(String.format(MessageManager.PLAYER_UNFREEZE_STAFF.getMessage(), "NSW", target.getName()));
-                    target.sendMessage(String.format(MessageManager.PLAYER_UNFREEZE_TARGET.getMessage(), "NSW", player.getName()));
+                        target.sendTitle("§4§lVous êtes freeze", "§cRendez-vous sur le Discord §8(§3/discord§8)", 10, 200, 60);
+                    } else {
+                        staffUtils.setFrozen(target, false);
+                        player.sendMessage(String.format(MessageManager.PLAYER_UNFREEZE_STAFF.getMessage(), "NSW", target.getName()));
+                        target.sendMessage(String.format(MessageManager.PLAYER_UNFREEZE_TARGET.getMessage(), "NSW", player.getName()));
+                    }
                 }
-            }
-            if (item.getType() == Material.CHEST) {
-                Inventory inventory = target.getInventory();
-                player.openInventory(inventory);
+                case CHEST -> {
+                    Inventory inventory = target.getInventory();
+                    player.openInventory(inventory);
 
-                //Objects.requireNonNull(player.openInventory(inventory)).setTitle("§fInventaire de §3" + target.getName());
-            }
-            if (item.getType() == Material.ENDER_CHEST) {
-                Inventory inventory = target.getEnderChest();
-                player.openInventory(inventory);
+                    //Objects.requireNonNull(player.openInventory(inventory)).setTitle("§fInventaire de §3" + target.getName());
+                }
+                case ENDER_CHEST -> {
+                    Inventory inventory = target.getEnderChest();
+                    player.openInventory(inventory);
 
-                //Objects.requireNonNull(player.openInventory(inventory)).setTitle("§fEC de §3" + target.getName());
+                    //Objects.requireNonNull(player.openInventory(inventory)).setTitle("§fEC de §3" + target.getName());
+                }
             }
         }
     }
@@ -75,8 +78,10 @@ public class StaffEventsListener implements Listener {
         ItemStack item = player.getInventory().getItemInMainHand();
 
         if (staffUtils.isStaffMode(player)) {
-            if (item.getType() == Material.PAPER) {
-                NSWCore.getGuiManager().open(player, ReportsGui.class);
+            event.setCancelled(true);
+            switch (item.getType()) {
+                case PAPER -> NSWCore.getGuiManager().open(player, ReportsGui.class);
+                case COMPASS -> NSWCore.getGuiManager().open(player, PlayerListGui.class);
             }
         }
     }

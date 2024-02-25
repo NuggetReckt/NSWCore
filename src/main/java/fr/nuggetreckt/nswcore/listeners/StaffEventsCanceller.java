@@ -52,17 +52,6 @@ public class StaffEventsCanceller implements Listener {
         }
     }
 
-    /*@EventHandler
-    public void onInventoryDrag(@NotNull InventoryDragEvent event) {
-        Player player = (Player) event.getWhoClicked();
-
-        if (!NSWCore.getInstance().isStaff(player)) return;
-
-        if (staffUtils.isStaffMode(player)) {
-            event.setCancelled(true);
-        }
-    }*/
-
     @EventHandler
     public void onItemDrop(@NotNull PlayerDropItemEvent event) {
         Player player = event.getPlayer();

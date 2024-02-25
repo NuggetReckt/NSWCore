@@ -7,6 +7,7 @@ import fr.nuggetreckt.nswcore.commands.*;
 import fr.nuggetreckt.nswcore.commands.tabcompletion.TabCompletion;
 import fr.nuggetreckt.nswcore.database.Saver;
 import fr.nuggetreckt.nswcore.expansions.PAPIExpansion;
+import fr.nuggetreckt.nswcore.guis.GuiManager;
 import fr.nuggetreckt.nswcore.listeners.*;
 import fr.nuggetreckt.nswcore.tasks.SaveTask;
 import fr.nuggetreckt.nswcore.utils.*;
