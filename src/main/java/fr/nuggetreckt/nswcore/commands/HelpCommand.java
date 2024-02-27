@@ -30,7 +30,8 @@ public class HelpCommand implements CommandExecutor {
                         new TextComponent("\n     "), honorRanks,
                         new TextComponent("     "), jobs,
                         new TextComponent("     "), others,
-                        new TextComponent("     "), links
+                        new TextComponent("     "), links,
+                        new TextComponent("\n")
                 );
             } else {
                 switch (args[0]) {

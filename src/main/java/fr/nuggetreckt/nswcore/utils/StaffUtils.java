@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 public class StaffUtils {
@@ -36,7 +37,7 @@ public class StaffUtils {
         }
         for (UUID uuid : isStaffMode.keySet()) {
             if (isStaffMode.get(uuid)) {
-                setInvisible(player, true);
+                player.hidePlayer(NSWCore.getInstance(), Objects.requireNonNull(Bukkit.getPlayer(uuid)));
             }
         }
         isFrozen.putIfAbsent(player.getUniqueId(), false);

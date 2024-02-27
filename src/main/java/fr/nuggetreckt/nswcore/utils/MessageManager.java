@@ -83,33 +83,34 @@ public enum MessageManager {
     HELP_SECTION("- §8(§6§l%s§8)\n%s"),
     HONORRANKS_HELP("""
             §fCommandes :
-             §8| §3/hr §8(§7Affiche la progression de ton honneur, la liste des rangs et leur points requis§8)§r
-             §8| §3/hr info §8(§7Affiche ton rang actuel, le prochain rang et le nombre de points requis pour passer à celui-ci§8)§r
-             §8| §3/hr points §8(§7Affiche le nombre de points que tu possèdes§8)§r
-             §8| §3/hr points §8(§7Affiche ton rang actuel§8)§r
-             §8| §3/hr upgrade §8(§7Passe au rang suivant si le quota de points est atteint§8)§r
+             §8| §3/hr §8(§fAffiche la progression de ton honneur, la liste des rangs et leur points requis§8)§r
+             §8| §3/hr info §8(§fAffiche ton rang actuel, le prochain rang et le nombre de points requis pour passer à celui-ci§8)§r
+             §8| §3/hr points §8(§fAffiche le nombre de points que tu possèdes§8)§r
+             §8| §3/hr points §8(§fAffiche ton rang actuel§8)§r
+             §8| §3/hr upgrade §8(§fPasse au rang suivant si le quota de points est atteint§8)§r
              
             §fInfos :
-             §8| §7Les points d'honneur s'obtiennent en participant à des events, et en montant de niveau dans les jobs §8(§3/help jobs§8)§7.§r
-             §8| §7Le rang max est le rang §36§7.
+             §8| §fLes points d'honneur s'obtiennent en participant à des events, et en montant de niveau dans les jobs §8(§3/help jobs§8)§f.§r
+             §8| §fLe rang max est le rang §36§7.§r
             """),
     JOBS_HELP("""
             §fCommandes :
-             §8| §3/jobs §8(§7Ouvre l'interface principale des jobs§8)§r
-             §8| §3/jobs help §8(§7Affiche ce message§8)§r
-             §8| §3/jobs join <job> §8(§7Rejoins un job§8)§r
-             §8| §3/jobs leave §8(§7Quitte le job actuel§8)§r
-             §8| §3/jobs info §8(§7Affiche la liste des items qui donnent de l'xp pour ton job§8)§r
-             §8| §3/jobs xp §8(§7Affiche ta progression d'xp pour ton job§8)§r
-             §8| §3/jobs leaderboard §8(§7Affiche un classement des 20 premiers joueurs§8)§r
+             §8| §3/jobs §8(§fOuvre l'interface principale des jobs§8)§r
+             §8| §3/jobs help §8(§fAffiche ce message§8)§r
+             §8| §3/jobs join <job> §8(§fRejoins un job§8)§r
+             §8| §3/jobs leave §8(§fQuitte le job actuel§8)§r
+             §8| §3/jobs info §8(§fAffiche la liste des items qui donnent de l'xp pour ton job§8)§r
+             §8| §3/jobs xp §8(§fAffiche ta progression d'xp pour ton job§8)§r
+             §8| §3/jobs leaderboard §8(§fAffiche un classement des 20 premiers joueurs§8)§r
+             
             §fInfos :
-             §8| §fWiki des jobs §8§l»§r §3§nhttps://play.noskillworld.fr/wiki/jobs.php
+             §8| §fWiki des jobs §8§l»§r §3§nhttps://play.noskillworld.fr/wiki/jobs.php§r
             """),
     OTHER_HELP("""
             §fCommandes :
-             §8| §3/spawn §8(§7Te téléporte au spawn§8)§r
-             §8| §3/tpa <joueur> §8(§7Envoie une demande de téléportation à un joueur§8)§r
-             §8| §3/<cmd> §8(§7<desc>§8)§r
+             §8| §3/spawn §8(§fTe téléporte au spawn§8)§r
+             §8| §3/tpa <joueur> §8(§fEnvoie une demande de téléportation à un joueur§8)§r
+             §8| §3/<cmd> §8(§f<desc>§8)§r
              ...
             """), //A CONTINUER
     LINKS_HELP("""
@@ -123,7 +124,7 @@ public enum MessageManager {
              §8| §fTikTok §8§l»§r §3§nhttps://www.tiktok.com/@noskillworld_mc§r
              §8| §fInstagram §8§l»§r §3§nhttps://www.instagram.com/noskillworld§r
              §8| §fTwitter §8§l»§r §3§nhttps://twitter.com/NoSkillWorld§r
-             §8| §fDiscord §8§l»§r §3§nhttps://discord.noskillworld.fr
+             §8| §fDiscord §8§l»§r §3§nhttps://discord.noskillworld.fr§r
             """),
 
     //Other messages
