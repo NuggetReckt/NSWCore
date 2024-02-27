@@ -2,6 +2,7 @@ package fr.nuggetreckt.nswcore.utils;
 
 import fr.nuggetreckt.nswcore.NSWCore;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -86,8 +87,10 @@ public class StaffUtils {
     }
 
     private void setCanFly(@NotNull Player player, boolean bool) {
-        player.setAllowFlight(bool);
-        player.setFlying(bool);
+        if (player.getGameMode() != GameMode.CREATIVE) {
+            player.setAllowFlight(bool);
+            player.setFlying(bool);
+        }
     }
 
     private void setItems(Player player, boolean bool) {
