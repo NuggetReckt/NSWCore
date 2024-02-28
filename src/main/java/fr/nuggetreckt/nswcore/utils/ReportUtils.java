@@ -8,28 +8,50 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ReportUtils {
 
+    public enum SortReport {
+        DATE_ASC("§aDate §8(§7plus vieux§8)"),
+        DATE_DESC("§aDate §8(§7plus récent§8)"),
+        PLAYER_ASC("§aNom du joueur §8(§7A > Z§8)"),
+        PLAYER_DESC("§aNom du joueur §8(§7A < Z§8)");
+
+        private final String name;
+
+        SortReport(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
     private final Map<Integer, Report> reportIds;
+    private final Map<UUID, SortReport> sortReportMap;
 
     public ReportUtils() {
         this.reportIds = new HashMap<>();
+        this.sortReportMap = new HashMap<>();
     }
 
-    public List<ItemStack> getReportItems(boolean maskResolvedReports) {
+    public List<ItemStack> getReportItems(boolean maskResolvedReports, Player player) {
         List<ItemStack> items = new ArrayList<>();
-        List<Report> reports;
+        List<Report> reports = null;
+        initReportSort(player);
 
-        if (maskResolvedReports) {
-            reports = NSWCore.getAPI().getReportHandler().getUnResolvedReports();
-        } else {
-            reports = NSWCore.getAPI().getReportHandler().getReports();
+        switch (sortReportMap.get(player.getUniqueId())) {
+            case DATE_ASC -> reports = NSWCore.getAPI().getReportHandler().getReportsByDate();
+            case DATE_DESC -> reports = NSWCore.getAPI().getReportHandler().getReportsByDateDesc();
+            case PLAYER_ASC -> reports = NSWCore.getAPI().getReportHandler().getReportsByName();
+            case PLAYER_DESC -> reports = NSWCore.getAPI().getReportHandler().getReportsByNameDesc();
         }
+        if (maskResolvedReports) {
+            reports = reports.stream().filter(report -> !report.isResolved()).toList();
+        }
+
         int i = 0;
         String resolved;
         reportIds.clear();
@@ -81,6 +103,25 @@ public class ReportUtils {
             return "§aOui";
         } else {
             return "§cNon";
+        }
+    }
+
+    public SortReport getCurrentSortReport(@NotNull Player player) {
+        return sortReportMap.get(player.getUniqueId());
+    }
+
+    public void initReportSort(@NotNull Player player) {
+        sortReportMap.putIfAbsent(player.getUniqueId(), SortReport.DATE_ASC);
+    }
+
+    public void toggleReportSort(@NotNull Player player) {
+        SortReport current = getCurrentSortReport(player);
+        SortReport[] values = SortReport.values();
+
+        if (current == values[values.length - 1]) {
+            sortReportMap.replace(player.getUniqueId(), values[0]);
+        } else {
+            sortReportMap.replace(player.getUniqueId(), values[current.ordinal() + 1]);
         }
     }
 }

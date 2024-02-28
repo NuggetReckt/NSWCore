@@ -38,7 +38,7 @@ public class PlayerListGui implements CustomInventory {
             }
             slots[i] = new ItemUtils(Material.PLAYER_HEAD).setName("§8§l»§r §3§l" + p.getName() + " §8§l«")
                     .setLore(" ", " §8| §fClic gauche : §aSe téléporter", " §8| §fClic droit : §aVoir l'inventaire")
-                    .setSkullOwner(player.getName())
+                    .setSkullOwner(p.getName())
                     .toItemStack();
             players.put(i, p);
             i++;

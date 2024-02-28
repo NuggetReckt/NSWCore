@@ -6,6 +6,7 @@ import fr.nuggetreckt.nswcore.NSWCore;
 import fr.nuggetreckt.nswcore.guis.CustomInventory;
 import fr.nuggetreckt.nswcore.utils.ItemUtils;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
+import fr.nuggetreckt.nswcore.utils.ReportUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -33,7 +34,9 @@ public class ReportsGui implements CustomInventory {
     @Override
     public Supplier<ItemStack[]> getContents(Player player) {
         ItemStack[] slots = new ItemStack[getSlots()];
-        List<ItemStack> reportItems = NSWCore.getReportUtils().getReportItems(maskResolvedReports);
+        List<ItemStack> reportItems = NSWCore.getReportUtils().getReportItems(maskResolvedReports, player);
+        ReportUtils reportUtils = NSWCore.getReportUtils();
+
 
         //Display items
         for (int i = 0; i < getSlots() && i < reportItems.size(); i++) {
@@ -41,10 +44,9 @@ public class ReportsGui implements CustomInventory {
         }
 
         //Utils
-        //TODO: Tri par date > et <, nom du joueur report alphabétique > et <
-        slots[48] = new ItemUtils(Material.SLIME_BALL).setName("§8§l»§r §3Masquer les reports résolus §8§l«").hideFlags().setLore(" ", "§8| §fMasqués : " + NSWCore.getReportUtils().getShownStatus(maskResolvedReports)).toItemStack();
+        slots[48] = new ItemUtils(Material.SLIME_BALL).setName("§8§l»§r §3Masquer les reports résolus §8§l«").hideFlags().setLore(" ", "§8| §fMasqués : " + reportUtils.getShownStatus(maskResolvedReports)).toItemStack();
         slots[49] = new ItemUtils(Material.BARRIER).setName("§8§l»§r §3Fermer §8§l«").hideFlags().setLore(" ", "§8| §fFerme le menu").toItemStack();
-        slots[50] = new ItemUtils(Material.HOPPER).setName("§8§l»§r §3Trier §8§l«").hideFlags().setLore(" ", "§8| §fTrié par §a ", "§cTODO").toItemStack();
+        slots[50] = new ItemUtils(Material.HOPPER).setName("§8§l»§r §3Trier §8§l«").hideFlags().setLore(" ", "§8| §fTrié par " + reportUtils.getCurrentSortReport(player).getName()).toItemStack();
         slots[53] = new ItemUtils(Material.SNOWBALL).setName("§8§l»§r §3Rafraîchir §8§l«").hideFlags().setLore(" ", "§8| §fActualise la page").toItemStack();
 
         //Placeholders
@@ -83,7 +85,7 @@ public class ReportsGui implements CustomInventory {
                 NSWCore.getGuiManager().refresh(player, this.getClass());
             }
             case HOPPER -> {
-                player.sendMessage("§cfonctionnalité non disponible pour le moment.");
+                NSWCore.getReportUtils().toggleReportSort(player);
                 NSWCore.getGuiManager().refresh(player, this.getClass());
             }
         }
