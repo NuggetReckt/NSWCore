@@ -37,7 +37,6 @@ public class ReportsGui implements CustomInventory {
         List<ItemStack> reportItems = NSWCore.getReportUtils().getReportItems(maskResolvedReports, player);
         ReportUtils reportUtils = NSWCore.getReportUtils();
 
-
         //Display items
         for (int i = 0; i < getSlots() && i < reportItems.size(); i++) {
             slots[i] = reportItems.get(i);

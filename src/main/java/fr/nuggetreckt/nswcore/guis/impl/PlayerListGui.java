@@ -1,5 +1,6 @@
 package fr.nuggetreckt.nswcore.guis.impl;
 
+import fr.nuggetreckt.nswcore.NSWCore;
 import fr.nuggetreckt.nswcore.guis.CustomInventory;
 import fr.nuggetreckt.nswcore.utils.ItemUtils;
 import org.bukkit.Bukkit;
@@ -30,21 +31,23 @@ public class PlayerListGui implements CustomInventory {
     public Supplier<ItemStack[]> getContents(Player player) {
         ItemStack[] slots = new ItemStack[getSlots()];
         players = new HashMap<>();
-        int i = 0;
+        int slot = 0;
 
+        //Player items
         for (Player p : Bukkit.getOnlinePlayers()) {
-            if (i > getSlots() - 9) {
+            if (slot > getSlots() - 9) {
                 break;
             }
-            slots[i] = new ItemUtils(Material.PLAYER_HEAD).setName("§8§l»§r §3§l" + p.getName() + " §8§l«")
+            slots[slot] = new ItemUtils(Material.PLAYER_HEAD).setName("§8§l»§r §3§l" + p.getName() + " §8§l«")
                     .setLore(" ", " §8| §fClic gauche : §aSe téléporter", " §8| §fClic droit : §aVoir l'inventaire")
-                    .setSkullOwner(p.getName())
-                    .toItemStack();
-            players.put(i, p);
-            i++;
+                    .setSkullOwner(p.getName()).toItemStack();
+            players.put(slot, p);
+            slot++;
         }
+
         //Utils
         slots[49] = new ItemUtils(Material.BARRIER).setName("§8§l»§r §3Fermer §8§l«").hideFlags().setLore(" ", "§8| §fFerme le menu").toItemStack();
+        slots[53] = new ItemUtils(Material.SNOWBALL).setName("§8§l»§r §3Rafraîchir §8§l«").hideFlags().setLore(" ", "§8| §fActualise la page").toItemStack();
 
         //Placeholders
         slots[45] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").toItemStack();
@@ -54,7 +57,6 @@ public class PlayerListGui implements CustomInventory {
         slots[50] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").toItemStack();
         slots[51] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").toItemStack();
         slots[52] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").toItemStack();
-        slots[53] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").toItemStack();
 
         return () -> slots;
     }
@@ -63,6 +65,7 @@ public class PlayerListGui implements CustomInventory {
     public void onClick(Player player, Inventory inventory, @NotNull ItemStack clickedItem, int slot, boolean isLeftClick) {
         switch (clickedItem.getType()) {
             case BARRIER -> player.closeInventory();
+            case SNOWBALL -> NSWCore.getGuiManager().refresh(player, this.getClass());
             case PLAYER_HEAD -> {
                 player.closeInventory();
                 Player target = players.get(slot);
