@@ -134,6 +134,7 @@ public class StaffUtils {
     }
 
     public void setStaffMode(@NotNull Player player, boolean value) {
+        isStaffMode.putIfAbsent(player.getUniqueId(), value);
         isStaffMode.replace(player.getUniqueId(), value);
     }
 
@@ -142,6 +143,9 @@ public class StaffUtils {
     }
 
     public boolean isStaffMode(@NotNull Player player) {
+        if (isStaffMode.get(player.getUniqueId()) == null) {
+            return false;
+        }
         return isStaffMode.get(player.getUniqueId());
     }
 
