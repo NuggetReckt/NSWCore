@@ -35,10 +35,13 @@ public class PAPIExpansion extends PlaceholderExpansion {
         if (params.equalsIgnoreCase("coloredname")) {
             return NSWCore.getInstance().getColoredName();
         }
-        if (params.equalsIgnoreCase("displayname")) {
+        if (params.equalsIgnoreCase("rank_displayname")) {
             return hr.getDisplayName(player.getUniqueId());
         }
-        if (params.equalsIgnoreCase("prefix")) {
+        if (params.equalsIgnoreCase("rank_nbcolored")) {
+            return hr.getPlayerRankFormat(player.getUniqueId());
+        }
+        if (params.equalsIgnoreCase("rank_prefix")) {
             return hr.getPrefix(player.getUniqueId());
         }
         if (params.equalsIgnoreCase("honorpoints")) {
