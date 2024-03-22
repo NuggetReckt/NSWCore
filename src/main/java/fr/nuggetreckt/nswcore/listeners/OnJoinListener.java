@@ -3,6 +3,7 @@ package fr.nuggetreckt.nswcore.listeners;
 import fr.noskillworld.api.entities.NSWPlayer;
 import fr.noskillworld.api.honorranks.HonorRanksHandler;
 import fr.nuggetreckt.nswcore.NSWCore;
+import fr.nuggetreckt.nswcore.utils.BookUtils;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -31,8 +32,7 @@ public class OnJoinListener implements Listener {
             } else {
                 Bukkit.broadcastMessage(String.format(MessageManager.WELCOME_PLAYER_JOIN.getBroadcastMessage(), player.getName(), nsw));
                 player.teleport(NSWCore.getInstance().getSpawnLocation());
-                // Uncomment after testing
-                //player.openBook(new BookUtils().getWelcomeBook(player));
+                player.openBook(new BookUtils().getWelcomeBook(player));
             }
         }
         if (player.isOp() || player.hasPermission("group.admin")) {

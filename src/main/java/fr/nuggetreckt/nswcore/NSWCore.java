@@ -247,9 +247,6 @@ public class NSWCore extends JavaPlugin {
 
     private void setSpawnLocation() {
         spawnLocation = new Location(getOverworld(), 319.5, 65, 884.5, -90, 0);
-
-        // FOR TESTING
-        // spawnLocation = new Location(Bukkit.getWorld("main"), 11.5, 89, 287.5, -90, 0);
     }
 
     private void setApi() {

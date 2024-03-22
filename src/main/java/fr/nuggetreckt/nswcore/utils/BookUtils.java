@@ -18,10 +18,17 @@ public class BookUtils {
         BaseComponent[] page1 = new ComponentBuilder(String.format("""
                 §0Bienvenue, §3%s
                 §0dans la ville de §3Kyukei§0.
+                                
+                §0Ici, tu es protégé.
+                §0Mais si tu veux partir à l'aventure, sors de la ville en suivant la direction que tu souhaites !
+                                
+                                
+                §8| §0Bon jeu sur
+                §8| §3§lNoSkillWorld §0!
                 """, player.getName()))
                 .create();
 
-        BaseComponent[] page2 = new ComponentBuilder("Rejoins nos réseaux :\n")
+        BaseComponent[] page2 = new ComponentBuilder("§0Rejoins nos réseaux :\n")
                 .append("§0- §3§nDiscord\n")
                 .event(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.noskillworld.fr"))
                 .append("§0- §3§nTwitter\n")
