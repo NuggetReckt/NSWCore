@@ -46,6 +46,7 @@ commands:
   spawn:
     description: Commande pour se téléporter au spawn
     usage: "/spawn"
+    aliases: [ s ]
   freeze:
     description: Commande pour freeze un joueur
     usage: "/freeze <joueur>"
@@ -55,7 +56,9 @@ commands:
 permissions:
   nsw.*:
     description: Permission globale
-  nsw.bypass:
+  nsw.staff:
+    description: Permission spécifique au staff
+  nsw.staff.bypass:
     description: Permet de bypass les cooldowns et les autres permissions
   nsw.commands.*:
     description: Permission pour toutes les commandes du plugin

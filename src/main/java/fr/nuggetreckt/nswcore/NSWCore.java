@@ -171,7 +171,7 @@ public class NSWCore extends JavaPlugin {
     }
 
     public boolean isStaff(@NotNull Player player) {
-        return player.hasPermission("group.staff") || player.isOp();
+        return player.hasPermission("nsw.staff") || player.isOp();
     }
 
     public Player getPlayerByUuid(UUID uuid) {
