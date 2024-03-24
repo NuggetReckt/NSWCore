@@ -6,7 +6,7 @@
 
     <groupId>fr.nuggetreckt.nswcore</groupId>
     <artifactId>NSWCore</artifactId>
-    <version>1.0.7</version>
+    <version>1.0.8</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -95,7 +95,7 @@
         <dependency>
             <groupId>fr.noskillworld.api</groupId>
             <artifactId>nswapi</artifactId>
-            <version>0.3.3</version>
+            <version>0.4.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

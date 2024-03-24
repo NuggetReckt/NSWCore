@@ -1,5 +1,6 @@
 package fr.nuggetreckt.nswcore.listeners;
 
+import fr.noskillworld.api.NSWAPI;
 import fr.noskillworld.api.entities.NSWPlayer;
 import fr.noskillworld.api.honorranks.HonorRanksHandler;
 import fr.nuggetreckt.nswcore.NSWCore;
@@ -17,8 +18,8 @@ public class OnJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(@NotNull PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        NSWPlayer nswPlayer = new NSWPlayer(player.getName(), player.getUniqueId());
         String nsw = NSWCore.getInstance().getColoredName();
+        NSWPlayer nswPlayer = NSWAPI.getAPI().getPlayerByUuid(player.getUniqueId());
 
         HonorRanksHandler hr = NSWCore.getAPI().getHonorRanksHandler();
         NSWCore.getTeleportUtils().initTeleports(player);

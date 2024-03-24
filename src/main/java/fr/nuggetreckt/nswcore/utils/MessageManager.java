@@ -20,7 +20,7 @@ public enum MessageManager {
     WAIT_BEFORE_KIT("§cVeuillez patienter §3%s heures(s) §cavant de récupérer votre kit !"),
     COMMAND_ONLY_AVAILABLE_FARMZONE("§cCette commande n'est disponible qu'en FarmZone !"),
     COMMAND_ONLY_AVAILABLE_SURVIVAL("§cCette commande n'est disponible qu'en serveur survie !"),
-    NO_ENOUGH_HONORPOINTS("§cVous n'avez pas assez de Points d'Honneur ! §8(§3%s§8/§3%s§8)"),
+    NO_ENOUGH_HONORPOINTS("§cVous n'avez pas assez de Points d'Honneur ! §8(§3%d§8/§3%d§8)"),
     MAX_HONORRANK("§cVous êtes déjà au Rang d'Honneur maximum ! §8(%s§8)"),
     MAX_HONORRANK_OTHER("§cLe joueur §3%s §cest déjà au Rang d'Honneur maximum !"),
     PLAYER_ALREADY_FROZEN("§cLe joueur est déjà freeze !"),

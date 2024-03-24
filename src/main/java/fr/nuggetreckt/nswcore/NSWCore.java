@@ -59,7 +59,7 @@ public class NSWCore extends JavaPlugin {
         farmzonePort = 25568;
         prefix = "§8[§3%s§8] §r";
         logger = Logger.getLogger("Minecraft");
-        setApi();
+        setAPI();
 
         saveTask = new SaveTask();
         guiManager = new GuiManager();
@@ -140,7 +140,8 @@ public class NSWCore extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        getSaver().saveAll();
+        getSaver().saveAllPlayerData();
+        getSaver().saveAllPlayerStats();
         getStaffUtils().restoreStaffData();
         saveTask.stop();
         getAPI().getDatabaseManager().getConnector().close();
@@ -249,7 +250,7 @@ public class NSWCore extends JavaPlugin {
         spawnLocation = new Location(getOverworld(), 319.5, 65, 884.5, -90, 0);
     }
 
-    private void setApi() {
+    private void setAPI() {
         Dotenv dotenv = Dotenv.configure()
                 .directory("/env/")
                 .filename(".env")

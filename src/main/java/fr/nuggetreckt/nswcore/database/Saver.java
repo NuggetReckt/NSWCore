@@ -32,7 +32,7 @@ public class Saver {
     public void savePlayerData(@NotNull Player player) {
         int rankId = NSWCore.getAPI().getHonorRanksHandler().getPlayerRankId(player.getUniqueId());
         long playerPoints = NSWCore.getAPI().getHonorRanksHandler().getPlayerPoints(player.getUniqueId());
-        NSWPlayer nswPlayer = new NSWPlayer(player.getName(), player.getUniqueId());
+        NSWPlayer nswPlayer = NSWAPI.getAPI().getPlayerByUuid(player.getUniqueId());
 
         NSWCore.getAPI().getDatabaseManager().getRequestSender().updatePlayerData(nswPlayer, rankId, playerPoints);
     }
