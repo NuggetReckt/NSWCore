@@ -23,7 +23,7 @@ public class OnSleepListener implements Listener {
             Bukkit.getServer().getScheduler().runTaskLater(NSWCore.getInstance(), () -> {
                 String message = "§3 " + player.getName() + " §fdort profondément...";
                 for (Player p : Bukkit.getOnlinePlayers()) {
-                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+                    p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacy(message));
                 }
             }, 1L);
 
@@ -32,10 +32,12 @@ public class OnSleepListener implements Listener {
                     world.setStorm(false);
                     world.setThundering(false);
                     player.setStatistic(Statistic.TIME_SINCE_REST, 0);
-
                     world.setTime(23500);
                 }
             }, 100L);
+        }
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            p.setSleepingIgnored(true);
         }
     }
 }
