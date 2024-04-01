@@ -15,15 +15,6 @@ public class KitCommand implements CommandExecutor {
     public boolean onCommand(@Nonnull CommandSender commandSender, @Nonnull Command command, @Nonnull String s, @Nonnull String[] strings) {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
-
-            //TO UNCOMMENT AFTER TESTS
-            /*
-            if (NSWCore.isFarmzone()) {
-                NSWCore.getGuiManager().open(player, KitGui.class);
-            } else {
-                player.sendMessage(String.format(MessageManager.COMMAND_NOT_AVAILABLE_FARMZONE_MESSAGE.getMessage(), "Kit"));
-            }
-             */
             NSWCore.getGuiManager().open(player, KitGui.class);
         }
         return true;

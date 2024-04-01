@@ -1,5 +1,7 @@
 package fr.nuggetreckt.nswcore.guis.impl;
 
+import fr.noskillworld.api.NSWAPI;
+import fr.noskillworld.api.entities.NSWPlayer;
 import fr.nuggetreckt.nswcore.NSWCore;
 import fr.nuggetreckt.nswcore.guis.CustomInventory;
 import fr.nuggetreckt.nswcore.utils.CooldownManager;
@@ -18,6 +20,12 @@ import java.util.UUID;
 import java.util.function.Supplier;
 
 public class KitGui implements CustomInventory {
+
+    private final NSWAPI nswapi;
+
+    public KitGui(NSWAPI api) {
+        this.nswapi = api;
+    }
 
     @Override
     public String getName() {
@@ -58,6 +66,14 @@ public class KitGui implements CustomInventory {
     public void onClick(Player player, Inventory inventory, @NotNull ItemStack clickedItem, int slot, boolean isLeftClick) {
         if (Objects.requireNonNull(clickedItem.getItemMeta()).getDisplayName().equals("§8§l»§r §3Kit du débutant §8§l«")) {
             UUID playerId = player.getUniqueId();
+            NSWPlayer nswPlayer = new NSWPlayer(player.getName(), player.getUniqueId());
+            int kitUses = nswapi.getDatabaseManager().getRequestSender().getKitUses(nswPlayer);
+
+            if (kitUses > 2) {
+                player.sendMessage(String.format(MessageManager.NO_KIT_USES_LEFT.getMessage(), "Kit"));
+                player.closeInventory();
+                return;
+            }
             CooldownManager cooldownManager = NSWCore.getCooldownManager();
             Duration timeLeft = cooldownManager.getRemainingCooldown(playerId, "kit");
 
@@ -87,6 +103,7 @@ public class KitGui implements CustomInventory {
 
                     player.sendMessage(String.format(MessageManager.KIT_RECEIVED.getMessage(), "Kit"));
                     player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 15, 1);
+                    nswapi.getServerHandler().getExecutor().execute(() -> nswapi.getDatabaseManager().getRequestSender().updateKitUses(nswPlayer, kitUses + 1));
                 } else {
                     player.sendMessage(String.format(MessageManager.NOT_ENOUGH_ROOM_INV.getMessage(), "Kit"));
                 }

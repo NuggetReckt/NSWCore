@@ -1,5 +1,6 @@
 package fr.nuggetreckt.nswcore.utils;
 
+import fr.noskillworld.api.NSWAPI;
 import fr.noskillworld.api.honorranks.HonorRanks;
 import fr.nuggetreckt.nswcore.NSWCore;
 import org.bukkit.entity.Player;
@@ -9,6 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RewardUtils {
+
+    private final NSWAPI nswapi;
+
+    public RewardUtils(NSWAPI api) {
+        this.nswapi = api;
+    }
 
     public void setReward(Player player, @NotNull HonorRanks rank) {
         switch (rank) {
@@ -38,7 +45,7 @@ public class RewardUtils {
             }
         }
         player.sendMessage(String.format(MessageManager.HONORANKS_UPRANK_REWARDS.getMessage(), "HR",
-                NSWCore.getAPI().getHonorRanksHandler().getPlayerRankFormat(player.getUniqueId()), getRewards(rank)));
+                nswapi.getHonorRanksHandler().getPlayerRankFormat(player.getUniqueId()), getRewards(rank)));
     }
 
     private @NotNull String getRewards(@NotNull HonorRanks rank) {

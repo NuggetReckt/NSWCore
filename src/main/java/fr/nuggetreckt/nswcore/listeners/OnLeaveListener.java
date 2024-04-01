@@ -1,5 +1,6 @@
 package fr.nuggetreckt.nswcore.listeners;
 
+import fr.noskillworld.api.NSWAPI;
 import fr.nuggetreckt.nswcore.NSWCore;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
 import fr.nuggetreckt.nswcore.utils.StaffUtils;
@@ -12,13 +13,19 @@ import org.jetbrains.annotations.NotNull;
 
 public class OnLeaveListener implements Listener {
 
+    private final NSWAPI nswapi;
+
+    public OnLeaveListener(NSWAPI api) {
+        this.nswapi = api;
+    }
+
     @EventHandler
     public void onPlayerLeave(@NotNull PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
         StaffUtils staffUtils = NSWCore.getStaffUtils();
 
-        NSWCore.getAPI().getServerHandler().getExecutor().execute(() -> {
+        nswapi.getServerHandler().getExecutor().execute(() -> {
             NSWCore.getSaver().savePlayerData(player);
             NSWCore.getSaver().savePlayerStats(player);
         });

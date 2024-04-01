@@ -62,13 +62,13 @@ public class NSWCore extends JavaPlugin {
         setAPI();
 
         saveTask = new SaveTask();
-        guiManager = new GuiManager();
+        guiManager = new GuiManager(nswapi);
         cooldownManager = new CooldownManager();
         teleportUtils = new TeleportUtils();
-        effectUtils = new EffectUtils();
+        effectUtils = new EffectUtils(nswapi);
         staffUtils = new StaffUtils();
-        reportUtils = new ReportUtils();
-        saver = new Saver();
+        reportUtils = new ReportUtils(nswapi);
+        saver = new Saver(nswapi);
         luckPermsUtils = new LuckPermsUtils();
     }
 
@@ -92,7 +92,7 @@ public class NSWCore extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("enderchest")).setExecutor(new EnderchestCommand());
         Objects.requireNonNull(this.getCommand("craft")).setExecutor(new CraftCommand());
         Objects.requireNonNull(this.getCommand("furnace")).setExecutor(new FurnaceCommand());
-        Objects.requireNonNull(this.getCommand("honorrank")).setExecutor(new HonorRankCommand());
+        Objects.requireNonNull(this.getCommand("honorrank")).setExecutor(new HonorRankCommand(nswapi));
         Objects.requireNonNull(this.getCommand("staff")).setExecutor(new StaffCommand());
         Objects.requireNonNull(this.getCommand("kit")).setExecutor(new KitCommand());
         Objects.requireNonNull(this.getCommand("spawn")).setExecutor(new SpawnCommand());
@@ -105,8 +105,8 @@ public class NSWCore extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("help")).setTabCompleter(new TabCompletion());
 
         //Register events
-        getServer().getPluginManager().registerEvents(new OnJoinListener(), this);
-        getServer().getPluginManager().registerEvents(new OnLeaveListener(), this);
+        getServer().getPluginManager().registerEvents(new OnJoinListener(nswapi), this);
+        getServer().getPluginManager().registerEvents(new OnLeaveListener(nswapi), this);
         getServer().getPluginManager().registerEvents(new OnSleepListener(), this);
         getServer().getPluginManager().registerEvents(new OnInvClickListener(), this);
         getServer().getPluginManager().registerEvents(new OnMoveListener(), this);
@@ -283,7 +283,7 @@ public class NSWCore extends JavaPlugin {
             getServer().shutdown();
             return;
         }
-        new PAPIExpansion().register();
+        new PAPIExpansion(nswapi).register();
     }
 
     private void setEconomy() {

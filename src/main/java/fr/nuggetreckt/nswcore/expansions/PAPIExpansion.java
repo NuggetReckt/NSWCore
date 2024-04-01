@@ -1,5 +1,6 @@
 package fr.nuggetreckt.nswcore.expansions;
 
+import fr.noskillworld.api.NSWAPI;
 import fr.noskillworld.api.honorranks.HonorRanksHandler;
 import fr.nuggetreckt.nswcore.NSWCore;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
@@ -7,6 +8,12 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class PAPIExpansion extends PlaceholderExpansion {
+
+    private final NSWAPI nswapi;
+
+    public PAPIExpansion(NSWAPI api) {
+        this.nswapi = api;
+    }
 
     @Override
     public @NotNull String getAuthor() {
@@ -30,7 +37,7 @@ public class PAPIExpansion extends PlaceholderExpansion {
 
     @Override
     public String onPlaceholderRequest(Player player, @NotNull String params) {
-        HonorRanksHandler hr = NSWCore.getAPI().getHonorRanksHandler();
+        HonorRanksHandler hr = nswapi.getHonorRanksHandler();
 
         if (params.equalsIgnoreCase("coloredname")) {
             return NSWCore.getInstance().getColoredName();

@@ -1,5 +1,6 @@
 package fr.nuggetreckt.nswcore.listeners;
 
+import fr.noskillworld.api.NSWAPI;
 import fr.noskillworld.api.honorranks.HonorRanksHandler;
 import fr.nuggetreckt.nswcore.NSWCore;
 import fr.nuggetreckt.nswcore.utils.BookUtils;
@@ -13,15 +14,21 @@ import org.jetbrains.annotations.NotNull;
 
 public class OnJoinListener implements Listener {
 
+    private final NSWAPI nswapi;
+
+    public OnJoinListener(NSWAPI api) {
+        this.nswapi = api;
+    }
+
     @EventHandler
     public void onPlayerJoin(@NotNull PlayerJoinEvent event) {
         Player player = event.getPlayer();
         String nsw = NSWCore.getInstance().getColoredName();
 
-        HonorRanksHandler hr = NSWCore.getAPI().getHonorRanksHandler();
+        HonorRanksHandler hr = nswapi.getHonorRanksHandler();
         NSWCore.getTeleportUtils().initTeleports(player);
 
-        NSWCore.getAPI().getServerHandler().getExecutor().execute(() -> hr.init(player.getUniqueId(), player.getName()));
+        nswapi.getServerHandler().getExecutor().execute(() -> hr.init(player.getUniqueId(), player.getName()));
         NSWCore.getStaffUtils().init(player);
 
         if (!player.hasPlayedBefore()) {

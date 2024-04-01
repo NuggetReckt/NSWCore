@@ -1,5 +1,6 @@
 package fr.nuggetreckt.nswcore.commands;
 
+import fr.noskillworld.api.NSWAPI;
 import fr.noskillworld.api.honorranks.impl.HonorRanksHandlerImpl;
 import fr.nuggetreckt.nswcore.NSWCore;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
@@ -14,9 +15,15 @@ import javax.annotation.Nonnull;
 
 public class HonorRankCommand implements CommandExecutor {
 
+    private final NSWAPI nswapi;
+
+    public HonorRankCommand(NSWAPI api) {
+        this.nswapi = api;
+    }
+
     @Override
     public boolean onCommand(@Nonnull CommandSender commandSender, @Nonnull Command command, @Nonnull String s, @Nonnull String[] args) {
-        HonorRanksHandlerImpl hr = NSWCore.getAPI().getHonorRanksHandler();
+        HonorRanksHandlerImpl hr = nswapi.getHonorRanksHandler();
 
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
@@ -41,7 +48,7 @@ public class HonorRankCommand implements CommandExecutor {
                         if (hr.getPlayerPoints(player.getUniqueId()) >= hr.getPointsNeeded(player.getUniqueId())) {
                             hr.upRankPlayer(player.getUniqueId());
                             NSWCore.getEffectUtils().uprankEffect(player);
-                            new RewardUtils().setReward(player, hr.getPlayerRank(player.getUniqueId()));
+                            new RewardUtils(nswapi).setReward(player, hr.getPlayerRank(player.getUniqueId()));
                         } else {
                             player.sendMessage(String.format(MessageManager.NO_ENOUGH_HONORPOINTS.getMessage(), "HR", hr.getPlayerPoints(player.getUniqueId()), hr.getPointsNeeded(player.getUniqueId())));
                         }
@@ -73,7 +80,7 @@ public class HonorRankCommand implements CommandExecutor {
                                     target.sendMessage(String.format(MessageManager.SUCCESS_UPGRADE_OTHER.getMessage(), "HR", player.getName()));
                                     hr.forceUpRankPlayer(target.getUniqueId());
                                     NSWCore.getEffectUtils().uprankEffect(player);
-                                    new RewardUtils().setReward(target, hr.getPlayerRank(target.getUniqueId()));
+                                    new RewardUtils(nswapi).setReward(target, hr.getPlayerRank(target.getUniqueId()));
                                 } else {
                                     player.sendMessage(String.format(MessageManager.MAX_HONORRANK_OTHER.getMessage(), "HR", target.getName()));
                                 }
@@ -113,7 +120,7 @@ public class HonorRankCommand implements CommandExecutor {
                             commandSender.sendMessage(String.format(MessageManager.SUCCESS_UPGRADE.getMessage(), "HR", target.getName()));
                             target.sendMessage(String.format(MessageManager.SUCCESS_UPGRADE_OTHER.getMessage(), "HR", "Console"));
                             hr.forceUpRankPlayer(target.getUniqueId());
-                            new RewardUtils().setReward(target, hr.getPlayerRank(target.getUniqueId()));
+                            new RewardUtils(nswapi).setReward(target, hr.getPlayerRank(target.getUniqueId()));
                         } else {
                             commandSender.sendMessage(String.format(MessageManager.MAX_HONORRANK_OTHER.getMessage(), "HR", target.getName()));
                         }

@@ -19,7 +19,13 @@ import java.util.function.Supplier;
 
 public class ReportsGui implements CustomInventory {
 
+    private final NSWAPI nswapi;
+
     private boolean maskResolvedReports = false;
+
+    public ReportsGui(NSWAPI api) {
+        this.nswapi = api;
+    }
 
     @Override
     public String getName() {
@@ -77,7 +83,7 @@ public class ReportsGui implements CustomInventory {
                         return;
                     }
                 }
-                NSWAPI.getAPI().getServerHandler().getExecutor().schedule(() -> NSWCore.getGuiManager().refresh(player, this.getClass()), 250, TimeUnit.MILLISECONDS);
+                nswapi.getServerHandler().getExecutor().schedule(() -> NSWCore.getGuiManager().refresh(player, this.getClass()), 250, TimeUnit.MILLISECONDS);
             }
             case SLIME_BALL -> {
                 maskResolvedReports = !maskResolvedReports;

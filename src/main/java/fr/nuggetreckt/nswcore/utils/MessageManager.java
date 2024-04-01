@@ -18,6 +18,7 @@ public enum MessageManager {
     WAIT_BEFORE_USE("§cVeuillez patienter §3%s minute(s) §cavant de réutiliser cette commande !"),
     WAIT_BEFORE_USE_SECONDS("§cVeuillez patienter §3%s secondes(s) §cavant de réutiliser cette commande !"),
     WAIT_BEFORE_KIT("§cVeuillez patienter §3%s heures(s) §cavant de récupérer votre kit !"),
+    NO_KIT_USES_LEFT("§cVous avez utilisé toutes vos utilisations du kit !"),
     COMMAND_ONLY_AVAILABLE_FARMZONE("§cCette commande n'est disponible qu'en FarmZone !"),
     COMMAND_ONLY_AVAILABLE_SURVIVAL("§cCette commande n'est disponible qu'en serveur survie !"),
     NO_ENOUGH_HONORPOINTS("§cVous n'avez pas assez de Points d'Honneur ! §8(§3%d§8/§3%d§8)"),

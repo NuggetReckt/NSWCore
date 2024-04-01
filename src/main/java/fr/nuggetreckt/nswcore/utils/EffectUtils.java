@@ -1,8 +1,8 @@
 package fr.nuggetreckt.nswcore.utils;
 
 import com.iridium.iridiumcolorapi.IridiumColorAPI;
+import fr.noskillworld.api.NSWAPI;
 import fr.noskillworld.api.honorranks.HonorRanks;
-import fr.nuggetreckt.nswcore.NSWCore;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -14,10 +14,13 @@ import java.util.Random;
 
 public class EffectUtils {
 
+    private final NSWAPI nswapi;
+
     private final Random r;
 
-    public EffectUtils() {
-        r = new Random();
+    public EffectUtils(NSWAPI api) {
+        this.nswapi = api;
+        this.r = new Random();
     }
 
     public void teleportEffect(@NotNull Player player) {
@@ -27,7 +30,7 @@ public class EffectUtils {
 
     public void uprankEffect(@NotNull Player player) {
         //spawnParticles(player, Particle.VILLAGER_HAPPY);
-        HonorRanks rank = NSWCore.getAPI().getHonorRanksHandler().getPlayerRank(player.getUniqueId());
+        HonorRanks rank = nswapi.getHonorRanksHandler().getPlayerRank(player.getUniqueId());
         int r = 0, g = 0, b = 0;
 
         switch (rank.getRankId()) {
@@ -64,8 +67,8 @@ public class EffectUtils {
         }
         Color color = Color.fromRGB(r, g, b);
 
-        player.sendTitle(String.format("%sRang supérieur !", IridiumColorAPI.process(NSWCore.getAPI().getHonorRanksHandler().getPlayerRank(player.getUniqueId()).getColorCode())),
-                String.format("Vous êtes passé %s", NSWCore.getAPI().getHonorRanksHandler().getDisplayName(player.getUniqueId())), 10, 100, 40);
+        player.sendTitle(String.format("%sRang supérieur !", IridiumColorAPI.process(nswapi.getHonorRanksHandler().getPlayerRank(player.getUniqueId()).getColorCode())),
+                String.format("Vous êtes passé %s", nswapi.getHonorRanksHandler().getDisplayName(player.getUniqueId())), 10, 100, 40);
         spawnParticles(player, color);
         playSound(player, Sound.ENTITY_PLAYER_LEVELUP);
     }

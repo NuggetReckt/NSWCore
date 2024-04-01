@@ -1,5 +1,6 @@
 package fr.nuggetreckt.nswcore.guis;
 
+import fr.noskillworld.api.NSWAPI;
 import fr.nuggetreckt.nswcore.guis.impl.KitGui;
 import fr.nuggetreckt.nswcore.guis.impl.PlayerListGui;
 import fr.nuggetreckt.nswcore.guis.impl.ReportsGui;
@@ -12,8 +13,11 @@ import java.util.Map;
 
 public class GuiManager {
 
-    public GuiManager() {
-        registersGUI();
+    private final NSWAPI nswapi;
+
+    public GuiManager(NSWAPI api) {
+        this.nswapi = api;
+        this.registersGUI();
     }
 
     public final Map<Class<? extends CustomInventory>, CustomInventory> registeredMenus = new HashMap<>();
@@ -40,8 +44,8 @@ public class GuiManager {
     }
 
     private void registersGUI() {
-        addMenu(new KitGui());
-        addMenu(new ReportsGui());
+        addMenu(new KitGui(nswapi));
+        addMenu(new ReportsGui(nswapi));
         addMenu(new PlayerListGui());
     }
 }

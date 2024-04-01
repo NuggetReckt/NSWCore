@@ -1,7 +1,8 @@
 package fr.nuggetreckt.nswcore.utils;
 
+import fr.noskillworld.api.NSWAPI;
 import fr.noskillworld.api.reports.Report;
-import fr.nuggetreckt.nswcore.NSWCore;
+import fr.noskillworld.api.reports.ReportSortType;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -12,27 +13,13 @@ import java.util.*;
 
 public class ReportUtils {
 
-    public enum SortReport {
-        DATE_ASC("§aDate §8(§7plus vieux§8)"),
-        DATE_DESC("§aDate §8(§7plus récent§8)"),
-        PLAYER_ASC("§aNom du joueur §8(§7A > Z§8)"),
-        PLAYER_DESC("§aNom du joueur §8(§7A < Z§8)");
-
-        private final String name;
-
-        SortReport(String name) {
-            this.name = name;
-        }
-
-        public String getName() {
-            return name;
-        }
-    }
+    private final NSWAPI nswapi;
 
     private final Map<Integer, Report> reportIds;
-    private final Map<UUID, SortReport> sortReportMap;
+    private final Map<UUID, ReportSortType> sortReportMap;
 
-    public ReportUtils() {
+    public ReportUtils(NSWAPI api) {
+        this.nswapi = api;
         this.reportIds = new HashMap<>();
         this.sortReportMap = new HashMap<>();
     }
@@ -43,10 +30,10 @@ public class ReportUtils {
         initReportSort(player);
 
         switch (sortReportMap.get(player.getUniqueId())) {
-            case DATE_ASC -> reports = NSWCore.getAPI().getReportHandler().getReportsByDate();
-            case DATE_DESC -> reports = NSWCore.getAPI().getReportHandler().getReportsByDateDesc();
-            case PLAYER_ASC -> reports = NSWCore.getAPI().getReportHandler().getReportsByName();
-            case PLAYER_DESC -> reports = NSWCore.getAPI().getReportHandler().getReportsByNameDesc();
+            case DATE_ASC -> reports = nswapi.getReportHandler().getReportsByDate();
+            case DATE_DESC -> reports = nswapi.getReportHandler().getReportsByDateDesc();
+            case PLAYER_ASC -> reports = nswapi.getReportHandler().getReportsByName();
+            case PLAYER_DESC -> reports = nswapi.getReportHandler().getReportsByNameDesc();
         }
         if (maskResolvedReports) {
             reports = reports.stream().filter(report -> !report.isResolved()).toList();
@@ -83,14 +70,14 @@ public class ReportUtils {
     }
 
     public void deleteReport(@NotNull Report report) {
-        NSWCore.getAPI().getReportHandler().deleteReport(report.getId());
+        nswapi.getReportHandler().deleteReport(report.getId());
     }
 
     public void markReportResolved(@NotNull Report report) {
         if (!report.isResolved()) {
-            NSWCore.getAPI().getReportHandler().markReportAsResolved(report.getId());
+            nswapi.getReportHandler().markReportAsResolved(report.getId());
         } else {
-            NSWCore.getAPI().getReportHandler().markReportAsUnresolved(report.getId());
+            nswapi.getReportHandler().markReportAsUnresolved(report.getId());
         }
     }
 
@@ -106,17 +93,17 @@ public class ReportUtils {
         }
     }
 
-    public SortReport getCurrentSortReport(@NotNull Player player) {
+    public ReportSortType getCurrentSortReport(@NotNull Player player) {
         return sortReportMap.get(player.getUniqueId());
     }
 
     public void initReportSort(@NotNull Player player) {
-        sortReportMap.putIfAbsent(player.getUniqueId(), SortReport.DATE_ASC);
+        sortReportMap.putIfAbsent(player.getUniqueId(), ReportSortType.DATE_ASC);
     }
 
     public void toggleReportSort(@NotNull Player player) {
-        SortReport current = getCurrentSortReport(player);
-        SortReport[] values = SortReport.values();
+        ReportSortType current = getCurrentSortReport(player);
+        ReportSortType[] values = ReportSortType.values();
 
         if (current == values[values.length - 1]) {
             sortReportMap.replace(player.getUniqueId(), values[0]);
