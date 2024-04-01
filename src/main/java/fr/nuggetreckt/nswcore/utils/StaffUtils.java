@@ -153,15 +153,4 @@ public class StaffUtils {
         return isFrozen.get(player.getUniqueId());
     }
 
-    public void restoreStaffData() {
-        if (Bukkit.getOnlinePlayers().isEmpty()) return;
-
-        for (UUID uuid : isStaffMode.keySet()) {
-            Player player = NSWCore.getInstance().getPlayerByUuid(uuid);
-
-            if (isStaffMode(player)) {
-                toggleStaffMode(player);
-            }
-        }
-    }
 }

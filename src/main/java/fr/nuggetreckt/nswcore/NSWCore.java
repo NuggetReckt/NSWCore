@@ -143,7 +143,6 @@ public class NSWCore extends JavaPlugin {
     public void onDisable() {
         getSaver().saveAllPlayerData();
         getSaver().saveAllPlayerStats();
-        getStaffUtils().restoreStaffData();
         saveTask.stop();
         getAPI().getDatabaseManager().getConnector().close();
         instance = null;
