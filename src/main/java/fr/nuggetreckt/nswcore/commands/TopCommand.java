@@ -59,6 +59,9 @@ public class TopCommand implements CommandExecutor {
         for (int i = 457; i > blockY; i--) {
             block = target.getWorld().getBlockAt(blockX, i, blockZ);
 
+            if (target.getWorld().getName().contains("nether") && i >= 127) {
+                continue;
+            }
             if (teleportUtils.isValid(block)) {
                 target.sendMessage(String.format(MessageManager.PRE_TP.getMessage(), "TP"));
                 teleportUtils.setTeleports(target, true);

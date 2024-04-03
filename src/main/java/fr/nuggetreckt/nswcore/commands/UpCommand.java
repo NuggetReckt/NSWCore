@@ -59,6 +59,9 @@ public class UpCommand implements CommandExecutor {
         for (int i = blockY; i < 457; i++) {
             block = target.getWorld().getBlockAt(blockX, i, blockZ);
 
+            if (target.getWorld().getName().contains("nether") && i >= 127) {
+                break;
+            }
             if (teleportUtils.isValid(block)) {
                 target.sendMessage(String.format(MessageManager.PRE_TP.getMessage(), "TP"));
                 teleportUtils.setTeleports(target, true);

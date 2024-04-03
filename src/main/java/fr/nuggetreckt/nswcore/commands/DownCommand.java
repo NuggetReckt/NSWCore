@@ -74,7 +74,6 @@ public class DownCommand implements CommandExecutor {
                 NSWCore.getInstance().setBukkitTask(task);
                 return;
             }
-
         }
         target.sendMessage(String.format(MessageManager.PLAYER_NOT_TP.getMessage(), "TP"));
     }
