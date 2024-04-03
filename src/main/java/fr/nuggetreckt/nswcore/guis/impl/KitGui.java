@@ -69,7 +69,7 @@ public class KitGui implements CustomInventory {
             NSWPlayer nswPlayer = new NSWPlayer(player.getName(), player.getUniqueId());
             int kitUses = nswapi.getDatabaseManager().getRequestSender().getKitUses(nswPlayer);
 
-            if (kitUses > 2) {
+            if (kitUses >= 2) {
                 player.sendMessage(String.format(MessageManager.NO_KIT_USES_LEFT.getMessage(), "Kit"));
                 player.closeInventory();
                 return;
