@@ -65,10 +65,13 @@ public class RewardUtils {
             case Rank_2 -> {
                 rewardsList.add("1000 NSc");
                 rewardsList.add("Accès aux commandes /top et /bottom");
+                rewardsList.add("Accès aux commandes /itf toggle visibility et /itf toggle glow");
             }
             case Rank_3 -> {
                 rewardsList.add("2000 NSc");
                 rewardsList.add("Accès aux commandes /up et /down");
+                rewardsList.add("Accès à la commande /itf togglemode");
+                rewardsList.add("Accès à la commande /itf scan");
             }
             case Rank_4 -> {
                 rewardsList.add("5000 NSc");
