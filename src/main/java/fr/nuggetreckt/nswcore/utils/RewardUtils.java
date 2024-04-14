@@ -19,16 +19,24 @@ public class RewardUtils {
 
     public void setReward(Player player, @NotNull HonorRanks rank) {
         switch (rank) {
-            case Rank_1 -> NSWCore.getEconomy().depositPlayer(player, 500.0);
+            case Rank_1 -> {
+                NSWCore.getEconomy().depositPlayer(player, 500.0);
+                NSWCore.getLuckPermsUtils().setPermission(player, "invisibleitemframes.command.toggle.visibility");
+                NSWCore.getLuckPermsUtils().setPermission(player, "invisibleitemframes.command.toggle.glow");
+            }
             case Rank_2 -> {
                 NSWCore.getEconomy().depositPlayer(player, 1000.0);
                 NSWCore.getLuckPermsUtils().setPermission(player, "nsw.command.top");
                 NSWCore.getLuckPermsUtils().setPermission(player, "nsw.command.bottom");
+                NSWCore.getLuckPermsUtils().setPermission(player, "invisibleitemframes.command.togglemode.visibility");
+                NSWCore.getLuckPermsUtils().setPermission(player, "invisibleitemframes.command.togglemode.glow");
+
             }
             case Rank_3 -> {
                 NSWCore.getEconomy().depositPlayer(player, 2000.0);
                 NSWCore.getLuckPermsUtils().setPermission(player, "nsw.command.up");
                 NSWCore.getLuckPermsUtils().setPermission(player, "nsw.command.down");
+                NSWCore.getLuckPermsUtils().setPermission(player, "invisibleitemframes.command.scan");
             }
             case Rank_4 -> {
                 NSWCore.getEconomy().depositPlayer(player, 5000.0);
