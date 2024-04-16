@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -78,6 +79,17 @@ public class StaffEventsListener implements Listener {
 
         if (staffUtils.isStaffMode(player)) {
             staffUtils.toggleStaffMode(player);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerWorldChange(@NotNull PlayerChangedWorldEvent event) {
+        Player player = event.getPlayer();
+
+        if (!NSWCore.getInstance().isStaff(player)) return;
+
+        if (staffUtils.isStaffMode(player)) {
+            player.setFlying(true);
         }
     }
 
