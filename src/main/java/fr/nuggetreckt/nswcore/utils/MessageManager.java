@@ -105,7 +105,7 @@ public enum MessageManager {
              §8| §3/jobs leaderboard §8(§fAffiche un classement des 20 premiers joueurs§8)§r
              
             §fInfos :
-             §8| §fWiki des jobs §8§l»§r §3§nhttps://play.noskillworld.fr/wiki/jobs.php§r
+             §8| §fWiki des jobs §8§l»§r §3§nhttps://play.noskillworld.fr/wiki/jobs§r
             """),
     OTHER_HELP("""
             §fCommandes :
@@ -113,6 +113,9 @@ public enum MessageManager {
              §8| §3/tpa <joueur> §8(§fEnvoie une demande de téléportation à un joueur§8)§r
              §8| §3/<cmd> §8(§f<desc>§8)§r
              ...
+             
+            §fInfos :
+             §8| §fWiki §8§l»§r §3§nhttps://play.noskillworld.fr/wiki§r
             """), //A CONTINUER
     LINKS_HELP("""
             §fLiens utiles :
