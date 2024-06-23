@@ -52,10 +52,5 @@ public class OnLeaveListener implements Listener {
             }
             NSWCore.getInstance().getLogger().info("\033[0;36mLe joueur \033[0;31m" + player.getName() + "\033[0;36m s'est déconnecté en étant freeze.\033[0m");
         }
-        if (NSWCore.getInstance().isStaff(player)) {
-            if (staffUtils.isStaffMode(player)) {
-                staffUtils.toggleStaffMode(player);
-            }
-        }
     }
 }

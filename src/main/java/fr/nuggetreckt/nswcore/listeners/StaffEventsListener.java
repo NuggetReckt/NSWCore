@@ -8,6 +8,7 @@ import fr.nuggetreckt.nswcore.utils.StaffUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
@@ -71,7 +72,7 @@ public class StaffEventsListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerLeave(@NotNull PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
@@ -82,7 +83,7 @@ public class StaffEventsListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerWorldChange(@NotNull PlayerChangedWorldEvent event) {
         Player player = event.getPlayer();
 
