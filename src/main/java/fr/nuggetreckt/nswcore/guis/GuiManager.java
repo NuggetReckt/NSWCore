@@ -1,9 +1,7 @@
 package fr.nuggetreckt.nswcore.guis;
 
 import fr.noskillworld.api.NSWAPI;
-import fr.nuggetreckt.nswcore.guis.impl.KitGui;
-import fr.nuggetreckt.nswcore.guis.impl.PlayerListGui;
-import fr.nuggetreckt.nswcore.guis.impl.ReportsGui;
+import fr.nuggetreckt.nswcore.guis.impl.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -45,6 +43,9 @@ public class GuiManager {
 
     private void registersGUI() {
         addMenu(new KitGui(nswapi));
+        addMenu(new HonorRankGui());
+        addMenu(new ProgressHRGui(nswapi));
+        addMenu(new RewardsHRGui(nswapi));
         addMenu(new ReportsGui(nswapi));
         addMenu(new PlayerListGui());
     }

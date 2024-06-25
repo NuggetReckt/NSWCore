@@ -230,7 +230,7 @@ public class NSWCore extends JavaPlugin {
         return economy;
     }
 
-    public static NSWAPI getAPI() {
+    public NSWAPI getAPI() {
         return nswapi;
     }
 

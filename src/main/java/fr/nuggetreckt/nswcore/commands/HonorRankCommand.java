@@ -30,6 +30,7 @@ public class HonorRankCommand implements CommandExecutor {
 
             if (args.length == 0) {
                 player.sendMessage(String.format(MessageManager.HONORRANKS_RANKLIST.getMessage(), "HR", hr.getRanks(player.getUniqueId())));
+                //NSWCore.getGuiManager().open(player, HonorRankGui.class);
             } else {
                 if (args[0].equalsIgnoreCase("rank")) {
                     player.sendMessage(String.format(MessageManager.HONORRANKS_RANK.getMessage(), "HR", hr.getDisplayName(player.getUniqueId())));
