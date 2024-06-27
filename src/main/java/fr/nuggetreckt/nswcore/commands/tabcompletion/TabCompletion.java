@@ -19,10 +19,9 @@ public class TabCompletion implements TabCompleter {
             List<String> subCommands = new ArrayList<>();
 
             if (args.length == 1) {
-                subCommands.add("rank");
+                subCommands.add("ranks");
                 subCommands.add("points");
                 subCommands.add("info");
-                subCommands.add("upgrade");
                 if (player.hasPermission("nsw.commands.admin")) {
                     subCommands.add("admin");
                 }
