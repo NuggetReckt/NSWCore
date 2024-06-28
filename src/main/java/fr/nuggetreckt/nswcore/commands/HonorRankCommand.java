@@ -3,6 +3,7 @@ package fr.nuggetreckt.nswcore.commands;
 import fr.noskillworld.api.NSWAPI;
 import fr.noskillworld.api.honorranks.impl.HonorRanksHandlerImpl;
 import fr.nuggetreckt.nswcore.NSWCore;
+import fr.nuggetreckt.nswcore.guis.impl.HonorRankGui;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
 import fr.nuggetreckt.nswcore.utils.RewardUtils;
 import org.bukkit.command.Command;
@@ -29,10 +30,10 @@ public class HonorRankCommand implements CommandExecutor {
             Player player = (Player) commandSender;
 
             if (args.length == 0) {
-                player.sendMessage(String.format(MessageManager.HONORRANKS_RANKLIST.getMessage(), "HR", hr.getRanks(player.getUniqueId())));
+                NSWCore.getGuiManager().open(player, HonorRankGui.class);
             } else {
-                if (args[0].equalsIgnoreCase("rank")) {
-                    player.sendMessage(String.format(MessageManager.HONORRANKS_RANK.getMessage(), "HR", hr.getDisplayName(player.getUniqueId())));
+                if (args[0].equalsIgnoreCase("ranks")) {
+                    player.sendMessage(String.format(MessageManager.HONORRANKS_RANKLIST.getMessage(), "HR", hr.getRanks(player.getUniqueId())));
                 } else if (args[0].equalsIgnoreCase("points")) {
                     player.sendMessage(String.format(MessageManager.HONORRANKS_POINTS.getMessage(), "HR", hr.getPlayerPoints(player.getUniqueId())));
                 } else if (args[0].equalsIgnoreCase("info")) {
@@ -42,18 +43,6 @@ public class HonorRankCommand implements CommandExecutor {
                                 hr.getPlayerPoints(player.getUniqueId()), hr.getPointsNeeded(player.getUniqueId())));
                     } else {
                         player.sendMessage(String.format(MessageManager.HONORRANKS_RANKINFO_MAX.getMessage(), "HR", hr.getPlayerRankFormat(player.getUniqueId())));
-                    }
-                } else if (args[0].equalsIgnoreCase("upgrade")) {
-                    if (hr.getNextPlayerRank(player.getUniqueId()) != null) {
-                        if (hr.getPlayerPoints(player.getUniqueId()) >= hr.getPointsNeeded(player.getUniqueId())) {
-                            hr.upRankPlayer(player.getUniqueId());
-                            NSWCore.getEffectUtils().uprankEffect(player);
-                            new RewardUtils(nswapi).setReward(player, hr.getPlayerRank(player.getUniqueId()));
-                        } else {
-                            player.sendMessage(String.format(MessageManager.NO_ENOUGH_HONORPOINTS.getMessage(), "HR", hr.getPlayerPoints(player.getUniqueId()), hr.getPointsNeeded(player.getUniqueId())));
-                        }
-                    } else {
-                        player.sendMessage(String.format(MessageManager.MAX_HONORRANK.getMessage(), "HR", hr.getRankFormat(hr.getPlayerRank(player.getUniqueId()))));
                     }
                 } else if (args[0].equalsIgnoreCase("admin") && args.length > 1) {
                     if (player.hasPermission("nsw.commands.admin")) {
