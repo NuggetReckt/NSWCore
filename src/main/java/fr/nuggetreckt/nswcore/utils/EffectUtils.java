@@ -70,7 +70,11 @@ public class EffectUtils {
         player.sendTitle(String.format("%sRang supérieur !", IridiumColorAPI.process(nswapi.getHonorRanksHandler().getPlayerRank(player.getUniqueId()).getColorCode())),
                 String.format("Vous êtes passé %s", nswapi.getHonorRanksHandler().getDisplayName(player.getUniqueId())), 10, 100, 40);
         spawnParticles(player, color);
-        playSound(player, Sound.ENTITY_PLAYER_LEVELUP);
+        if (rank == HonorRanks.values()[HonorRanks.values().length - 1]) {
+            playSound(player, Sound.UI_TOAST_CHALLENGE_COMPLETE);
+        } else {
+            playSound(player, Sound.ENTITY_PLAYER_LEVELUP);
+        }
     }
 
     public void gainPointsEffect(@NotNull Player player) {

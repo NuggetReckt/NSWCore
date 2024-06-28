@@ -108,7 +108,11 @@ public class ProgressHRGui implements CustomInventory {
                 tmp = new ItemUtils(Material.GRAY_STAINED_GLASS_PANE).setName("§8§l»§r §fRang " + hr.getRankFormat(rank) + " §8§l«").setLore(" ", " §8|§f §3" + rank.getHonorPoints() + "§f Points d'Honneur requis").hideFlags().toItemStack();
             }
             if (rank == HonorRanks.values()[HonorRanks.values().length - 1]) {
-                tmp.setType(Material.MAGENTA_STAINED_GLASS_PANE);
+                if (hr.getNextPlayerRank(player.getUniqueId()) == rank) {
+                    tmp.setType(Material.YELLOW_STAINED_GLASS_PANE);
+                } else {
+                    tmp.setType(Material.MAGENTA_STAINED_GLASS_PANE);
+                }
                 slots[current + 1] = tmp;
             } else {
                 slots[current] = tmp;
