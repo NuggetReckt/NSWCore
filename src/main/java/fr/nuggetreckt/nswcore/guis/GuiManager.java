@@ -43,7 +43,7 @@ public class GuiManager {
 
     private void registersGUI() {
         addMenu(new KitGui(nswapi));
-        addMenu(new HonorRankGui());
+        addMenu(new HonorRankGui(nswapi));
         addMenu(new ProgressHRGui(nswapi));
         addMenu(new RewardsHRGui(nswapi));
         addMenu(new ReportsGui(nswapi));

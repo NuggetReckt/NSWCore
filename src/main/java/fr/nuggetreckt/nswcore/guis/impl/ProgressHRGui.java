@@ -38,10 +38,14 @@ public class ProgressHRGui implements CustomInventory {
     public Supplier<ItemStack[]> getContents(Player player) {
         //Progress items
         ItemStack[] slots = getProgressItems(player);
+        HonorRanksHandlerImpl hr = nswapi.getHonorRanksHandler();
 
         //Utils
         slots[39] = new ItemUtils(Material.ARROW).setName("§8§l»§r §3Retour §8§l«").hideFlags().setLore(" ", "§8| §fRetourne au menu principal").toItemStack();
         slots[40] = new ItemUtils(Material.BARRIER).setName("§8§l»§r §3Fermer §8§l«").hideFlags().setLore(" ", "§8| §fFerme le menu").toItemStack();
+        slots[42] = new ItemUtils(Material.LANTERN).setName("§8§l»§r §3Infos §8§l«").hideFlags()
+                .setLore(" ", "§8| §fVous êtes rang " + hr.getPlayerRankFormat(player.getUniqueId()), "§8| §fVous avez §3" + hr.getPlayerPoints(player.getUniqueId()) + " §fPoints d'Honneur")
+                .toItemStack();
 
         //Placeholders
         slots[0] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").toItemStack();
@@ -87,7 +91,7 @@ public class ProgressHRGui implements CustomInventory {
         }
     }
 
-    private ItemStack[] getProgressItems(Player player) {
+    private ItemStack @NotNull [] getProgressItems(Player player) {
         ItemStack[] slots = new ItemStack[getSlots()];
         HonorRanksHandlerImpl hr = nswapi.getHonorRanksHandler();
         int current = 19;

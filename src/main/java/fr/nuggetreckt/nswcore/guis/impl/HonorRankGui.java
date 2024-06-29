@@ -1,5 +1,7 @@
 package fr.nuggetreckt.nswcore.guis.impl;
 
+import fr.noskillworld.api.NSWAPI;
+import fr.noskillworld.api.honorranks.impl.HonorRanksHandlerImpl;
 import fr.nuggetreckt.nswcore.NSWCore;
 import fr.nuggetreckt.nswcore.guis.CustomInventory;
 import fr.nuggetreckt.nswcore.utils.ItemUtils;
@@ -13,6 +15,12 @@ import java.util.function.Supplier;
 
 public class HonorRankGui implements CustomInventory {
 
+    private final NSWAPI nswapi;
+
+    public HonorRankGui(NSWAPI api) {
+        this.nswapi = api;
+    }
+
     @Override
     public String getName() {
         return "§8§l»§r §3Honneur §8§l«§r §8(§fMenu§8)";
@@ -24,12 +32,15 @@ public class HonorRankGui implements CustomInventory {
     }
 
     @Override
-    public Supplier<ItemStack[]> getContents(Player player) {
+    public Supplier<ItemStack[]> getContents(@NotNull Player player) {
         ItemStack[] slots = new ItemStack[getSlots()];
+        HonorRanksHandlerImpl hr = nswapi.getHonorRanksHandler();
 
         //Sub menus
         slots[20] = new ItemUtils(Material.NETHER_STAR).setName("§8§l»§r §3Progression §8§l«").hideFlags().setLore(" ", "§8| §fAffiche ta progression", "§f dans les Rangs d'Honneur").toItemStack();
-        slots[22] = new ItemUtils(Material.COMPASS).setName("§8§l»§r §3Infos §8§l«").hideFlags().setLore(" ", "§8| §fAffiche les infos", "§f de ton rang actuel").toItemStack();
+        slots[22] = new ItemUtils(Material.COMPASS).setName("§8§l»§r §3Infos §8§l«").hideFlags()
+                .setLore(" ", "§8| §fRang actuel : §r" + hr.getPlayerRankFormat(player.getUniqueId()), "§8| §fPoints d'Honneur : §3" + hr.getPlayerPoints(player.getUniqueId()))
+                .toItemStack();
         slots[24] = new ItemUtils(Material.DIAMOND).setName("§8§l»§r §3Récompenses §8§l«").hideFlags().setLore(" ", "§8| §fAffiche tes récompenses d'uprank").toItemStack();
 
         //Utils
@@ -69,7 +80,6 @@ public class HonorRankGui implements CustomInventory {
                 player.closeInventory();
                 NSWCore.getGuiManager().open(player, RewardsHRGui.class);
             }
-            case COMPASS -> player.sendMessage("Infos");
         }
     }
 }

@@ -109,7 +109,7 @@ public class EffectUtils {
         }
     }
 
-    private void playSound(@NotNull Player player, Sound sound) {
+    public void playSound(@NotNull Player player, Sound sound) {
         player.playSound(player, sound, 15, 1);
     }
 }

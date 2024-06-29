@@ -1,10 +1,12 @@
 package fr.nuggetreckt.nswcore.guis.impl;
 
 import fr.noskillworld.api.NSWAPI;
+import fr.noskillworld.api.honorranks.impl.HonorRanksHandlerImpl;
 import fr.nuggetreckt.nswcore.NSWCore;
 import fr.nuggetreckt.nswcore.guis.CustomInventory;
 import fr.nuggetreckt.nswcore.utils.ItemUtils;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -31,14 +33,18 @@ public class RewardsHRGui implements CustomInventory {
     }
 
     @Override
-    public Supplier<ItemStack[]> getContents(Player player) {
+    public Supplier<ItemStack[]> getContents(@NotNull Player player) {
         ItemStack[] slots = new ItemStack[getSlots()];
+        HonorRanksHandlerImpl hr = nswapi.getHonorRanksHandler();
 
         //Reward items
+        slots[13] = new ItemUtils(Material.PUFFERFISH).setName("§8§l»§r §3Soon §8§l«").hideFlags().setLore(" ", "§8| §fFonctionnalité à venir...").toItemStack();
 
         //Utils
         slots[21] = new ItemUtils(Material.ARROW).setName("§8§l»§r §3Retour §8§l«").hideFlags().setLore(" ", "§8| §fRetourne au menu principal").toItemStack();
         slots[22] = new ItemUtils(Material.BARRIER).setName("§8§l»§r §3Fermer §8§l«").hideFlags().setLore(" ", "§8| §fFerme le menu").toItemStack();
+        slots[24] = new ItemUtils(Material.LANTERN).setName("§8§l»§r §3Infos §8§l«").hideFlags()
+                .setLore(" ", "§8| §fVous êtes rang " + hr.getPlayerRankFormat(player.getUniqueId()), "§8| §fVous avez §3" + hr.getPlayerPoints(player.getUniqueId()) + " §fPoints d'Honneur").toItemStack();
 
         //Placeholders
         slots[0] = new ItemUtils(Material.LIGHT_BLUE_STAINED_GLASS_PANE).setName(" ").toItemStack();
@@ -63,6 +69,7 @@ public class RewardsHRGui implements CustomInventory {
                 player.closeInventory();
                 NSWCore.getGuiManager().open(player, HonorRankGui.class);
             }
+            case PUFFERFISH -> NSWCore.getEffectUtils().playSound(player, Sound.ENTITY_PUFFER_FISH_BLOW_UP);
         }
     }
 }
