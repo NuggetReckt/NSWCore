@@ -2,16 +2,18 @@ package fr.nuggetreckt.nswcore.guis.impl;
 
 import fr.noskillworld.api.NSWAPI;
 import fr.noskillworld.api.honorranks.impl.HonorRanksHandlerImpl;
+import fr.noskillworld.api.honorranks.rewards.HonorRankReward;
+import fr.noskillworld.api.honorranks.rewards.RewardHandler;
 import fr.nuggetreckt.nswcore.NSWCore;
 import fr.nuggetreckt.nswcore.guis.CustomInventory;
 import fr.nuggetreckt.nswcore.utils.ItemUtils;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 public class RewardsHRGui implements CustomInventory {
@@ -36,9 +38,16 @@ public class RewardsHRGui implements CustomInventory {
     public Supplier<ItemStack[]> getContents(@NotNull Player player) {
         ItemStack[] slots = new ItemStack[getSlots()];
         HonorRanksHandlerImpl hr = nswapi.getHonorRanksHandler();
+        RewardHandler rewardHandler = nswapi.getRewardHandler();
+        List<HonorRankReward> rewards = rewardHandler.rankRewards.get(hr.getPlayerRank(player.getUniqueId()));
+        int slot = 11;
 
         //Reward items
-        slots[13] = new ItemUtils(Material.PUFFERFISH).setName("§8§l»§r §3Soon §8§l«").hideFlags().setLore(" ", "§8| §fFonctionnalité à venir...").toItemStack();
+        for (HonorRankReward reward : rewards) {
+            slots[slot] = new ItemUtils(Material.PAPER).setName(reward.getName()).hideFlags().setLore(" ", " §8| §f" + reward.getReward().toString()).toItemStack();
+            slot++;
+        }
+        //slots[13] = new ItemUtils(Material.PUFFERFISH).setName("§8§l»§r §3Soon §8§l«").hideFlags().setLore(" ", "§8| §fFonctionnalité à venir...").toItemStack();
 
         //Utils
         slots[21] = new ItemUtils(Material.ARROW).setName("§8§l»§r §3Retour §8§l«").hideFlags().setLore(" ", "§8| §fRetourne au menu principal").toItemStack();
@@ -69,7 +78,6 @@ public class RewardsHRGui implements CustomInventory {
                 player.closeInventory();
                 NSWCore.getGuiManager().open(player, HonorRankGui.class);
             }
-            case PUFFERFISH -> NSWCore.getEffectUtils().playSound(player, Sound.ENTITY_PUFFER_FISH_BLOW_UP);
         }
     }
 }
