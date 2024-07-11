@@ -7,21 +7,29 @@ import fr.noskillworld.api.honorranks.rewards.RewardHandler;
 import fr.nuggetreckt.nswcore.NSWCore;
 import fr.nuggetreckt.nswcore.guis.CustomInventory;
 import fr.nuggetreckt.nswcore.utils.ItemUtils;
+import fr.nuggetreckt.nswcore.utils.MessageManager;
+import fr.nuggetreckt.nswcore.utils.RewardUtils;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 public class RewardsHRGui implements CustomInventory {
+
+    private final HashMap<Integer, HonorRankReward> rewardsSlots;
 
     private final NSWAPI nswapi;
 
     public RewardsHRGui(NSWAPI api) {
         this.nswapi = api;
+        this.rewardsSlots = new HashMap<>();
     }
 
     @Override
@@ -42,9 +50,12 @@ public class RewardsHRGui implements CustomInventory {
         List<HonorRankReward> rewards = rewardHandler.rankRewards.get(hr.getPlayerRank(player.getUniqueId()));
         int slot = 11;
 
+        rewardsSlots.clear();
+
         //Reward items
         for (HonorRankReward reward : rewards) {
-            slots[slot] = new ItemUtils(Material.PAPER).setName(reward.getName()).hideFlags().setLore(" ", " §8| §f" + reward.getReward().toString()).toItemStack();
+            slots[slot] = new ItemUtils(Material.PAPER).setName(reward.getName()).addEnchant(Enchantment.MENDING, 1).hideFlags().setLore(" ", " §8| §f" + reward.getReward().toString()).toItemStack();
+            rewardsSlots.put(slot, reward);
             slot++;
         }
         //slots[13] = new ItemUtils(Material.PUFFERFISH).setName("§8§l»§r §3Soon §8§l«").hideFlags().setLore(" ", "§8| §fFonctionnalité à venir...").toItemStack();
@@ -78,6 +89,25 @@ public class RewardsHRGui implements CustomInventory {
                 player.closeInventory();
                 NSWCore.getGuiManager().open(player, HonorRankGui.class);
             }
+            default -> {
+                if (!isClickable(clickedItem)) return;
+                RewardHandler rewardHandler = nswapi.getRewardHandler();
+                HonorRankReward reward = rewardsSlots.get(slot);
+
+                if (reward == null) return;
+                if (rewardHandler.hasClaimedReward(player.getUniqueId(), reward)) {
+                    player.sendMessage(String.format(MessageManager.REWARD_ALREADY_CLAIMED.getMessage(), "HR"));
+                    return;
+                }
+                rewardHandler.setRewardClaimed(player.getUniqueId(), reward);
+                RewardUtils.claimReward(player, reward);
+                NSWCore.getGuiManager().refresh(player, this.getClass());
+            }
         }
+    }
+
+    private boolean isClickable(@NotNull ItemStack clickedItem) {
+        if (clickedItem.getType() == Material.AIR) return false;
+        return clickedItem.getType() != Material.LIGHT_BLUE_STAINED_GLASS_PANE && !Objects.requireNonNull(clickedItem.getItemMeta()).getDisplayName().equals(" ");
     }
 }

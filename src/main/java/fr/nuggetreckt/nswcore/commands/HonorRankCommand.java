@@ -5,7 +5,6 @@ import fr.noskillworld.api.honorranks.impl.HonorRanksHandlerImpl;
 import fr.nuggetreckt.nswcore.NSWCore;
 import fr.nuggetreckt.nswcore.guis.impl.HonorRankGui;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
-import fr.nuggetreckt.nswcore.utils.RewardUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -69,7 +68,6 @@ public class HonorRankCommand implements CommandExecutor {
                                     target.sendMessage(String.format(MessageManager.SUCCESS_UPGRADE_OTHER.getMessage(), "HR", player.getName()));
                                     hr.forceUpRankPlayer(target.getUniqueId());
                                     NSWCore.getEffectUtils().uprankEffect(player);
-                                    new RewardUtils(nswapi).setReward(target, hr.getPlayerRank(target.getUniqueId()));
                                 } else {
                                     player.sendMessage(String.format(MessageManager.MAX_HONORRANK_OTHER.getMessage(), "HR", target.getName()));
                                 }
@@ -109,7 +107,6 @@ public class HonorRankCommand implements CommandExecutor {
                             commandSender.sendMessage(String.format(MessageManager.SUCCESS_UPGRADE.getMessage(), "HR", target.getName()));
                             target.sendMessage(String.format(MessageManager.SUCCESS_UPGRADE_OTHER.getMessage(), "HR", "Console"));
                             hr.forceUpRankPlayer(target.getUniqueId());
-                            new RewardUtils(nswapi).setReward(target, hr.getPlayerRank(target.getUniqueId()));
                         } else {
                             commandSender.sendMessage(String.format(MessageManager.MAX_HONORRANK_OTHER.getMessage(), "HR", target.getName()));
                         }

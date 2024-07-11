@@ -7,7 +7,6 @@ import fr.nuggetreckt.nswcore.NSWCore;
 import fr.nuggetreckt.nswcore.guis.CustomInventory;
 import fr.nuggetreckt.nswcore.utils.ItemUtils;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
-import fr.nuggetreckt.nswcore.utils.RewardUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -80,7 +79,6 @@ public class ProgressHRGui implements CustomInventory {
                         player.closeInventory();
                         hr.upRankPlayer(player.getUniqueId());
                         NSWCore.getEffectUtils().uprankEffect(player);
-                        new RewardUtils(nswapi).setReward(player, hr.getPlayerRank(player.getUniqueId()));
                     } else {
                         player.sendMessage(String.format(MessageManager.NO_ENOUGH_HONORPOINTS.getMessage(), "HR", hr.getPlayerPoints(player.getUniqueId()), hr.getPointsNeeded(player.getUniqueId())));
                     }

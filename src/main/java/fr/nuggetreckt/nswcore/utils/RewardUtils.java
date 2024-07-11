@@ -1,96 +1,20 @@
 package fr.nuggetreckt.nswcore.utils;
 
-import fr.noskillworld.api.NSWAPI;
-import fr.noskillworld.api.honorranks.HonorRanks;
+import fr.noskillworld.api.honorranks.rewards.HonorRankReward;
 import fr.nuggetreckt.nswcore.NSWCore;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class RewardUtils {
 
-    private final NSWAPI nswapi;
+    public static void claimReward(Player player, HonorRankReward reward) {
+        if (reward == null) return;
 
-    public RewardUtils(NSWAPI api) {
-        this.nswapi = api;
-    }
-
-    public void setReward(Player player, @NotNull HonorRanks rank) {
-        switch (rank) {
-            case Rank_1 -> {
-                NSWCore.getEconomy().depositPlayer(player, 500.0);
-                NSWCore.getLuckPermsUtils().setPermission(player, "invisibleitemframes.command.toggle.visibility");
-                NSWCore.getLuckPermsUtils().setPermission(player, "invisibleitemframes.command.toggle.glow");
-            }
-            case Rank_2 -> {
-                NSWCore.getEconomy().depositPlayer(player, 1000.0);
-                NSWCore.getLuckPermsUtils().setPermission(player, "nsw.command.top");
-                NSWCore.getLuckPermsUtils().setPermission(player, "nsw.command.bottom");
-                NSWCore.getLuckPermsUtils().setPermission(player, "invisibleitemframes.command.togglemode.visibility");
-                NSWCore.getLuckPermsUtils().setPermission(player, "invisibleitemframes.command.togglemode.glow");
-
-            }
-            case Rank_3 -> {
-                NSWCore.getEconomy().depositPlayer(player, 2000.0);
-                NSWCore.getLuckPermsUtils().setPermission(player, "nsw.command.up");
-                NSWCore.getLuckPermsUtils().setPermission(player, "nsw.command.down");
-                NSWCore.getLuckPermsUtils().setPermission(player, "invisibleitemframes.command.scan");
-            }
-            case Rank_4 -> {
-                NSWCore.getEconomy().depositPlayer(player, 5000.0);
-                NSWCore.getLuckPermsUtils().setPermission(player, "nsw.command.craft");
-            }
-            case Rank_5 -> {
-                NSWCore.getEconomy().depositPlayer(player, 8000.0);
-                NSWCore.getLuckPermsUtils().setPermission(player, "nsw.command.ec");
-            }
-            case Rank_6 -> {
-                NSWCore.getEconomy().depositPlayer(player, 10000.0);
-                // /back
-                NSWCore.getLuckPermsUtils().setPermission(player, "nsw.command.furnace");
-            }
+        switch (reward.getRewardType()) {
+            case COMMAND, PERMISSION -> NSWCore.getLuckPermsUtils().setPermission(player, (String) reward.getReward());
+            case NS_COINS -> NSWCore.getEconomy().depositPlayer(player, (long) reward.getReward());
         }
-        player.sendMessage(String.format(MessageManager.HONORANKS_UPRANK_REWARDS.getMessage(), "HR",
-                nswapi.getHonorRanksHandler().getPlayerRankFormat(player.getUniqueId()), getRewards(rank)));
-    }
-
-    private @NotNull String getRewards(@NotNull HonorRanks rank) {
-        List<String> rewardsList = new ArrayList<>();
-        StringBuilder sb = new StringBuilder();
-
-        switch (rank) {
-            case Rank_1 -> rewardsList.add("500 NSc");
-            case Rank_2 -> {
-                rewardsList.add("1000 NSc");
-                rewardsList.add("Accès aux commandes /top et /bottom");
-                rewardsList.add("Accès aux commandes /itf toggle visibility et /itf toggle glow");
-            }
-            case Rank_3 -> {
-                rewardsList.add("2000 NSc");
-                rewardsList.add("Accès aux commandes /up et /down");
-                rewardsList.add("Accès à la commande /itf togglemode");
-                rewardsList.add("Accès à la commande /itf scan");
-            }
-            case Rank_4 -> {
-                rewardsList.add("5000 NSc");
-                rewardsList.add("Accès à la commande /craft");
-            }
-            case Rank_5 -> {
-                rewardsList.add("8000 NSc");
-                rewardsList.add("Accès à la commande /ec");
-            }
-            case Rank_6 -> {
-                rewardsList.add("10000 NSc");
-                rewardsList.add("Accès à la commande /furnace");
-            }
-        }
-        sb.append("§fVoici vos récompenses : \n");
-
-        for (String i : rewardsList) {
-            sb.append(" §8|§f ").append(i).append("\n");
-        }
-        return sb.toString();
+        player.sendMessage(String.format(MessageManager.REWARD_CLAIMED.getMessage(), "HR", reward.getName()));
+        NSWCore.getEffectUtils().playSound(player, Sound.BLOCK_AMETHYST_BLOCK_BREAK);
     }
 }

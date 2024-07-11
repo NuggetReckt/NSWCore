@@ -29,6 +29,7 @@ public enum MessageManager {
     PLAYER_FREEZE_HIMSELF("§cVous ne pouvez pas vous freeze vous-même !"),
     PLAYER_UNFREEZE_HIMSELF("§cVous ne pouvez pas vous unfreeze vous-même !"),
     COMMANDS_DISABLED("§cLes commandes ont été désactivées."),
+    REWARD_ALREADY_CLAIMED("§cVous avez déjà récupéré cette récompense !"),
 
     //Success messages
     SUCCESS_TP("Téléporté avec succès !"),
@@ -44,6 +45,7 @@ public enum MessageManager {
     STAFF_MODE_LEAVE("Sortie du mode staff"),
     PLAYER_FREEZE_STAFF("Vous avez freeze le joueur §3%s"),
     PLAYER_UNFREEZE_STAFF("Vous avez unfreeze le joueur §3%s"),
+    REWARD_CLAIMED("Vous avez récupéré la récompense \"§3%s\" !"),
 
     //Death messages
     PLAYER_DEATH("§3%s §fest mort."),
