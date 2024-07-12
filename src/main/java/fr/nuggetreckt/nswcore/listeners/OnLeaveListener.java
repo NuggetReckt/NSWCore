@@ -22,8 +22,9 @@ public class OnLeaveListener implements Listener {
     @EventHandler
     public void onPlayerLeave(@NotNull PlayerQuitEvent event) {
         Player player = event.getPlayer();
-
         StaffUtils staffUtils = NSWCore.getStaffUtils();
+
+        NSWCore.getMoneyGiveTask().stop(player);
 
         nswapi.getServerHandler().getExecutor().execute(() -> {
             NSWCore.getSaver().savePlayerData(player);

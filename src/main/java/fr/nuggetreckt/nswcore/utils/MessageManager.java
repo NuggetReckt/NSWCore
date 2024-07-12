@@ -161,6 +161,7 @@ public enum MessageManager {
             "\n§cNe vous déconnectez pas ou vous serez banni définitivement."),
     PLAYER_UNFREEZE_TARGET("Vous avez été unfreeze par §3%s§f."),
     PLAYER_FROZEN_QUIT("§cLe joueur §3%s §cs'est déconnecté en étant freeze"),
+    PLAYER_PLAYTIME_REWARD("§fVous avez reçu §3%dNSc §8(§fTemps de jeu§8)"),
     ;
 
     private final String message;

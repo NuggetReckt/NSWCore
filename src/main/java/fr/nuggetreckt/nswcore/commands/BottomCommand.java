@@ -11,7 +11,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
@@ -65,13 +64,14 @@ public class BottomCommand implements CommandExecutor {
 
                 Location location = block.getLocation().add(0.5D, 2.0D, 0.5D);
 
-                BukkitTask task = Bukkit.getScheduler().runTaskLater(NSWCore.getInstance(), () -> {
-                    teleportUtils.setTeleports(target, false);
-                    target.teleport(location);
-                    target.sendMessage(String.format(MessageManager.SUCCESS_TP.getMessage(), "TP"));
-                    NSWCore.getEffectUtils().teleportEffect(target);
-                }, 40L);
-                NSWCore.getInstance().setBukkitTask(task);
+                NSWCore.getPlayerDelayTask().setTask(target,
+                        Bukkit.getScheduler().runTaskLater(NSWCore.getInstance(), () -> {
+                            teleportUtils.setTeleports(target, false);
+                            target.teleport(location);
+                            target.sendMessage(String.format(MessageManager.SUCCESS_TP.getMessage(), "TP"));
+                            NSWCore.getEffectUtils().teleportEffect(target);
+                        }, 40L)
+                );
                 return;
             }
         }

@@ -10,7 +10,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitTask;
 
 import javax.annotation.Nonnull;
 import java.time.Duration;
@@ -42,13 +41,14 @@ public class SpawnCommand implements CommandExecutor {
 
                         teleportUtils.setTeleports(player, true);
 
-                        BukkitTask task = Bukkit.getScheduler().runTaskLater(NSWCore.getInstance(), () -> {
-                            teleportUtils.setTeleports(player, false);
-                            player.teleport(spawnLoc);
-                            player.sendMessage(String.format(MessageManager.SUCCESS_SPAWN_TP.getMessage(), "TP"));
-                            NSWCore.getEffectUtils().teleportEffect(player);
-                        }, 100L);
-                        NSWCore.getInstance().setBukkitTask(task);
+                        NSWCore.getPlayerDelayTask().setTask(player,
+                                Bukkit.getScheduler().runTaskLater(NSWCore.getInstance(), () -> {
+                                    teleportUtils.setTeleports(player, false);
+                                    player.teleport(spawnLoc);
+                                    player.sendMessage(String.format(MessageManager.SUCCESS_SPAWN_TP.getMessage(), "TP"));
+                                    NSWCore.getEffectUtils().teleportEffect(player);
+                                }, 100L)
+                        );
                     } else {
                         player.sendMessage(String.format(MessageManager.WAIT_BEFORE_USE.getMessage(), "TP", timeLeft.toSeconds()));
                     }

@@ -6,7 +6,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 public class SaveTask {
 
-    BukkitTask task;
+    private BukkitTask task;
 
     public void launch() {
         task = Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(NSWCore.getInstance(), () -> {

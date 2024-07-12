@@ -9,6 +9,8 @@ import fr.nuggetreckt.nswcore.database.Saver;
 import fr.nuggetreckt.nswcore.expansions.PAPIExpansion;
 import fr.nuggetreckt.nswcore.guis.GuiManager;
 import fr.nuggetreckt.nswcore.listeners.*;
+import fr.nuggetreckt.nswcore.tasks.MoneyGiveTask;
+import fr.nuggetreckt.nswcore.tasks.PlayerDelayTask;
 import fr.nuggetreckt.nswcore.tasks.SaveTask;
 import fr.nuggetreckt.nswcore.utils.*;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -20,7 +22,6 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -48,10 +49,11 @@ public class NSWCore extends JavaPlugin {
     private static LuckPermsUtils luckPermsUtils;
     private static Economy economy;
     private static SaveTask saveTask;
+    private static MoneyGiveTask moneyGiveTask;
+    private static PlayerDelayTask playerDelayTask;
 
     private static NSWAPI nswapi;
 
-    private BukkitTask bukkitTask;
     private LuckPerms luckPermsAPI;
 
     public NSWCore() {
@@ -62,6 +64,8 @@ public class NSWCore extends JavaPlugin {
         setAPI();
 
         saveTask = new SaveTask();
+        moneyGiveTask = new MoneyGiveTask(this);
+        playerDelayTask = new PlayerDelayTask();
         guiManager = new GuiManager(nswapi);
         cooldownManager = new CooldownManager();
         teleportUtils = new TeleportUtils();
@@ -182,10 +186,6 @@ public class NSWCore extends JavaPlugin {
         return Bukkit.getPlayer(name);
     }
 
-    public BukkitTask getBukkitTask() {
-        return bukkitTask;
-    }
-
     public LuckPerms getLuckPermsAPI() {
         return luckPermsAPI;
     }
@@ -222,6 +222,14 @@ public class NSWCore extends JavaPlugin {
         return saver;
     }
 
+    public static MoneyGiveTask getMoneyGiveTask() {
+        return moneyGiveTask;
+    }
+
+    public static PlayerDelayTask getPlayerDelayTask() {
+        return playerDelayTask;
+    }
+
     public static LuckPermsUtils getLuckPermsUtils() {
         return luckPermsUtils;
     }
@@ -236,10 +244,6 @@ public class NSWCore extends JavaPlugin {
 
     public boolean isFarmzone() {
         return serverPort == farmzonePort;
-    }
-
-    public void setBukkitTask(BukkitTask task) {
-        bukkitTask = task;
     }
 
     private void setServerPort() {

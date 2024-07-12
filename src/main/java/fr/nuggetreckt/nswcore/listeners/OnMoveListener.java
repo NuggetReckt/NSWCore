@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("DataFlowIssue")
@@ -28,10 +27,8 @@ public class OnMoveListener implements Listener {
 
             if (x != toX || y != toY || z != toZ) {
                 teleportUtils.setTeleports(player, false);
-
-                BukkitTask task = NSWCore.getInstance().getBukkitTask();
                 player.sendMessage(String.format(MessageManager.PLAYER_MOVED_TP.getMessage(), "TP"));
-                task.cancel();
+                NSWCore.getPlayerDelayTask().stop(player);
             }
         }
 
