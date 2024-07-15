@@ -27,7 +27,8 @@ public class OnJoinListener implements Listener {
 
         HonorRanksHandler hr = nswapi.getHonorRanksHandler();
         NSWCore.getTeleportUtils().initTeleports(player);
-        NSWCore.getMoneyGiveTask().start(player);
+
+        Bukkit.getScheduler().runTaskLater(NSWCore.getInstance(), () -> NSWCore.getMoneyGiveTask().start(player), NSWCore.getMoneyGiveTask().getSecondsWait() * 20L);
 
         nswapi.getServerHandler().getExecutor().execute(() -> hr.init(player.getUniqueId(), player.getName()));
         NSWCore.getStaffUtils().init(player);

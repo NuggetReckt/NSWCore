@@ -17,7 +17,7 @@ public class MoneyGiveTask {
 
     //20NSc every 20 minutes
     private long secondsWait = 1200L;
-    private int moneyAmount = 20;
+    private int moneyAmount = 25;
 
     public MoneyGiveTask(NSWCore instance) {
         this.instance = instance;
@@ -30,7 +30,7 @@ public class MoneyGiveTask {
         playerTasks.put(player.getUniqueId(),
                 Bukkit.getServer().getScheduler().runTaskTimer(instance, () -> {
                     NSWCore.getEconomy().depositPlayer(player, moneyAmount);
-                    player.sendMessage(String.format(MessageManager.PLAYER_PLAYTIME_REWARD.getMessage(), "Eco"));
+                    player.sendMessage(String.format(MessageManager.PLAYER_PLAYTIME_REWARD.getMessage(), "Eco", moneyAmount));
                 }, 0L, secondsWait * 20L)
         );
     }
@@ -40,6 +40,10 @@ public class MoneyGiveTask {
 
         playerTasks.get(player.getUniqueId()).cancel();
         playerTasks.remove(player.getUniqueId());
+    }
+
+    public long getSecondsWait() {
+        return secondsWait;
     }
 
     public void setMoneyAmount(int amount) {
