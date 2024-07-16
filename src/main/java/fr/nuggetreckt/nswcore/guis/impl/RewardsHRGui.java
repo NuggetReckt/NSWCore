@@ -54,11 +54,17 @@ public class RewardsHRGui implements CustomInventory {
 
         //Reward items
         for (HonorRankReward reward : rewards) {
-            slots[slot] = new ItemUtils(Material.PAPER).setName(reward.getName()).addEnchant(Enchantment.MENDING, 1).hideFlags().setLore(" ", " §8| §f" + reward.getReward().toString()).toItemStack();
+            Material material = Material.ORANGE_STAINED_GLASS_PANE;
+            String name = "§8§l»§r §6§l" + reward.getName() + " §8§l«";
+
+            if (rewardHandler.hasClaimedReward(player.getUniqueId(), reward)) {
+                material = Material.GRAY_STAINED_GLASS_PANE;
+                name = name + " §8(§fRécupérée§8)";
+            }
+            slots[slot] = new ItemUtils(material).setName(name).addEnchant(Enchantment.MENDING, 1).hideFlags().setLore(" ", " §8| §f" + reward.getDescription()).toItemStack();
             rewardsSlots.put(slot, reward);
             slot++;
         }
-        //slots[13] = new ItemUtils(Material.PUFFERFISH).setName("§8§l»§r §3Soon §8§l«").hideFlags().setLore(" ", "§8| §fFonctionnalité à venir...").toItemStack();
 
         //Utils
         slots[21] = new ItemUtils(Material.ARROW).setName("§8§l»§r §3Retour §8§l«").hideFlags().setLore(" ", "§8| §fRetourne au menu principal").toItemStack();

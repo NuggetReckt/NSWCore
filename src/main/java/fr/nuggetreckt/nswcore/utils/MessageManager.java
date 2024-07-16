@@ -45,7 +45,7 @@ public enum MessageManager {
     STAFF_MODE_LEAVE("Sortie du mode staff"),
     PLAYER_FREEZE_STAFF("Vous avez freeze le joueur §3%s"),
     PLAYER_UNFREEZE_STAFF("Vous avez unfreeze le joueur §3%s"),
-    REWARD_CLAIMED("Vous avez récupéré la récompense \"§3%s\" !"),
+    REWARD_CLAIMED("Vous avez récupéré la récompense \"§3%s§f\" !"),
 
     //Death messages
     PLAYER_DEATH("§3%s §fest mort."),
