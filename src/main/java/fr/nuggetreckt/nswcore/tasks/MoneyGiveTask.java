@@ -15,7 +15,7 @@ public class MoneyGiveTask {
     private final NSWCore instance;
     private final HashMap<UUID, BukkitTask> playerTasks;
 
-    //20NSc every 20 minutes
+    //25NSc every 20 minutes
     private long secondsWait = 1200L;
     private int moneyAmount = 25;
 
