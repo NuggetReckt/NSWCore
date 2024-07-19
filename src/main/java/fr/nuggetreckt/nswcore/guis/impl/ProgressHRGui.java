@@ -3,11 +3,13 @@ package fr.nuggetreckt.nswcore.guis.impl;
 import fr.noskillworld.api.NSWAPI;
 import fr.noskillworld.api.honorranks.HonorRanks;
 import fr.noskillworld.api.honorranks.impl.HonorRanksHandlerImpl;
+import fr.noskillworld.api.honorranks.rewards.RewardHandler;
 import fr.nuggetreckt.nswcore.NSWCore;
 import fr.nuggetreckt.nswcore.guis.CustomInventory;
 import fr.nuggetreckt.nswcore.utils.ItemUtils;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -68,21 +70,32 @@ public class ProgressHRGui implements CustomInventory {
         HonorRanksHandlerImpl hr = nswapi.getHonorRanksHandler();
 
         switch (clickedItem.getType()) {
-            case BARRIER -> player.closeInventory();
+            case BARRIER -> {
+                NSWCore.getEffectUtils().playSound(player, Sound.BLOCK_METAL_PRESSURE_PLATE_CLICK_ON);
+                player.closeInventory();
+            }
             case ARROW -> {
                 player.closeInventory();
+                NSWCore.getEffectUtils().playSound(player, Sound.ITEM_BOOK_PAGE_TURN);
                 NSWCore.getGuiManager().open(player, HonorRankGui.class);
             }
             case YELLOW_STAINED_GLASS_PANE -> {
                 if (hr.getNextPlayerRank(player.getUniqueId()) != null) {
                     if (hr.getPlayerPoints(player.getUniqueId()) >= hr.getPointsNeeded(player.getUniqueId())) {
-                        player.closeInventory();
-                        hr.upRankPlayer(player.getUniqueId());
-                        NSWCore.getEffectUtils().uprankEffect(player);
+                        if (hasClaimedRewards(player)) {
+                            player.closeInventory();
+                            hr.upRankPlayer(player.getUniqueId());
+                            NSWCore.getEffectUtils().uprankEffect(player);
+                        } else {
+                            NSWCore.getEffectUtils().playSound(player, Sound.ENTITY_ENDERMAN_TELEPORT);
+                            player.sendMessage(String.format(MessageManager.REWARDS_NOT_CLAIMED.getMessage(), "HR"));
+                        }
                     } else {
+                        NSWCore.getEffectUtils().playSound(player, Sound.ENTITY_ENDERMAN_TELEPORT);
                         player.sendMessage(String.format(MessageManager.NO_ENOUGH_HONORPOINTS.getMessage(), "HR", hr.getPlayerPoints(player.getUniqueId()), hr.getPointsNeeded(player.getUniqueId())));
                     }
                 } else {
+                    NSWCore.getEffectUtils().playSound(player, Sound.ENTITY_ENDERMAN_TELEPORT);
                     player.sendMessage(String.format(MessageManager.MAX_HONORRANK.getMessage(), "HR", hr.getRankFormat(hr.getPlayerRank(player.getUniqueId()))));
                 }
             }
@@ -104,6 +117,8 @@ public class ProgressHRGui implements CustomInventory {
 
                 if (hr.getPlayerPoints(player.getUniqueId()) < hr.getPointsNeeded(player.getUniqueId())) {
                     lore = " §8§l»§r §cTu n'as pas assez de points pour uprank §8(§3" + hr.getPlayerPoints(player.getUniqueId()) + "§8)";
+                } else if (!hasClaimedRewards(player)) {
+                    lore = " §8§l»§r §cTu n'as pas récupéré toutes tes récompenses !";
                 }
                 tmp = new ItemUtils(Material.YELLOW_STAINED_GLASS_PANE).setName("§8§l»§r §fRang " + hr.getRankFormat(rank) + " §8§l« §8[§3§lPROCHAIN§8]").setLore(" ", " §8|§f §3" + rank.getHonorPoints() + "§f Points d'Honneur requis", " ", lore).hideFlags().toItemStack();
             } else {
@@ -122,5 +137,14 @@ public class ProgressHRGui implements CustomInventory {
             current++;
         }
         return slots;
+    }
+
+    private boolean hasClaimedRewards(@NotNull Player player) {
+        RewardHandler rewardHandler = nswapi.getRewardHandler();
+        HonorRanksHandlerImpl hr = nswapi.getHonorRanksHandler();
+
+        if (!hr.isRanked(player.getUniqueId())) return true;
+        if (rewardHandler.claimedRewards.get(player.getUniqueId()) == null) return false;
+        return rewardHandler.claimedRewards.get(player.getUniqueId()).size() == rewardHandler.rankRewards.get(hr.getPlayerRank(player.getUniqueId())).size();
     }
 }

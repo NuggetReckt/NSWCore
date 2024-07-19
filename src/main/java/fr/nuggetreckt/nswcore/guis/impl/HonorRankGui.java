@@ -6,6 +6,7 @@ import fr.nuggetreckt.nswcore.NSWCore;
 import fr.nuggetreckt.nswcore.guis.CustomInventory;
 import fr.nuggetreckt.nswcore.utils.ItemUtils;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -67,17 +68,23 @@ public class HonorRankGui implements CustomInventory {
     @Override
     public void onClick(Player player, Inventory inventory, @NotNull ItemStack clickedItem, int slot, boolean isLeftClick) {
         switch (clickedItem.getType()) {
-            case BARRIER -> player.closeInventory();
+            case BARRIER -> {
+                player.closeInventory();
+                NSWCore.getEffectUtils().playSound(player, Sound.BLOCK_METAL_PRESSURE_PLATE_CLICK_ON);
+            }
             case LANTERN -> {
                 player.closeInventory();
                 player.performCommand("help honneur");
+                NSWCore.getEffectUtils().playSound(player, Sound.BLOCK_METAL_PRESSURE_PLATE_CLICK_ON);
             }
             case NETHER_STAR -> {
                 player.closeInventory();
+                NSWCore.getEffectUtils().playSound(player, Sound.ITEM_BOOK_PAGE_TURN);
                 NSWCore.getGuiManager().open(player, ProgressHRGui.class);
             }
             case DIAMOND -> {
                 player.closeInventory();
+                NSWCore.getEffectUtils().playSound(player, Sound.ITEM_BOOK_PAGE_TURN);
                 NSWCore.getGuiManager().open(player, RewardsHRGui.class);
             }
         }

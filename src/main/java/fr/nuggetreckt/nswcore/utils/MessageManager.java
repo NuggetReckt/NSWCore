@@ -30,6 +30,7 @@ public enum MessageManager {
     PLAYER_UNFREEZE_HIMSELF("§cVous ne pouvez pas vous unfreeze vous-même !"),
     COMMANDS_DISABLED("§cLes commandes ont été désactivées."),
     REWARD_ALREADY_CLAIMED("§cVous avez déjà récupéré cette récompense !"),
+    REWARDS_NOT_CLAIMED("§cVous n'avez pas récupéré vos récompenses d'uprank ! Récupérez vos récompenses dans le menu des récompenses."),
 
     //Success messages
     SUCCESS_TP("Téléporté avec succès !"),

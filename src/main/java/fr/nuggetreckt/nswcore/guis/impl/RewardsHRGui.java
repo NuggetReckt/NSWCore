@@ -10,6 +10,7 @@ import fr.nuggetreckt.nswcore.utils.ItemUtils;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
 import fr.nuggetreckt.nswcore.utils.RewardUtils;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -53,17 +54,21 @@ public class RewardsHRGui implements CustomInventory {
         rewardsSlots.clear();
 
         //Reward items
-        for (HonorRankReward reward : rewards) {
-            Material material = Material.ORANGE_STAINED_GLASS_PANE;
-            String name = "§8§l»§r §6§l" + reward.getName() + " §8§l«";
+        if (rewards != null && hr.isRanked(player.getUniqueId())) {
+            for (HonorRankReward reward : rewards) {
+                Material material = Material.ORANGE_STAINED_GLASS_PANE;
+                String name = "§8§l»§r §6§l" + reward.getName() + " §8§l«";
 
-            if (rewardHandler.hasClaimedReward(player.getUniqueId(), reward)) {
-                material = Material.GRAY_STAINED_GLASS_PANE;
-                name = name + " §8(§fRécupérée§8)";
+                if (rewardHandler.hasClaimedReward(player.getUniqueId(), reward)) {
+                    material = Material.GRAY_STAINED_GLASS_PANE;
+                    name = name + " §8(§fRécupérée§8)";
+                }
+                slots[slot] = new ItemUtils(material).setName(name).addEnchant(Enchantment.MENDING, 1).hideFlags().setLore(" ", " §8| §f" + reward.getDescription()).toItemStack();
+                rewardsSlots.put(slot, reward);
+                slot++;
             }
-            slots[slot] = new ItemUtils(material).setName(name).addEnchant(Enchantment.MENDING, 1).hideFlags().setLore(" ", " §8| §f" + reward.getDescription()).toItemStack();
-            rewardsSlots.put(slot, reward);
-            slot++;
+        } else {
+            slots[13] = new ItemUtils(Material.PUFFERFISH).setName("§8§l»§r §3Aucune récompense §8§l«").setLore(" ", " §8| §fVous n'avez aucune récompense à récupérer :(").hideFlags().toItemStack();
         }
 
         //Utils
@@ -90,11 +95,16 @@ public class RewardsHRGui implements CustomInventory {
     @Override
     public void onClick(Player player, Inventory inventory, @NotNull ItemStack clickedItem, int slot, boolean isLeftClick) {
         switch (clickedItem.getType()) {
-            case BARRIER -> player.closeInventory();
+            case BARRIER -> {
+                player.closeInventory();
+                NSWCore.getEffectUtils().playSound(player, Sound.BLOCK_METAL_PRESSURE_PLATE_CLICK_ON);
+            }
             case ARROW -> {
                 player.closeInventory();
+                NSWCore.getEffectUtils().playSound(player, Sound.ITEM_BOOK_PAGE_TURN);
                 NSWCore.getGuiManager().open(player, HonorRankGui.class);
             }
+            case PUFFERFISH -> NSWCore.getEffectUtils().playSound(player, Sound.ENTITY_PUFFER_FISH_BLOW_UP);
             default -> {
                 if (!isClickable(clickedItem)) return;
                 RewardHandler rewardHandler = nswapi.getRewardHandler();
@@ -102,6 +112,7 @@ public class RewardsHRGui implements CustomInventory {
 
                 if (reward == null) return;
                 if (rewardHandler.hasClaimedReward(player.getUniqueId(), reward)) {
+                    NSWCore.getEffectUtils().playSound(player, Sound.ENTITY_ENDERMAN_TELEPORT);
                     player.sendMessage(String.format(MessageManager.REWARD_ALREADY_CLAIMED.getMessage(), "HR"));
                     return;
                 }

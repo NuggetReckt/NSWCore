@@ -15,7 +15,6 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Supplier;
 
@@ -64,56 +63,58 @@ public class KitGui implements CustomInventory {
 
     @Override
     public void onClick(Player player, Inventory inventory, @NotNull ItemStack clickedItem, int slot, boolean isLeftClick) {
-        if (Objects.requireNonNull(clickedItem.getItemMeta()).getDisplayName().equals("§8§l»§r §3Kit du débutant §8§l«")) {
-            UUID playerId = player.getUniqueId();
-            NSWPlayer nswPlayer = new NSWPlayer(player.getName(), player.getUniqueId());
-            int kitUses = nswapi.getDatabaseManager().getRequestSender().getKitUses(nswPlayer);
-
-            if (kitUses >= 2) {
-                player.sendMessage(String.format(MessageManager.NO_KIT_USES_LEFT.getMessage(), "Kit"));
+        switch (clickedItem.getType()) {
+            case BARRIER -> {
                 player.closeInventory();
-                return;
+                NSWCore.getEffectUtils().playSound(player, Sound.BLOCK_METAL_PRESSURE_PLATE_CLICK_ON);
             }
-            CooldownManager cooldownManager = NSWCore.getCooldownManager();
-            Duration timeLeft = cooldownManager.getRemainingCooldown(playerId, "kit");
+            case STONE_PICKAXE -> {
+                UUID playerId = player.getUniqueId();
+                NSWPlayer nswPlayer = new NSWPlayer(player.getName(), player.getUniqueId());
+                int kitUses = nswapi.getDatabaseManager().getRequestSender().getKitUses(nswPlayer);
 
-            if (timeLeft.isZero() || timeLeft.isNegative()) {
-                //Vérifie si l'inventaire du joueur est plein
-                int itemCount = 0;
-                for (ItemStack i : player.getInventory().getContents()) {
-                    if (i != null && !i.getType().isAir()) {
-                        itemCount++;
-                    }
+                if (kitUses >= 2) {
+                    player.sendMessage(String.format(MessageManager.NO_KIT_USES_LEFT.getMessage(), "Kit"));
+                    player.closeInventory();
+                    return;
                 }
+                CooldownManager cooldownManager = NSWCore.getCooldownManager();
+                Duration timeLeft = cooldownManager.getRemainingCooldown(playerId, "kit");
 
-                if (itemCount <= 29) {
-                    player.getInventory().addItem(new ItemUtils(Material.STONE_AXE).setName("§fHache du débutant").toItemStack());
-                    player.getInventory().addItem(new ItemUtils(Material.STONE_PICKAXE).setName("§fPioche du débutant").toItemStack());
-                    player.getInventory().addItem(new ItemUtils(Material.COOKED_BEEF, 16).toItemStack());
-                    player.getInventory().addItem(new ItemUtils(Material.LEATHER_HELMET).setName("§fCasque du débutant").toItemStack());
-                    player.getInventory().addItem(new ItemUtils(Material.LEATHER_CHESTPLATE).setName("§fPlastron du débutant").toItemStack());
-                    player.getInventory().addItem(new ItemUtils(Material.LEATHER_LEGGINGS).setName("§fJambières du débutant").toItemStack());
-                    player.getInventory().addItem(new ItemUtils(Material.LEATHER_BOOTS).setName("§fBottes du débutant").toItemStack());
+                if (timeLeft.isZero() || timeLeft.isNegative()) {
+                    //Vérifie si l'inventaire du joueur est plein
+                    int itemCount = 0;
+                    for (ItemStack i : player.getInventory().getContents()) {
+                        if (i != null && !i.getType().isAir()) {
+                            itemCount++;
+                        }
+                    }
 
-                    if (player.hasPermission("nsw.bypass") || player.isOp()) {
-                        cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.NO_COOLDOWN.getValue()), "kit");
+                    if (itemCount <= 29) {
+                        player.getInventory().addItem(new ItemUtils(Material.STONE_AXE).setName("§fHache du débutant").toItemStack());
+                        player.getInventory().addItem(new ItemUtils(Material.STONE_PICKAXE).setName("§fPioche du débutant").toItemStack());
+                        player.getInventory().addItem(new ItemUtils(Material.COOKED_BEEF, 16).toItemStack());
+                        player.getInventory().addItem(new ItemUtils(Material.LEATHER_HELMET).setName("§fCasque du débutant").toItemStack());
+                        player.getInventory().addItem(new ItemUtils(Material.LEATHER_CHESTPLATE).setName("§fPlastron du débutant").toItemStack());
+                        player.getInventory().addItem(new ItemUtils(Material.LEATHER_LEGGINGS).setName("§fJambières du débutant").toItemStack());
+                        player.getInventory().addItem(new ItemUtils(Material.LEATHER_BOOTS).setName("§fBottes du débutant").toItemStack());
+
+                        if (player.hasPermission("nsw.bypass") || player.isOp()) {
+                            cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.NO_COOLDOWN.getValue()), "kit");
+                        } else {
+                            cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.KIT_COOLDOWN.getValue()), "kit");
+                        }
+                        player.sendMessage(String.format(MessageManager.KIT_RECEIVED.getMessage(), "Kit"));
+                        player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 15, 1);
+                        nswapi.getServerHandler().getExecutor().execute(() -> nswapi.getDatabaseManager().getRequestSender().updateKitUses(nswPlayer, kitUses + 1));
                     } else {
-                        cooldownManager.setCooldown(playerId, Duration.ofSeconds(CooldownManager.CooldownValues.KIT_COOLDOWN.getValue()), "kit");
+                        player.sendMessage(String.format(MessageManager.NOT_ENOUGH_ROOM_INV.getMessage(), "Kit"));
                     }
-
-                    player.sendMessage(String.format(MessageManager.KIT_RECEIVED.getMessage(), "Kit"));
-                    player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 15, 1);
-                    nswapi.getServerHandler().getExecutor().execute(() -> nswapi.getDatabaseManager().getRequestSender().updateKitUses(nswPlayer, kitUses + 1));
                 } else {
-                    player.sendMessage(String.format(MessageManager.NOT_ENOUGH_ROOM_INV.getMessage(), "Kit"));
+                    player.sendMessage(String.format(MessageManager.WAIT_BEFORE_KIT.getMessage(), "Kit", timeLeft.toHours()));
                 }
-            } else {
-                player.sendMessage(String.format(MessageManager.WAIT_BEFORE_KIT.getMessage(), "Kit", timeLeft.toHours()));
+                player.closeInventory();
             }
-            player.closeInventory();
-        }
-        if (clickedItem.getItemMeta().getDisplayName().equals("§8§l»§r §3Fermer §8§l«")) {
-            player.closeInventory();
         }
     }
 }

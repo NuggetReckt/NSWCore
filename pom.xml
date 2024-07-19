@@ -6,7 +6,7 @@
 
     <groupId>fr.nuggetreckt.nswcore</groupId>
     <artifactId>NSWCore</artifactId>
-    <version>1.3.0</version>
+    <version>1.3.1</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -64,6 +64,10 @@
 
     <repositories>
         <repository>
+            <id>NSW</id>
+            <url>https://nexus.noskillworld.fr/repository/NSWAPI/</url>
+        </repository>
+        <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
@@ -78,10 +82,6 @@
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
-        </repository>
-        <repository>
-            <id>NSW</id>
-            <url>https://nexus.noskillworld.fr/repository/NSWAPI/</url>
         </repository>
     </repositories>
 
