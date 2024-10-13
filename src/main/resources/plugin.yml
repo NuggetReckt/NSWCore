@@ -4,7 +4,7 @@ author: NuggetReckt
 prefix: NSWCore
 website: https://play.noskillworld.fr
 main: fr.nuggetreckt.nswcore.NSWCore
-api-version: 1.20
+api-version: 1.21
 depend: [PlaceholderAPI, LuckPerms, Vault]
 commands:
   help:
