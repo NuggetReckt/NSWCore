@@ -105,7 +105,7 @@ public class EffectUtils {
             double offsetY = r.nextDouble(0.3, 0.8);
             double offsetZ = r.nextDouble(0.2, 0.6);
 
-            player.getWorld().spawnParticle(Particle.REDSTONE, location, 1, offsetX, offsetY, offsetZ, 1, new Particle.DustOptions(color, 1.0F));
+            player.getWorld().spawnParticle(Particle.DUST, location, 1, offsetX, offsetY, offsetZ, 1, new Particle.DustOptions(color, 1.0F));
         }
     }
 
