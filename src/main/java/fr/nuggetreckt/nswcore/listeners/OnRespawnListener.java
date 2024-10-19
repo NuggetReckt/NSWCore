@@ -10,6 +10,12 @@ import org.jetbrains.annotations.NotNull;
 
 public class OnRespawnListener implements Listener {
 
+    private final NSWCore instance;
+
+    public OnRespawnListener(NSWCore instance) {
+        this.instance = instance;
+    }
+
     @EventHandler
     public void onPlayerRespawn(@NotNull PlayerRespawnEvent event) {
         Player player = event.getPlayer();
@@ -18,9 +24,9 @@ public class OnRespawnListener implements Listener {
             if (event.isBedSpawn() || event.isAnchorSpawn()) {
                 return;
             }
-            if (!NSWCore.getInstance().isFarmzone()) {
+            if (!instance.isFarmzone()) {
                 player.sendMessage(String.format(MessageManager.RESPAWN_TP.getMessage(), "TP"));
-                event.setRespawnLocation(NSWCore.getInstance().getSpawnLocation());
+                event.setRespawnLocation(instance.getSpawnLocation());
             }
         }
     }

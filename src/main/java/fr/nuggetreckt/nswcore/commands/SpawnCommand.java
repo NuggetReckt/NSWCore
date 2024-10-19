@@ -17,19 +17,25 @@ import java.util.UUID;
 
 public class SpawnCommand implements CommandExecutor {
 
+    private final NSWCore instance;
+
+    public SpawnCommand(NSWCore instance) {
+        this.instance = instance;
+    }
+
     @Override
     public boolean onCommand(@Nonnull CommandSender commandSender, @Nonnull Command command, @Nonnull String s, @Nonnull String[] args) {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
             UUID playerId = player.getUniqueId();
 
-            CooldownManager cooldownManager = NSWCore.getCooldownManager();
-            TeleportUtils teleportUtils = NSWCore.getTeleportUtils();
+            CooldownManager cooldownManager = instance.getCooldownManager();
+            TeleportUtils teleportUtils = instance.getTeleportUtils();
             Duration timeLeft = cooldownManager.getRemainingCooldown(playerId, "spawn");
 
-            Location spawnLoc = NSWCore.getInstance().getSpawnLocation();
+            Location spawnLoc = instance.getInstance().getSpawnLocation();
 
-            if (!NSWCore.getInstance().isFarmzone()) {
+            if (!instance.getInstance().isFarmzone()) {
                 if (args.length == 0) {
                     if (timeLeft.isZero() || timeLeft.isNegative()) {
                         if (player.isOp() || player.hasPermission("nsw.bypass")) {
@@ -41,12 +47,12 @@ public class SpawnCommand implements CommandExecutor {
 
                         teleportUtils.setTeleports(player, true);
 
-                        NSWCore.getPlayerDelayTask().setTask(player,
-                                Bukkit.getScheduler().runTaskLater(NSWCore.getInstance(), () -> {
+                        instance.getPlayerDelayTask().setTask(player,
+                                Bukkit.getScheduler().runTaskLater(instance, () -> {
                                     teleportUtils.setTeleports(player, false);
                                     player.teleport(spawnLoc);
                                     player.sendMessage(String.format(MessageManager.SUCCESS_SPAWN_TP.getMessage(), "TP"));
-                                    NSWCore.getEffectUtils().teleportEffect(player);
+                                    instance.getEffectUtils().teleportEffect(player);
                                 }, 100L)
                         );
                     } else {
@@ -54,7 +60,7 @@ public class SpawnCommand implements CommandExecutor {
                     }
                 } else if (args.length == 1) {
                     if (player.hasPermission("nsw.commands.admin") || player.isOp()) {
-                        Player target = NSWCore.getInstance().getPlayerByName(args[0]);
+                        Player target = instance.getPlayerByName(args[0]);
                         assert target != null;
 
                         target.teleport(spawnLoc);

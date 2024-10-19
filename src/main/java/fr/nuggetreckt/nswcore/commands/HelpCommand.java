@@ -14,6 +14,12 @@ import org.jetbrains.annotations.NotNull;
 
 public class HelpCommand implements CommandExecutor {
 
+    private final NSWCore instance;
+
+    public HelpCommand(NSWCore instance) {
+        this.instance = instance;
+    }
+
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         if (commandSender instanceof Player) {
@@ -25,7 +31,7 @@ public class HelpCommand implements CommandExecutor {
                 TextComponent others = createComponent("Autres", "autres", "Autres commandes");
                 TextComponent links = createComponent("Liens", "liens", "Liens utiles");
 
-                player.sendMessage(String.format(MessageManager.HELP_MAIN.getMessage(), "Aide", NSWCore.getInstance().getColoredName()));
+                player.sendMessage(String.format(MessageManager.HELP_MAIN.getMessage(), "Aide", instance.getColoredName()));
                 player.spigot().sendMessage(
                         new TextComponent("\n     "), honorRanks,
                         new TextComponent("     "), jobs,

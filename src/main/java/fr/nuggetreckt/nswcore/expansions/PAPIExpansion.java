@@ -9,10 +9,12 @@ import org.jetbrains.annotations.NotNull;
 
 public class PAPIExpansion extends PlaceholderExpansion {
 
+    private final NSWCore instance;
     private final NSWAPI nswapi;
 
-    public PAPIExpansion(NSWAPI api) {
-        this.nswapi = api;
+    public PAPIExpansion(@NotNull NSWCore instance) {
+        this.instance = instance;
+        this.nswapi = instance.getAPI();
     }
 
     @Override
@@ -40,7 +42,7 @@ public class PAPIExpansion extends PlaceholderExpansion {
         HonorRanksHandler hr = nswapi.getHonorRanksHandler();
 
         if (params.equalsIgnoreCase("coloredname")) {
-            return NSWCore.getInstance().getColoredName();
+            return instance.getColoredName();
         }
         if (params.equalsIgnoreCase("rank_displayname")) {
             return hr.getDisplayName(player.getUniqueId());

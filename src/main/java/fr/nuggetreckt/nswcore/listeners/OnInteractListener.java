@@ -9,11 +9,17 @@ import org.jetbrains.annotations.NotNull;
 
 public class OnInteractListener implements Listener {
 
+    private final NSWCore instance;
+
+    public OnInteractListener(NSWCore instance) {
+        this.instance = instance;
+    }
+
     @EventHandler
     public void onPlayerInteract(@NotNull PlayerInteractEvent event) {
         Player player = event.getPlayer();
 
-        if (NSWCore.getStaffUtils().isFrozen(player)) {
+        if (instance.getStaffUtils().isFrozen(player)) {
             event.setCancelled(true);
         }
     }

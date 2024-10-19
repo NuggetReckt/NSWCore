@@ -16,13 +16,17 @@ import java.util.UUID;
 
 public class StaffUtils {
 
+    private final NSWCore instance;
+
     private final Map<UUID, Boolean> isStaffMode;
     private final Map<UUID, Location> oldLocation;
     private final Map<UUID, ItemStack[]> oldInventory;
 
     private final Map<UUID, Boolean> isFrozen;
 
-    public StaffUtils() {
+    public StaffUtils(NSWCore instance) {
+        this.instance = instance;
+
         isStaffMode = new HashMap<>();
         oldLocation = new HashMap<>();
         oldInventory = new HashMap<>();
@@ -30,14 +34,14 @@ public class StaffUtils {
     }
 
     public void init(@NotNull Player player) {
-        if (NSWCore.getInstance().isStaff(player)) {
+        if (instance.isStaff(player)) {
             isStaffMode.putIfAbsent(player.getUniqueId(), false);
             oldLocation.putIfAbsent(player.getUniqueId(), null);
             oldInventory.putIfAbsent(player.getUniqueId(), null);
         }
         for (UUID uuid : isStaffMode.keySet()) {
             if (isStaffMode.get(uuid)) {
-                player.hidePlayer(NSWCore.getInstance(), Objects.requireNonNull(Bukkit.getPlayer(uuid)));
+                player.hidePlayer(instance, Objects.requireNonNull(Bukkit.getPlayer(uuid)));
             }
         }
         isFrozen.putIfAbsent(player.getUniqueId(), false);
@@ -73,12 +77,12 @@ public class StaffUtils {
         if (bool) {
             //Hide player from others
             for (Player p : Bukkit.getOnlinePlayers()) {
-                p.hidePlayer(NSWCore.getInstance(), player);
+                p.hidePlayer(instance, player);
             }
         } else {
             //Show player from others
             for (Player p : Bukkit.getOnlinePlayers()) {
-                p.showPlayer(NSWCore.getInstance(), player);
+                p.showPlayer(instance, player);
             }
         }
     }

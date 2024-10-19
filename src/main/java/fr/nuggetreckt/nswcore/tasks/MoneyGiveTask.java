@@ -29,7 +29,7 @@ public class MoneyGiveTask {
 
         playerTasks.put(player.getUniqueId(),
                 Bukkit.getServer().getScheduler().runTaskTimer(instance, () -> {
-                    NSWCore.getEconomy().depositPlayer(player, moneyAmount);
+                    instance.getEconomy().depositPlayer(player, moneyAmount);
                     player.sendMessage(String.format(MessageManager.PLAYER_PLAYTIME_REWARD.getMessage(), "Eco", moneyAmount));
                 }, 0L, secondsWait * 20L)
         );

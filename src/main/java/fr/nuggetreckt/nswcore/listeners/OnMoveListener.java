@@ -12,10 +12,16 @@ import org.jetbrains.annotations.NotNull;
 @SuppressWarnings("DataFlowIssue")
 public class OnMoveListener implements Listener {
 
+    private final NSWCore instance;
+
+    public OnMoveListener(NSWCore instance) {
+        this.instance = instance;
+    }
+
     @EventHandler
     public void onPlayerMove(@NotNull PlayerMoveEvent event) {
         Player player = event.getPlayer();
-        TeleportUtils teleportUtils = NSWCore.getTeleportUtils();
+        TeleportUtils teleportUtils = instance.getTeleportUtils();
 
         if (teleportUtils.isTeleporting(player)) {
             int x = (int) event.getFrom().getX();
@@ -28,11 +34,11 @@ public class OnMoveListener implements Listener {
             if (x != toX || y != toY || z != toZ) {
                 teleportUtils.setTeleports(player, false);
                 player.sendMessage(String.format(MessageManager.PLAYER_MOVED_TP.getMessage(), "TP"));
-                NSWCore.getPlayerDelayTask().stop(player);
+                instance.getPlayerDelayTask().stop(player);
             }
         }
 
-        if (NSWCore.getStaffUtils().isFrozen(player)) {
+        if (instance.getStaffUtils().isFrozen(player)) {
             double x = event.getFrom().getX();
             double y = event.getFrom().getY();
             double z = event.getFrom().getZ();

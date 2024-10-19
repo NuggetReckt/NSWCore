@@ -1,9 +1,9 @@
-package fr.nuggetreckt.nswcore.guis.impl;
+package fr.nuggetreckt.nswcore.guis;
 
 import fr.noskillworld.api.NSWAPI;
+import fr.noskillworld.api.gui.CustomInventory;
 import fr.noskillworld.api.reports.Report;
 import fr.nuggetreckt.nswcore.NSWCore;
-import fr.nuggetreckt.nswcore.guis.CustomInventory;
 import fr.nuggetreckt.nswcore.utils.ItemUtils;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
 import fr.nuggetreckt.nswcore.utils.ReportUtils;
@@ -19,12 +19,14 @@ import java.util.function.Supplier;
 
 public class ReportsGui implements CustomInventory {
 
+    private final NSWCore instance;
     private final NSWAPI nswapi;
 
     private boolean maskResolvedReports = false;
 
-    public ReportsGui(NSWAPI api) {
-        this.nswapi = api;
+    public ReportsGui(@NotNull NSWCore instance) {
+        this.instance = instance;
+        this.nswapi = instance.getAPI();
     }
 
     @Override
@@ -40,8 +42,8 @@ public class ReportsGui implements CustomInventory {
     @Override
     public Supplier<ItemStack[]> getContents(Player player) {
         ItemStack[] slots = new ItemStack[getSlots()];
-        List<ItemStack> reportItems = NSWCore.getReportUtils().getReportItems(maskResolvedReports, player);
-        ReportUtils reportUtils = NSWCore.getReportUtils();
+        List<ItemStack> reportItems = instance.getReportUtils().getReportItems(maskResolvedReports, player);
+        ReportUtils reportUtils = instance.getReportUtils();
 
         //Display items
         for (int i = 0; i < getSlots() && i < reportItems.size(); i++) {
@@ -68,30 +70,30 @@ public class ReportsGui implements CustomInventory {
     public void onClick(Player player, Inventory inventory, @NotNull ItemStack clickedItem, int slot, boolean isLeftClick) {
         switch (clickedItem.getType()) {
             case BARRIER -> player.closeInventory();
-            case SNOWBALL -> NSWCore.getGuiManager().refresh(player, this.getClass());
+            case SNOWBALL -> nswapi.getGuiManager().refresh(player, this.getClass());
             case PAPER -> {
-                Report report = NSWCore.getReportUtils().getReportBySlot(slot);
+                Report report = instance.getReportUtils().getReportBySlot(slot);
 
                 if (report == null) return;
                 if (isLeftClick) {
-                    NSWCore.getReportUtils().markReportResolved(report);
+                    instance.getReportUtils().markReportResolved(report);
                 } else {
                     if (player.hasPermission("nsw.*")) {
-                        NSWCore.getReportUtils().deleteReport(report);
+                        instance.getReportUtils().deleteReport(report);
                     } else {
                         player.sendMessage(String.format(MessageManager.NO_PERMISSION.getMessage(), "Reports"));
                         return;
                     }
                 }
-                nswapi.getServerHandler().getExecutor().schedule(() -> NSWCore.getGuiManager().refresh(player, this.getClass()), 250, TimeUnit.MILLISECONDS);
+                nswapi.getServerHandler().getExecutor().schedule(() -> nswapi.getGuiManager().refresh(player, this.getClass()), 250, TimeUnit.MILLISECONDS);
             }
             case SLIME_BALL -> {
                 maskResolvedReports = !maskResolvedReports;
-                NSWCore.getGuiManager().refresh(player, this.getClass());
+                nswapi.getGuiManager().refresh(player, this.getClass());
             }
             case HOPPER -> {
-                NSWCore.getReportUtils().toggleReportSort(player);
-                NSWCore.getGuiManager().refresh(player, this.getClass());
+                instance.getReportUtils().toggleReportSort(player);
+                nswapi.getGuiManager().refresh(player, this.getClass());
             }
         }
     }

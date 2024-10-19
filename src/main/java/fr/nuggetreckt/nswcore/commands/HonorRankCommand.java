@@ -3,22 +3,25 @@ package fr.nuggetreckt.nswcore.commands;
 import fr.noskillworld.api.NSWAPI;
 import fr.noskillworld.api.honorranks.impl.HonorRanksHandlerImpl;
 import fr.nuggetreckt.nswcore.NSWCore;
-import fr.nuggetreckt.nswcore.guis.impl.HonorRankGui;
+import fr.nuggetreckt.nswcore.guis.HonorRankGui;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
 public class HonorRankCommand implements CommandExecutor {
 
+    private final NSWCore instance;
     private final NSWAPI nswapi;
 
-    public HonorRankCommand(NSWAPI api) {
-        this.nswapi = api;
+    public HonorRankCommand(@NotNull NSWCore instance) {
+        this.instance = instance;
+        this.nswapi = instance.getAPI();
     }
 
     @Override
@@ -29,7 +32,7 @@ public class HonorRankCommand implements CommandExecutor {
             Player player = (Player) commandSender;
 
             if (args.length == 0) {
-                NSWCore.getGuiManager().open(player, HonorRankGui.class);
+                nswapi.getGuiManager().open(player, HonorRankGui.class);
             } else {
                 if (args[0].equalsIgnoreCase("ranks")) {
                     player.sendMessage(String.format(MessageManager.HONORRANKS_RANKLIST.getMessage(), "HR", hr.getRanks(player.getUniqueId())));
@@ -47,11 +50,11 @@ public class HonorRankCommand implements CommandExecutor {
                     if (player.hasPermission("nsw.commands.admin")) {
                         if (args[1].equalsIgnoreCase("give")) {
                             if (args.length == 4) {
-                                Player target = NSWCore.getInstance().getPlayerByName(args[2]);
+                                Player target = instance.getPlayerByName(args[2]);
                                 long value = Long.parseLong(args[3]);
                                 assert target != null;
 
-                                NSWCore.getEffectUtils().gainPointsEffect(player);
+                                instance.getEffectUtils().gainPointsEffect(player);
                                 hr.gainPlayerPoints(target.getUniqueId(), value);
                                 player.sendMessage(String.format(MessageManager.SUCCESS_GIVEHP.getMessage(), "HR", value, target.getName()));
                                 target.sendMessage(String.format(MessageManager.SUCCESS_GIVEHP_OTHER.getMessage(), "HR", player.getName(), value));
@@ -60,14 +63,14 @@ public class HonorRankCommand implements CommandExecutor {
                             }
                         } else if (args[1].equalsIgnoreCase("upgrade")) {
                             if (args.length == 3) {
-                                Player target = NSWCore.getInstance().getPlayerByName(args[2]);
+                                Player target = instance.getPlayerByName(args[2]);
                                 assert target != null;
 
                                 if (hr.getNextPlayerRank(target.getUniqueId()) != null) {
                                     player.sendMessage(String.format(MessageManager.SUCCESS_UPGRADE.getMessage(), "HR", target.getName()));
                                     target.sendMessage(String.format(MessageManager.SUCCESS_UPGRADE_OTHER.getMessage(), "HR", player.getName()));
                                     hr.forceUpRankPlayer(target.getUniqueId());
-                                    NSWCore.getEffectUtils().uprankEffect(player);
+                                    instance.getEffectUtils().uprankEffect(player);
                                 } else {
                                     player.sendMessage(String.format(MessageManager.MAX_HONORRANK_OTHER.getMessage(), "HR", target.getName()));
                                 }
@@ -88,7 +91,7 @@ public class HonorRankCommand implements CommandExecutor {
             if (args[0].equalsIgnoreCase("admin")) {
                 if (args[1].equalsIgnoreCase("give")) {
                     if (args.length == 4) {
-                        Player target = NSWCore.getInstance().getPlayerByName(args[2]);
+                        Player target = instance.getPlayerByName(args[2]);
                         long value = Long.parseLong(args[3]);
                         assert target != null;
 
@@ -100,7 +103,7 @@ public class HonorRankCommand implements CommandExecutor {
                     }
                 } else if (args[1].equalsIgnoreCase("upgrade")) {
                     if (args.length == 3) {
-                        Player target = NSWCore.getInstance().getPlayerByName(args[2]);
+                        Player target = instance.getPlayerByName(args[2]);
                         assert target != null;
 
                         if (hr.getNextPlayerRank(target.getUniqueId()) != null) {

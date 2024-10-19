@@ -14,31 +14,33 @@ import org.jetbrains.annotations.NotNull;
 
 public class OnJoinListener implements Listener {
 
+    private final NSWCore instance;
     private final NSWAPI nswapi;
 
-    public OnJoinListener(NSWAPI api) {
-        this.nswapi = api;
+    public OnJoinListener(@NotNull NSWCore instance) {
+        this.instance = instance;
+        this.nswapi = instance.getAPI();
     }
 
     @EventHandler
     public void onPlayerJoin(@NotNull PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        String nsw = NSWCore.getInstance().getColoredName();
+        String nsw = instance.getColoredName();
 
         HonorRanksHandler hr = nswapi.getHonorRanksHandler();
-        NSWCore.getTeleportUtils().initTeleports(player);
+        instance.getTeleportUtils().initTeleports(player);
 
-        Bukkit.getScheduler().runTaskLater(NSWCore.getInstance(), () -> NSWCore.getMoneyGiveTask().start(player), NSWCore.getMoneyGiveTask().getSecondsWait() * 20L);
+        Bukkit.getScheduler().runTaskLater(instance, () -> instance.getMoneyGiveTask().start(player), instance.getMoneyGiveTask().getSecondsWait() * 20L);
 
         nswapi.getServerHandler().getExecutor().execute(() -> hr.init(player.getUniqueId(), player.getName()));
-        NSWCore.getStaffUtils().init(player);
+        instance.getStaffUtils().init(player);
 
         if (!player.hasPlayedBefore()) {
-            if (NSWCore.getInstance().isFarmzone()) {
+            if (instance.isFarmzone()) {
                 player.sendMessage(String.format(MessageManager.FARMZONE_WELCOME.getMessage(), "NSW"));
             } else {
                 Bukkit.broadcastMessage(String.format(MessageManager.WELCOME_PLAYER_JOIN.getBroadcastMessage(), player.getName(), nsw));
-                player.teleport(NSWCore.getInstance().getSpawnLocation());
+                player.teleport(instance.getSpawnLocation());
                 player.openBook(new BookUtils().getWelcomeBook(player));
             }
         }

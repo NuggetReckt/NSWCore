@@ -8,18 +8,24 @@ import org.jetbrains.annotations.NotNull;
 
 public class LuckPermsUtils {
 
+    private final NSWCore instance;
+
+    public LuckPermsUtils(@NotNull NSWCore instance) {
+        this.instance = instance;
+    }
+
     public void setPermission(Player player, String permission) {
         User user = getUser(player);
 
         user.data().add(Node.builder(permission).build());
-        NSWCore.getInstance().getLuckPermsAPI().getUserManager().saveUser(user);
+        instance.getLuckPermsAPI().getUserManager().saveUser(user);
     }
 
     public void unsetPermission(Player player, String permission) {
         User user = getUser(player);
 
         user.data().remove(Node.builder(permission).build());
-        NSWCore.getInstance().getLuckPermsAPI().getUserManager().saveUser(user);
+        instance.getLuckPermsAPI().getUserManager().saveUser(user);
     }
 
     public boolean hasPermission(Player player, String permission) {
@@ -27,6 +33,6 @@ public class LuckPermsUtils {
     }
 
     private @NotNull User getUser(Player player) {
-        return NSWCore.getInstance().getLuckPermsAPI().getPlayerAdapter(Player.class).getUser(player);
+        return instance.getLuckPermsAPI().getPlayerAdapter(Player.class).getUser(player);
     }
 }

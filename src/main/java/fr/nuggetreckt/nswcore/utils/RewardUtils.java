@@ -7,14 +7,14 @@ import org.bukkit.entity.Player;
 
 public class RewardUtils {
 
-    public static void claimReward(Player player, HonorRankReward reward) {
+    public static void claimReward(NSWCore instance, Player player, HonorRankReward reward) {
         if (reward == null) return;
 
         switch (reward.getRewardType()) {
-            case COMMAND, PERMISSION -> NSWCore.getLuckPermsUtils().setPermission(player, (String) reward.getReward());
-            case NS_COINS -> NSWCore.getEconomy().depositPlayer(player, (long) reward.getReward());
+            case COMMAND, PERMISSION -> instance.getLuckPermsUtils().setPermission(player, (String) reward.getReward());
+            case NS_COINS -> instance.getEconomy().depositPlayer(player, (long) reward.getReward());
         }
         player.sendMessage(String.format(MessageManager.REWARD_CLAIMED.getMessage(), "HR", reward.getName()));
-        NSWCore.getEffectUtils().playSound(player, Sound.BLOCK_AMETHYST_BLOCK_BREAK);
+        instance.getEffectUtils().playSound(player, Sound.BLOCK_AMETHYST_BLOCK_BREAK);
     }
 }

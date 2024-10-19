@@ -3,6 +3,7 @@ package fr.nuggetreckt.nswcore.utils;
 import com.iridium.iridiumcolorapi.IridiumColorAPI;
 import fr.noskillworld.api.NSWAPI;
 import fr.noskillworld.api.honorranks.HonorRanks;
+import fr.nuggetreckt.nswcore.NSWCore;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -18,8 +19,8 @@ public class EffectUtils {
 
     private final Random r;
 
-    public EffectUtils(NSWAPI api) {
-        this.nswapi = api;
+    public EffectUtils(@NotNull NSWCore instance) {
+        this.nswapi = instance.getAPI();
         this.r = new Random();
     }
 

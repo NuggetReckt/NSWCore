@@ -2,6 +2,7 @@ package fr.nuggetreckt.nswcore.database;
 
 import fr.noskillworld.api.NSWAPI;
 import fr.noskillworld.api.entities.NSWPlayer;
+import fr.nuggetreckt.nswcore.NSWCore;
 import org.bukkit.Bukkit;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
@@ -9,10 +10,10 @@ import org.jetbrains.annotations.NotNull;
 
 public class Saver {
 
-   private final NSWAPI nswapi;
+    private final NSWAPI nswapi;
 
-    public Saver(NSWAPI api) {
-        this.nswapi = api;
+    public Saver(@NotNull NSWCore instance) {
+        this.nswapi = instance.getAPI();
     }
 
     public void saveAll() {

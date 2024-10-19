@@ -10,11 +10,17 @@ import org.jetbrains.annotations.NotNull;
 
 public class OnCommandListener implements Listener {
 
+    private final NSWCore instance;
+
+    public OnCommandListener(NSWCore instance) {
+        this.instance = instance;
+    }
+
     @EventHandler
     public void onCommandListener(@NotNull PlayerCommandPreprocessEvent event) {
         Player player = event.getPlayer();
 
-        if (NSWCore.getStaffUtils().isFrozen(player)) {
+        if (instance.getStaffUtils().isFrozen(player)) {
             player.sendMessage(String.format(MessageManager.COMMANDS_DISABLED.getMessage(), "NSW"));
             event.setCancelled(true);
         }

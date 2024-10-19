@@ -15,7 +15,13 @@ import org.jetbrains.annotations.NotNull;
 
 public class OnDragonDeathListener implements Listener {
 
+    private final NSWCore instance;
+
     private BukkitTask runnable;
+
+    public OnDragonDeathListener(NSWCore instance) {
+        this.instance = instance;
+    }
 
     @EventHandler
     public void onDragonEggDrop(@NotNull EntityDeathEvent event) {
@@ -41,7 +47,7 @@ public class OnDragonDeathListener implements Listener {
                         }
                     }
                 }
-            }.runTaskTimer(NSWCore.getInstance(), 1L, 20L);
+            }.runTaskTimer(instance, 1L, 20L);
         }
     }
 }

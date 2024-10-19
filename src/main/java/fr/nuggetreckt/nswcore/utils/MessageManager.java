@@ -90,7 +90,7 @@ public enum MessageManager {
              §8| §3/hr §8(§fAffiche la progression de ton honneur, la liste des rangs et leur points requis§8)§r
              §8| §3/hr info §8(§fAffiche ton rang actuel, le prochain rang et le nombre de points requis pour passer à celui-ci§8)§r
              §8| §3/hr ranks §8(§fAffiche ta progression dans les Rangs d'Honneur§8)§r
-             
+            
             §fInfos :
              §8| §fLes points d'honneur s'obtiennent en participant à des events, et en montant de niveau dans les jobs §8(§3/help jobs§8)§f.§r
              §8| §fLe rang max est le rang §36§7.§r
@@ -104,7 +104,7 @@ public enum MessageManager {
              §8| §3/jobs info §8(§fAffiche la liste des items qui donnent de l'xp pour ton job§8)§r
              §8| §3/jobs xp §8(§fAffiche ta progression d'xp pour ton job§8)§r
              §8| §3/jobs leaderboard §8(§fAffiche un classement des 20 premiers joueurs§8)§r
-             
+            
             §fInfos :
              §8| §fWiki des jobs §8§l»§r §3§nhttps://play.noskillworld.fr/wiki/jobs§r
             """),
@@ -116,7 +116,7 @@ public enum MessageManager {
              §8| §3/tpa <joueur> §8(§fEnvoie une demande de téléportation à un joueur pour se téléporter à sa position§8)§r
              §8| §3/tpahere <joueur> §8(§fEnvoie une demande de téléportation à un joueur pour qu'il se téléporte à ta position§8)§r
              ...
-             
+            
             §fInfos :
              §8| §fWiki §8§l»§r §3§nhttps://play.noskillworld.fr/wiki§r
             """), //A CONTINUER
@@ -125,7 +125,7 @@ public enum MessageManager {
              §8| §fSite internet §8§l»§r §3§nhttps://play.noskillworld.fr§r
              §8| §fDynmap §8§l»§r §3§nhttps://dynmap.noskillworld.fr§r
              §8| §fPage de statut §8§l»§r §3§nhttps://statut.noskillworld.fr§r
-             
+            
             §fRéseaux sociaux :
              §8| §fYouTube §8§l»§r §3§nhttps://www.youtube.com/@noskillworld_mc§r
              §8| §fTikTok §8§l»§r §3§nhttps://www.tiktok.com/@noskillworld_mc§r
@@ -172,7 +172,7 @@ public enum MessageManager {
     }
 
     public String getMessage() {
-        return NSWCore.getInstance().getPrefix() + this.message;
+        return NSWCore.getPrefix() + this.message;
     }
 
     public String getBroadcastMessage() {

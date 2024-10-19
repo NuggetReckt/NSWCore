@@ -1,11 +1,11 @@
-package fr.nuggetreckt.nswcore.guis.impl;
+package fr.nuggetreckt.nswcore.guis;
 
 import fr.noskillworld.api.NSWAPI;
+import fr.noskillworld.api.gui.CustomInventory;
 import fr.noskillworld.api.honorranks.HonorRanks;
 import fr.noskillworld.api.honorranks.impl.HonorRanksHandlerImpl;
 import fr.noskillworld.api.honorranks.rewards.RewardHandler;
 import fr.nuggetreckt.nswcore.NSWCore;
-import fr.nuggetreckt.nswcore.guis.CustomInventory;
 import fr.nuggetreckt.nswcore.utils.ItemUtils;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
 import org.bukkit.Material;
@@ -19,10 +19,12 @@ import java.util.function.Supplier;
 
 public class ProgressHRGui implements CustomInventory {
 
+    private final NSWCore instance;
     private final NSWAPI nswapi;
 
-    public ProgressHRGui(NSWAPI api) {
-        this.nswapi = api;
+    public ProgressHRGui(@NotNull NSWCore instance) {
+        this.instance = instance;
+        this.nswapi = instance.getAPI();
     }
 
     @Override
@@ -71,13 +73,13 @@ public class ProgressHRGui implements CustomInventory {
 
         switch (clickedItem.getType()) {
             case BARRIER -> {
-                NSWCore.getEffectUtils().playSound(player, Sound.BLOCK_METAL_PRESSURE_PLATE_CLICK_ON);
+                instance.getEffectUtils().playSound(player, Sound.BLOCK_METAL_PRESSURE_PLATE_CLICK_ON);
                 player.closeInventory();
             }
             case ARROW -> {
                 player.closeInventory();
-                NSWCore.getEffectUtils().playSound(player, Sound.ITEM_BOOK_PAGE_TURN);
-                NSWCore.getGuiManager().open(player, HonorRankGui.class);
+                instance.getEffectUtils().playSound(player, Sound.ITEM_BOOK_PAGE_TURN);
+                nswapi.getGuiManager().open(player, HonorRankGui.class);
             }
             case YELLOW_STAINED_GLASS_PANE -> {
                 if (hr.getNextPlayerRank(player.getUniqueId()) != null) {
@@ -85,17 +87,17 @@ public class ProgressHRGui implements CustomInventory {
                         if (hasClaimedRewards(player)) {
                             player.closeInventory();
                             hr.upRankPlayer(player.getUniqueId());
-                            NSWCore.getEffectUtils().uprankEffect(player);
+                            instance.getEffectUtils().uprankEffect(player);
                         } else {
-                            NSWCore.getEffectUtils().playSound(player, Sound.ENTITY_ENDERMAN_TELEPORT);
+                            instance.getEffectUtils().playSound(player, Sound.ENTITY_ENDERMAN_TELEPORT);
                             player.sendMessage(String.format(MessageManager.REWARDS_NOT_CLAIMED.getMessage(), "HR"));
                         }
                     } else {
-                        NSWCore.getEffectUtils().playSound(player, Sound.ENTITY_ENDERMAN_TELEPORT);
+                        instance.getEffectUtils().playSound(player, Sound.ENTITY_ENDERMAN_TELEPORT);
                         player.sendMessage(String.format(MessageManager.NO_ENOUGH_HONORPOINTS.getMessage(), "HR", hr.getPlayerPoints(player.getUniqueId()), hr.getPointsNeeded(player.getUniqueId())));
                     }
                 } else {
-                    NSWCore.getEffectUtils().playSound(player, Sound.ENTITY_ENDERMAN_TELEPORT);
+                    instance.getEffectUtils().playSound(player, Sound.ENTITY_ENDERMAN_TELEPORT);
                     player.sendMessage(String.format(MessageManager.MAX_HONORRANK.getMessage(), "HR", hr.getRankFormat(hr.getPlayerRank(player.getUniqueId()))));
                 }
             }

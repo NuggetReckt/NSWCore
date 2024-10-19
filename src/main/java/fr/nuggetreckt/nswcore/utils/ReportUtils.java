@@ -3,6 +3,7 @@ package fr.nuggetreckt.nswcore.utils;
 import fr.noskillworld.api.NSWAPI;
 import fr.noskillworld.api.reports.Report;
 import fr.noskillworld.api.reports.ReportSortType;
+import fr.nuggetreckt.nswcore.NSWCore;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -18,8 +19,8 @@ public class ReportUtils {
     private final Map<Integer, Report> reportIds;
     private final Map<UUID, ReportSortType> sortReportMap;
 
-    public ReportUtils(NSWAPI api) {
-        this.nswapi = api;
+    public ReportUtils(@NotNull NSWCore instance) {
+        this.nswapi = instance.getAPI();
         this.reportIds = new HashMap<>();
         this.sortReportMap = new HashMap<>();
     }

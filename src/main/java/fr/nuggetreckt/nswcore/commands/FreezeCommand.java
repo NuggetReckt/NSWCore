@@ -10,19 +10,25 @@ import org.jetbrains.annotations.NotNull;
 
 public class FreezeCommand implements CommandExecutor {
 
+    private final NSWCore instance;
+
+    public FreezeCommand(NSWCore instance) {
+        this.instance = instance;
+    }
+
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
 
-            if (NSWCore.getInstance().isStaff(player)) {
+            if (instance.isStaff(player)) {
                 if (args.length >= 1) {
-                    Player target = NSWCore.getInstance().getPlayerByName(args[0]);
+                    Player target = instance.getPlayerByName(args[0]);
                     assert target != null;
 
                     if (player != target) {
-                        if (!NSWCore.getStaffUtils().isFrozen(target)) {
-                            NSWCore.getStaffUtils().setFrozen(target, true);
+                        if (!instance.getStaffUtils().isFrozen(target)) {
+                            instance.getStaffUtils().setFrozen(target, true);
                             player.sendMessage(String.format(MessageManager.PLAYER_FREEZE_STAFF.getMessage(), "Staff", target.getName()));
                             target.sendMessage(String.format(MessageManager.PLAYER_FREEZE_TARGET.getMessage(), "NSW", player.getName()));
 

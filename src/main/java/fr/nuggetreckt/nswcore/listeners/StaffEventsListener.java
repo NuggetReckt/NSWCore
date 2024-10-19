@@ -1,8 +1,9 @@
 package fr.nuggetreckt.nswcore.listeners;
 
+import fr.noskillworld.api.NSWAPI;
 import fr.nuggetreckt.nswcore.NSWCore;
-import fr.nuggetreckt.nswcore.guis.impl.PlayerListGui;
-import fr.nuggetreckt.nswcore.guis.impl.ReportsGui;
+import fr.nuggetreckt.nswcore.guis.PlayerListGui;
+import fr.nuggetreckt.nswcore.guis.ReportsGui;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
 import fr.nuggetreckt.nswcore.utils.StaffUtils;
 import org.bukkit.Material;
@@ -21,17 +22,21 @@ import org.jetbrains.annotations.NotNull;
 
 public class StaffEventsListener implements Listener {
 
+    private final NSWCore instance;
+    private final NSWAPI nswapi;
     private final StaffUtils staffUtils;
 
-    public StaffEventsListener() {
-        this.staffUtils = NSWCore.getStaffUtils();
+    public StaffEventsListener(@NotNull NSWCore instance) {
+        this.instance = instance;
+        this.nswapi = instance.getAPI();
+        this.staffUtils = instance.getStaffUtils();
     }
 
     @EventHandler
     public void onItemClickAtEntity(@NotNull PlayerInteractAtEntityEvent event) {
         Player player = event.getPlayer();
 
-        if (!NSWCore.getInstance().isStaff(player)) return;
+        if (!instance.isStaff(player)) return;
 
         ItemStack item = player.getInventory().getItemInMainHand();
 
@@ -76,7 +81,7 @@ public class StaffEventsListener implements Listener {
     public void onPlayerLeave(@NotNull PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
-        if (!NSWCore.getInstance().isStaff(player)) return;
+        if (!instance.isStaff(player)) return;
 
         if (staffUtils.isStaffMode(player)) {
             staffUtils.toggleStaffMode(player);
@@ -87,7 +92,7 @@ public class StaffEventsListener implements Listener {
     public void onPlayerWorldChange(@NotNull PlayerChangedWorldEvent event) {
         Player player = event.getPlayer();
 
-        if (!NSWCore.getInstance().isStaff(player)) return;
+        if (!instance.isStaff(player)) return;
 
         if (staffUtils.isStaffMode(player)) {
             player.setFlying(true);
@@ -98,15 +103,15 @@ public class StaffEventsListener implements Listener {
     public void onItemClick(@NotNull PlayerInteractEvent event) {
         Player player = event.getPlayer();
 
-        if (!NSWCore.getInstance().isStaff(player)) return;
+        if (!instance.isStaff(player)) return;
 
         ItemStack item = player.getInventory().getItemInMainHand();
 
         if (staffUtils.isStaffMode(player)) {
             event.setCancelled(true);
             switch (item.getType()) {
-                case PAPER -> NSWCore.getGuiManager().open(player, ReportsGui.class);
-                case COMPASS -> NSWCore.getGuiManager().open(player, PlayerListGui.class);
+                case PAPER -> nswapi.getGuiManager().open(player, ReportsGui.class);
+                case COMPASS -> nswapi.getGuiManager().open(player, PlayerListGui.class);
             }
         }
     }

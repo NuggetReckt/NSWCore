@@ -6,13 +6,19 @@ import org.bukkit.scheduler.BukkitTask;
 
 public class SaveTask {
 
+    private final NSWCore instance;
+
     private BukkitTask task;
 
+    public SaveTask(NSWCore instance) {
+        this.instance = instance;
+    }
+
     public void launch() {
-        task = Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(NSWCore.getInstance(), () -> {
+        task = Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(instance, () -> {
             if (!Bukkit.getOnlinePlayers().isEmpty()) {
-                NSWCore.getSaver().saveAll();
-                NSWCore.getInstance().getLogger().info("Sauvegarde des données effectuée.");
+                instance.getSaver().saveAll();
+                instance.getLogger().info("Sauvegarde des données effectuée.");
             }
         }, 0L, 144000L);
     }

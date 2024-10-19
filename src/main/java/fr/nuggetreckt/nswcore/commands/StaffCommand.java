@@ -12,13 +12,19 @@ import javax.annotation.Nonnull;
 
 public class StaffCommand implements CommandExecutor, Listener {
 
+    private final NSWCore instance;
+
+    public StaffCommand(NSWCore instance) {
+        this.instance = instance;
+    }
+
     @Override
     public boolean onCommand(@Nonnull CommandSender commandSender, @Nonnull Command command, @Nonnull String s, @Nonnull String[] strings) {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
 
-            if (NSWCore.getInstance().isStaff(player)) {
-                NSWCore.getStaffUtils().toggleStaffMode(player);
+            if (instance.isStaff(player)) {
+                instance.getStaffUtils().toggleStaffMode(player);
             } else {
                 player.sendMessage(String.format(MessageManager.NO_PERMISSION_CMD.getMessage(), "Staff"));
             }

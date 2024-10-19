@@ -1,9 +1,9 @@
-package fr.nuggetreckt.nswcore.guis.impl;
+package fr.nuggetreckt.nswcore.guis;
 
 import fr.noskillworld.api.NSWAPI;
+import fr.noskillworld.api.gui.CustomInventory;
 import fr.noskillworld.api.honorranks.impl.HonorRanksHandlerImpl;
 import fr.nuggetreckt.nswcore.NSWCore;
-import fr.nuggetreckt.nswcore.guis.CustomInventory;
 import fr.nuggetreckt.nswcore.utils.ItemUtils;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -16,10 +16,12 @@ import java.util.function.Supplier;
 
 public class HonorRankGui implements CustomInventory {
 
+    private final NSWCore instance;
     private final NSWAPI nswapi;
 
-    public HonorRankGui(NSWAPI api) {
-        this.nswapi = api;
+    public HonorRankGui(@NotNull NSWCore instance) {
+        this.instance = instance;
+        this.nswapi = instance.getAPI();
     }
 
     @Override
@@ -70,22 +72,22 @@ public class HonorRankGui implements CustomInventory {
         switch (clickedItem.getType()) {
             case BARRIER -> {
                 player.closeInventory();
-                NSWCore.getEffectUtils().playSound(player, Sound.BLOCK_METAL_PRESSURE_PLATE_CLICK_ON);
+                instance.getEffectUtils().playSound(player, Sound.BLOCK_METAL_PRESSURE_PLATE_CLICK_ON);
             }
             case LANTERN -> {
                 player.closeInventory();
                 player.performCommand("help honneur");
-                NSWCore.getEffectUtils().playSound(player, Sound.BLOCK_METAL_PRESSURE_PLATE_CLICK_ON);
+                instance.getEffectUtils().playSound(player, Sound.BLOCK_METAL_PRESSURE_PLATE_CLICK_ON);
             }
             case NETHER_STAR -> {
                 player.closeInventory();
-                NSWCore.getEffectUtils().playSound(player, Sound.ITEM_BOOK_PAGE_TURN);
-                NSWCore.getGuiManager().open(player, ProgressHRGui.class);
+                instance.getEffectUtils().playSound(player, Sound.ITEM_BOOK_PAGE_TURN);
+                nswapi.getGuiManager().open(player, ProgressHRGui.class);
             }
             case DIAMOND -> {
                 player.closeInventory();
-                NSWCore.getEffectUtils().playSound(player, Sound.ITEM_BOOK_PAGE_TURN);
-                NSWCore.getGuiManager().open(player, RewardsHRGui.class);
+                instance.getEffectUtils().playSound(player, Sound.ITEM_BOOK_PAGE_TURN);
+                nswapi.getGuiManager().open(player, RewardsHRGui.class);
             }
         }
     }

@@ -1,7 +1,8 @@
-package fr.nuggetreckt.nswcore.guis.impl;
+package fr.nuggetreckt.nswcore.guis;
 
+import fr.noskillworld.api.NSWAPI;
+import fr.noskillworld.api.gui.CustomInventory;
 import fr.nuggetreckt.nswcore.NSWCore;
-import fr.nuggetreckt.nswcore.guis.CustomInventory;
 import fr.nuggetreckt.nswcore.utils.ItemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -15,7 +16,15 @@ import java.util.function.Supplier;
 
 public class PlayerListGui implements CustomInventory {
 
-    private HashMap<Integer, Player> players;
+    private final NSWAPI nswapi;
+
+    private final HashMap<Integer, Player> players;
+
+    public PlayerListGui(@NotNull NSWCore instance) {
+        this.nswapi = instance.getAPI();
+
+        players = new HashMap<>();
+    }
 
     @Override
     public String getName() {
@@ -30,7 +39,6 @@ public class PlayerListGui implements CustomInventory {
     @Override
     public Supplier<ItemStack[]> getContents(Player player) {
         ItemStack[] slots = new ItemStack[getSlots()];
-        players = new HashMap<>();
         int slot = 0;
 
         //Player items
@@ -65,7 +73,7 @@ public class PlayerListGui implements CustomInventory {
     public void onClick(Player player, Inventory inventory, @NotNull ItemStack clickedItem, int slot, boolean isLeftClick) {
         switch (clickedItem.getType()) {
             case BARRIER -> player.closeInventory();
-            case SNOWBALL -> NSWCore.getGuiManager().refresh(player, this.getClass());
+            case SNOWBALL -> nswapi.getGuiManager().refresh(player, this.getClass());
             case PLAYER_HEAD -> {
                 player.closeInventory();
                 Player target = players.get(slot);

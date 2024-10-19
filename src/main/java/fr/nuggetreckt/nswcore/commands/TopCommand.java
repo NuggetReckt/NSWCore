@@ -18,13 +18,19 @@ import java.util.UUID;
 
 public class TopCommand implements CommandExecutor {
 
+    private final NSWCore instance;
+
+    public TopCommand(NSWCore instance) {
+        this.instance = instance;
+    }
+
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
             UUID playerId = player.getUniqueId();
 
-            CooldownManager cooldownManager = NSWCore.getCooldownManager();
+            CooldownManager cooldownManager = instance.getCooldownManager();
             Duration timeLeft = cooldownManager.getRemainingCooldown(playerId, "top");
 
             if (player.hasPermission("nsw.commands.top")) {
@@ -53,7 +59,7 @@ public class TopCommand implements CommandExecutor {
         int blockZ = target.getLocation().getBlockZ();
 
         Block block;
-        TeleportUtils teleportUtils = NSWCore.getTeleportUtils();
+        TeleportUtils teleportUtils = instance.getTeleportUtils();
 
         for (int i = 457; i > blockY; i--) {
             block = target.getWorld().getBlockAt(blockX, i, blockZ);
@@ -67,12 +73,12 @@ public class TopCommand implements CommandExecutor {
 
                 Location location = block.getLocation().add(0.5D, 1.0D, 0.5D);
 
-                NSWCore.getPlayerDelayTask().setTask(target,
-                        Bukkit.getScheduler().runTaskLater(NSWCore.getInstance(), () -> {
+                instance.getPlayerDelayTask().setTask(target,
+                        Bukkit.getScheduler().runTaskLater(instance, () -> {
                             teleportUtils.setTeleports(target, false);
                             target.teleport(location);
                             target.sendMessage(String.format(MessageManager.SUCCESS_TP.getMessage(), "TP"));
-                            NSWCore.getEffectUtils().teleportEffect(target);
+                            instance.getEffectUtils().teleportEffect(target);
                         }, 40L)
                 );
                 return;

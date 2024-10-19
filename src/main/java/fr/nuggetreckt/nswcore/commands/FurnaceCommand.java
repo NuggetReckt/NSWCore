@@ -16,13 +16,19 @@ import java.util.UUID;
 
 public class FurnaceCommand implements CommandExecutor {
 
+    private final NSWCore instance;
+
+    public FurnaceCommand(NSWCore instance) {
+        this.instance = instance;
+    }
+
     @Override
     public boolean onCommand(@Nonnull CommandSender commandSender, @Nonnull Command command, @Nonnull String s, @Nonnull String[] args) {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
             UUID playerId = player.getUniqueId();
 
-            CooldownManager cooldownManager = NSWCore.getCooldownManager();
+            CooldownManager cooldownManager = instance.getCooldownManager();
             Duration timeLeft = cooldownManager.getRemainingCooldown(playerId, "furnace");
 
             if (player.hasPermission("nsw.command.furnace")) {
@@ -148,8 +154,7 @@ public class FurnaceCommand implements CommandExecutor {
                                 player.getInventory().addItem(new ItemStack(Material.SPONGE, item.getAmount()));
                                 player.sendMessage(String.format(MessageManager.ITEMS_COOKED.getMessage(), "Furnace"));
                             }
-                            default ->
-                                    player.sendMessage(String.format(MessageManager.NO_ITEMS_TO_FURNACE.getMessage(), "Furnace"));
+                            default -> player.sendMessage(String.format(MessageManager.NO_ITEMS_TO_FURNACE.getMessage(), "Furnace"));
                         }
                     } else {
                         player.sendMessage(String.format(MessageManager.NO_ITEMS_TO_FURNACE.getMessage(), "Furnace"));

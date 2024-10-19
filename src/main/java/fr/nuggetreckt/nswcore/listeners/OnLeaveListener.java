@@ -13,22 +13,24 @@ import org.jetbrains.annotations.NotNull;
 
 public class OnLeaveListener implements Listener {
 
+    private final NSWCore instance;
     private final NSWAPI nswapi;
 
-    public OnLeaveListener(NSWAPI api) {
-        this.nswapi = api;
+    public OnLeaveListener(@NotNull NSWCore instance) {
+        this.instance = instance;
+        this.nswapi = instance.getAPI();
     }
 
     @EventHandler
     public void onPlayerLeave(@NotNull PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        StaffUtils staffUtils = NSWCore.getStaffUtils();
+        StaffUtils staffUtils = instance.getStaffUtils();
 
-        NSWCore.getMoneyGiveTask().stop(player);
+        instance.getMoneyGiveTask().stop(player);
 
         nswapi.getServerHandler().getExecutor().execute(() -> {
-            NSWCore.getSaver().savePlayerData(player);
-            NSWCore.getSaver().savePlayerStats(player);
+            instance.getSaver().savePlayerData(player);
+            instance.getSaver().savePlayerStats(player);
         });
 
         if (player.isOp() || player.hasPermission("group.admin")) {
@@ -47,11 +49,11 @@ public class OnLeaveListener implements Listener {
 
         if (staffUtils.isFrozen(player)) {
             for (Player p : Bukkit.getOnlinePlayers()) {
-                if (NSWCore.getInstance().isStaff(p)) {
+                if (instance.getInstance().isStaff(p)) {
                     p.sendMessage(String.format(MessageManager.PLAYER_FROZEN_QUIT.getWarnMessage(), player.getName()));
                 }
             }
-            NSWCore.getInstance().getLogger().info("\033[0;36mLe joueur \033[0;31m" + player.getName() + "\033[0;36m s'est déconnecté en étant freeze.\033[0m");
+            instance.getInstance().getLogger().info("\033[0;36mLe joueur \033[0;31m" + player.getName() + "\033[0;36m s'est déconnecté en étant freeze.\033[0m");
         }
     }
 }

@@ -1,11 +1,11 @@
-package fr.nuggetreckt.nswcore.guis.impl;
+package fr.nuggetreckt.nswcore.guis;
 
 import fr.noskillworld.api.NSWAPI;
+import fr.noskillworld.api.gui.CustomInventory;
 import fr.noskillworld.api.honorranks.impl.HonorRanksHandlerImpl;
 import fr.noskillworld.api.honorranks.rewards.HonorRankReward;
 import fr.noskillworld.api.honorranks.rewards.RewardHandler;
 import fr.nuggetreckt.nswcore.NSWCore;
-import fr.nuggetreckt.nswcore.guis.CustomInventory;
 import fr.nuggetreckt.nswcore.utils.ItemUtils;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
 import fr.nuggetreckt.nswcore.utils.RewardUtils;
@@ -24,12 +24,14 @@ import java.util.function.Supplier;
 
 public class RewardsHRGui implements CustomInventory {
 
-    private final HashMap<Integer, HonorRankReward> rewardsSlots;
-
+    private final NSWCore instance;
     private final NSWAPI nswapi;
 
-    public RewardsHRGui(NSWAPI api) {
-        this.nswapi = api;
+    private final HashMap<Integer, HonorRankReward> rewardsSlots;
+
+    public RewardsHRGui(@NotNull NSWCore instance) {
+        this.instance = instance;
+        this.nswapi = instance.getAPI();
         this.rewardsSlots = new HashMap<>();
     }
 
@@ -97,14 +99,14 @@ public class RewardsHRGui implements CustomInventory {
         switch (clickedItem.getType()) {
             case BARRIER -> {
                 player.closeInventory();
-                NSWCore.getEffectUtils().playSound(player, Sound.BLOCK_METAL_PRESSURE_PLATE_CLICK_ON);
+                instance.getEffectUtils().playSound(player, Sound.BLOCK_METAL_PRESSURE_PLATE_CLICK_ON);
             }
             case ARROW -> {
                 player.closeInventory();
-                NSWCore.getEffectUtils().playSound(player, Sound.ITEM_BOOK_PAGE_TURN);
-                NSWCore.getGuiManager().open(player, HonorRankGui.class);
+                instance.getEffectUtils().playSound(player, Sound.ITEM_BOOK_PAGE_TURN);
+                nswapi.getGuiManager().open(player, HonorRankGui.class);
             }
-            case PUFFERFISH -> NSWCore.getEffectUtils().playSound(player, Sound.ENTITY_PUFFER_FISH_BLOW_UP);
+            case PUFFERFISH -> instance.getEffectUtils().playSound(player, Sound.ENTITY_PUFFER_FISH_BLOW_UP);
             default -> {
                 if (!isClickable(clickedItem)) return;
                 RewardHandler rewardHandler = nswapi.getRewardHandler();
@@ -112,13 +114,13 @@ public class RewardsHRGui implements CustomInventory {
 
                 if (reward == null) return;
                 if (rewardHandler.hasClaimedReward(player.getUniqueId(), reward)) {
-                    NSWCore.getEffectUtils().playSound(player, Sound.ENTITY_ENDERMAN_TELEPORT);
+                    instance.getEffectUtils().playSound(player, Sound.ENTITY_ENDERMAN_TELEPORT);
                     player.sendMessage(String.format(MessageManager.REWARD_ALREADY_CLAIMED.getMessage(), "HR"));
                     return;
                 }
                 rewardHandler.setRewardClaimed(player.getUniqueId(), reward);
-                RewardUtils.claimReward(player, reward);
-                NSWCore.getGuiManager().refresh(player, this.getClass());
+                RewardUtils.claimReward(instance, player, reward);
+                nswapi.getGuiManager().refresh(player, this.getClass());
             }
         }
     }

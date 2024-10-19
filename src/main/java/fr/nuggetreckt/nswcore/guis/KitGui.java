@@ -1,9 +1,9 @@
-package fr.nuggetreckt.nswcore.guis.impl;
+package fr.nuggetreckt.nswcore.guis;
 
 import fr.noskillworld.api.NSWAPI;
 import fr.noskillworld.api.entities.NSWPlayer;
+import fr.noskillworld.api.gui.CustomInventory;
 import fr.nuggetreckt.nswcore.NSWCore;
-import fr.nuggetreckt.nswcore.guis.CustomInventory;
 import fr.nuggetreckt.nswcore.utils.CooldownManager;
 import fr.nuggetreckt.nswcore.utils.ItemUtils;
 import fr.nuggetreckt.nswcore.utils.MessageManager;
@@ -20,10 +20,12 @@ import java.util.function.Supplier;
 
 public class KitGui implements CustomInventory {
 
+    private final NSWCore instance;
     private final NSWAPI nswapi;
 
-    public KitGui(NSWAPI api) {
-        this.nswapi = api;
+    public KitGui(@NotNull NSWCore instance) {
+        this.instance = instance;
+        this.nswapi = instance.getAPI();
     }
 
     @Override
@@ -66,7 +68,7 @@ public class KitGui implements CustomInventory {
         switch (clickedItem.getType()) {
             case BARRIER -> {
                 player.closeInventory();
-                NSWCore.getEffectUtils().playSound(player, Sound.BLOCK_METAL_PRESSURE_PLATE_CLICK_ON);
+                instance.getEffectUtils().playSound(player, Sound.BLOCK_METAL_PRESSURE_PLATE_CLICK_ON);
             }
             case STONE_PICKAXE -> {
                 UUID playerId = player.getUniqueId();
@@ -78,7 +80,7 @@ public class KitGui implements CustomInventory {
                     player.closeInventory();
                     return;
                 }
-                CooldownManager cooldownManager = NSWCore.getCooldownManager();
+                CooldownManager cooldownManager = instance.getCooldownManager();
                 Duration timeLeft = cooldownManager.getRemainingCooldown(playerId, "kit");
 
                 if (timeLeft.isZero() || timeLeft.isNegative()) {

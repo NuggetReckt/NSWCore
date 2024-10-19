@@ -18,17 +18,19 @@ import org.jetbrains.annotations.NotNull;
 
 public class StaffEventsCanceller implements Listener {
 
+    private final NSWCore instance;
     private final StaffUtils staffUtils;
 
-    public StaffEventsCanceller() {
-        this.staffUtils = NSWCore.getStaffUtils();
+    public StaffEventsCanceller(@NotNull NSWCore instance) {
+        this.instance = instance;
+        this.staffUtils = instance.getStaffUtils();
     }
 
     @EventHandler
     public void onPlayerBreak(@NotNull BlockBreakEvent event) {
         Player player = event.getPlayer();
 
-        if (!NSWCore.getInstance().isStaff(player)) return;
+        if (!instance.isStaff(player)) return;
 
         if (staffUtils.isStaffMode(player)) {
             event.setCancelled(true);
@@ -39,7 +41,7 @@ public class StaffEventsCanceller implements Listener {
     public void onPlayerPlace(@NotNull BlockPlaceEvent event) {
         Player player = event.getPlayer();
 
-        if (!NSWCore.getInstance().isStaff(player)) return;
+        if (!instance.isStaff(player)) return;
 
         if (staffUtils.isStaffMode(player)) {
             event.setCancelled(true);
@@ -50,7 +52,7 @@ public class StaffEventsCanceller implements Listener {
     public void onItemDrop(@NotNull PlayerDropItemEvent event) {
         Player player = event.getPlayer();
 
-        if (!NSWCore.getInstance().isStaff(player)) return;
+        if (!instance.isStaff(player)) return;
 
         if (staffUtils.isStaffMode(player)) {
             event.setCancelled(true);
@@ -68,7 +70,7 @@ public class StaffEventsCanceller implements Listener {
         Player player = (Player) target;
         ExperienceOrb orb = (ExperienceOrb) entity;
 
-        if (!NSWCore.getInstance().isStaff(player)) return;
+        if (!instance.isStaff(player)) return;
         if (!staffUtils.isStaffMode(player)) return;
 
         final Location pLoc = player.getLocation();
